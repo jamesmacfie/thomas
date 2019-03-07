@@ -17,7 +17,6 @@ export default class PageDocument extends Document<Props> {
       }
     ];
 
-    console.log('Files', files);
     for (const file of files) {
       const stat = await fs.lstat(`./pages/${file}`);
       if (stat.isDirectory()) {
@@ -35,6 +34,7 @@ export default class PageDocument extends Document<Props> {
       <html>
         <Head>
           <link rel="stylesheet" href="/_next/static/style.css" />
+          <link rel="stylesheet" href="/_next/static/styles.css" />
           <title>Thomas</title>
         </Head>
         <body>

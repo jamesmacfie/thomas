@@ -12,15 +12,17 @@ interface Props {
 
 const Navigation = ({ navItems }: Props) => {
   return (
-    <ul>
-      {navItems.map(n => (
-        <li key={n.url}>
-          <Link href={n.url}>
-            <a>{n.name}</a>
-          </Link>
-        </li>
-      ))}
-    </ul>
+    <nav className="w-full">
+      <ul>
+        {navItems.map(n => (
+          <li key={n.url}>
+            <Link href={n.url}>
+              <a>{n.name}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
 
