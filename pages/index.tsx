@@ -1,9 +1,10 @@
 import React from 'react';
-import '../style.css';
+import Navigation from '../components/navigation';
 
 function Home() {
   return (
     <div>
+      <Navigation />
       <p>Home page!</p>
     </div>
   );

@@ -1,7 +1,7 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 import { promises as fs } from 'fs';
 import capitalize from 'capitalize';
-import Navigation, { NavItem } from '../components/navigation';
+import { NavItem } from '../components/navigation';
 
 interface Props {
   navItems: NavItem[];
@@ -33,12 +33,15 @@ export default class PageDocument extends Document<Props> {
     return (
       <html>
         <Head>
-          <link rel="stylesheet" href="/_next/static/style.css" />
           <link rel="stylesheet" href="/_next/static/styles.css" />
           <title>Thomas</title>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window._thomas_nav_items = ${JSON.stringify(this.props.navItems)}`
+            }}
+          />
         </Head>
         <body>
-          <Navigation navItems={this.props.navItems} />
           <Main />
           <NextScript />
         </body>
