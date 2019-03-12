@@ -2,8 +2,8 @@
 @import 'tailwindcss/utilities';
 
 body {
-  color: config('colors.white');
-  background-color: config('backgroundColors.bg');
+  /* color: config('colors.white');
+  background-color: config('backgroundColors.bg'); */
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 200;
 }

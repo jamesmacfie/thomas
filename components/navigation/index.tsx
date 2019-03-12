@@ -1,16 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
+import withNavItems from '../withNavItems';
 import styles from './styles.css';
 export interface NavItem {
   url: string;
   name: string;
 }
 
-const Navigation = () => {
+interface Props {
+  navItems: NavItem[];
+}
+
+const Navigation = ({ navItems }: Props) => {
   return (
     <nav className="h-screen w-48">
       <ul>
-        {((window as any)._thomas_nav_items as [NavItem]).map(n => (
+        {navItems.map(n => (
           <li key={n.url} className={styles.active}>
             <Link href={n.url}>
               <a>{n.name}</a>
@@ -22,4 +27,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default withNavItems(Navigation);

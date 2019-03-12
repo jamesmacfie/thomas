@@ -34,7 +34,6 @@ export default class PageDocument extends Document<Props> {
       <html>
         <Head>
           <link rel="stylesheet" href="/_next/static/styles.css" />
-          <title>Thomas</title>
           <script
             dangerouslySetInnerHTML={{
               __html: `window._thomas_nav_items = ${JSON.stringify(this.props.navItems)}`
