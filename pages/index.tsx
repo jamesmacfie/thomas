@@ -1,12 +1,13 @@
 import React from 'react';
+import PageWrapper from '../components/pageWrapper';
 import Navigation from '../components/navigation';
 
 function Home() {
   return (
-    <div>
+    <PageWrapper title="Home">
       <Navigation />
       <p>Home page!</p>
-    </div>
+    </PageWrapper>
   );
 }
 
