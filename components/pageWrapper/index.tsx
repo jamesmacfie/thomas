@@ -4,21 +4,27 @@ import { inject, observer } from 'mobx-react';
 import Store from '../../store';
 import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
+import Loading from '../loading';
 
 interface Props {
   title: string;
   children: ReactNode;
-  store: Store;
+  store?: Store;
 }
 
 const PageWrapper = observer(({ title, children, store }: Props) => {
-  if (!store.wsUrl) {
+  if (!store!.wsUrl) {
     return <EnterWSURL />;
   }
 
-  if (!store.accessToken) {
+  if (!store!.accessToken) {
     return <EnterAccessToken />;
   }
+
+  if (!store!.hasData) {
+    return <Loading />;
+  }
+
   return (
     <Fragment>
       <Head>

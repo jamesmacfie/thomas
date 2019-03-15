@@ -697,6 +697,10 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/capitalize/-/capitalize-1.0.1.tgz#8d4cc32df8d916f6897530c01cda0c5207ef5184"
 
+"@types/lodash@^4.14.123":
+  version "4.14.123"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.123.tgz#39be5d211478c8dd3bdae98ee75bb7efe4abfe4d"
+
 "@types/next-server@*":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@types/next-server/-/next-server-7.0.5.tgz#1eac1888449d5abb37a7b4b87cd8870b954a7b5e"

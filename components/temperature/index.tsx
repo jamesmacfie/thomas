@@ -1,15 +1,19 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Store from '../../store';
 
 interface Props {
-  store: Store;
+  entity_id: string;
+  store?: Store;
 }
 
-@inject('store')
-export default class Temperature extends React.Component<Props, {}> {
-  render() {
-    console.log(this.props);
-    return <p>Temp</p>;
+const Temperature = ({ entity_id, store }: Props) => {
+  const temp = store!.data[entity_id];
+
+  if (typeof temp === 'undefined') {
+    return <p>No such temp</p>;
   }
-}
+  return <p>Temp: {temp.state} degrees</p>;
+};
+
+export default inject('store')(observer(Temperature));

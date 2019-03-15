@@ -1,5 +1,6 @@
-import { observable } from 'mobx';
+import { observable, set } from 'mobx';
 import { useStaticRendering } from 'mobx-react';
+import keyBy from 'lodash/keyBy';
 
 interface Result {
   attributes: any;
@@ -13,16 +14,48 @@ interface Results {
   [s: string]: Result;
 }
 
+interface Event {
+  data: {
+    entity_id: string;
+    new_state: Result;
+    old_state: Result;
+  };
+}
+
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
 const wsURLKey = 'ha-ws-url';
 const accessTokenKey = 'ha-access-token';
 
+const localStorageHelper = {
+  getWSURL: (): string | null => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    return window.localStorage.getItem(wsURLKey);
+  },
+  setWSURL: (wsURL: string): void => {
+    window.localStorage.setItem(wsURLKey, wsURL);
+  },
+  getAccessToken: (): string | null => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    return window.localStorage.getItem(accessTokenKey);
+  },
+  setAccessToken: (accessToken: string): void => {
+    window.localStorage.setItem(accessTokenKey, accessToken);
+  }
+};
+
 export default class Store {
+  @observable hasData: boolean = false;
   @observable data: Results = {};
-  @observable wsUrl: string | undefined;
-  @observable accessToken: string | undefined;
+  @observable wsUrl: string | null = localStorageHelper.getWSURL();
+  @observable accessToken: string | null = localStorageHelper.getAccessToken();
   @observable authenticated: boolean = false;
   id: number = 1;
   ws: WebSocket | undefined;
@@ -38,11 +71,13 @@ export default class Store {
 
   setWSURL = (wsURL: string) => {
     this.wsUrl = wsURL;
+    localStorageHelper.setWSURL(wsURL);
     this.createWebsocket();
   };
 
   setAccessToken = (accessToken: string) => {
     this.accessToken = accessToken;
+    localStorageHelper.setAccessToken(accessToken);
     this.authenticate();
   };
 
@@ -105,11 +140,10 @@ export default class Store {
         this.onReady();
         break;
       case 'result':
-        console.log('Result received', data.result);
         this.onMessageResult(data.result);
         break;
       case 'event':
-        console.log('Change received', data);
+        this.onMessageEvent(data.event);
         break;
       default:
         console.log('Hmmm, something else', data);
@@ -121,18 +155,17 @@ export default class Store {
     if (!data) {
       return;
     }
+    this.data = keyBy(data, 'entity_id');
+    this.hasData = true;
+  };
 
-    this.data = data.reduce((acc: Results, cur: Result) => {
-      return Object.assign({}, acc, {
-        [cur.entity_id]: cur
-      });
-    }, {});
-
-    console.log('DATA IS NOW', this.data);
+  onMessageEvent = (event: Event): void => {
+    console.log('New event received', event);
+    this.data[event.data.entity_id] = event.data.new_state;
   };
 }
 
-let store = null;
+let store: Store | null = null;
 export function initializeStore() {
   // Always make a new store if server, otherwise state is shared between requests
   if (isServer) {
