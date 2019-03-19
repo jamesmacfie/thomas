@@ -1,9 +1,10 @@
-@import 'tailwindcss/preflight';
-@import 'tailwindcss/utilities';
+@tailwind preflight;
+@tailwind components;
+@tailwind utilities;
 
 body {
-  /* color: config('colors.white');
-  background-color: config('backgroundColors.bg'); */
+  color: config('colors.text');
+  background-color: config('backgroundColors.body');
   font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 200;
 }
