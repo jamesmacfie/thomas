@@ -1,10 +1,12 @@
-import React, { Fragment, ReactNode, useState } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 import Head from 'next/head';
 import { inject, observer } from 'mobx-react';
-import Store from '../../store';
+import Header from '../header';
 import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
 import Loading from '../loading';
+import Store from '../../store';
+import './styles.css';
 
 interface Props {
   title: string;
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const PageWrapper = observer(({ title, children, store }: Props) => {
+  console.log('Store', store);
   if (!store!.wsUrl) {
     return <EnterWSURL />;
   }
@@ -30,7 +33,10 @@ const PageWrapper = observer(({ title, children, store }: Props) => {
       <Head>
         <title>Thomas - {title} </title>
       </Head>
-      {children};
+      <div>
+        <Header />
+        <div className="flex w-screen overflow-x-scroll page-wrapper">{children};</div>
+      </div>
     </Fragment>
   );
 });

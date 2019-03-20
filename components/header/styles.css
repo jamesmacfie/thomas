@@ -1,0 +1,18 @@
+.header::before,
+.header::after {
+  content: '';
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.header::before {
+  background-color: config('colors.overlay-dark');
+  bottom: 0px;
+}
+
+.header::after {
+  background-color: config('colors.overlay-light');
+  bottom: -1px;
+}

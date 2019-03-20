@@ -5,8 +5,8 @@
 body {
   color: config('colors.text');
   background-color: config('backgroundColors.body');
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-  font-weight: 200;
+  font-family: config('fonts.sans');
+  font-weight: config('fontWeights.thin');
 }
 
 a {
@@ -17,4 +17,42 @@ a:hover,
 a:focus,
 a:active {
   color: config('colors.hover:link');
+}
+
+input,
+textarea {
+  color: config('colors.text');
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: config('colors.grey-dark');
+}
+
+.grid {
+  display: grid;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 1.5rem;
+}
+
+.pin-center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.blink-1 {
+  animation: blink 2s step-start 0s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

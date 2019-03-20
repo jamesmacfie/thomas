@@ -66,13 +66,13 @@ export default class Store {
       return;
     }
 
-    this.createWebsocket();
+    this.connectWebsocket();
   }
 
   setWSURL = (wsURL: string) => {
     this.wsUrl = wsURL;
     localStorageHelper.setWSURL(wsURL);
-    this.createWebsocket();
+    this.connectWebsocket();
   };
 
   setAccessToken = (accessToken: string) => {
@@ -81,9 +81,14 @@ export default class Store {
     this.authenticate();
   };
 
-  createWebsocket = () => {
+  connectWebsocket = () => {
     if (!this.wsUrl) {
       console.warn('No websocket URL set - cannot create');
+      return;
+    }
+
+    if (this.ws && this.ws.readyState < 2) {
+      // Websocker exists but is loading
       return;
     }
 
@@ -95,12 +100,17 @@ export default class Store {
   };
 
   authenticate = () => {
+    if (!this.accessToken) {
+      console.warn('No access token. Cannot authenticate');
+      return;
+    }
     console.log('Authenticating');
-    this.ws.send(
-      JSON.stringify({
+    this.send(
+      {
         type: 'auth',
         access_token: this.accessToken
-      })
+      },
+      false
     );
   };
 
@@ -110,21 +120,32 @@ export default class Store {
     this.send({ type: 'subscribe_events' });
   };
 
-  send = (data: object) => {
-    this.ws.send(JSON.stringify({ id: this.id, ...data }));
-    this.id++;
+  send = (data: object, addId: boolean = true) => {
+    if (!this.ws) {
+      console.warn('No websocket exists. Cannot send data', data);
+      return;
+    }
+
+    const dataToSend = { ...data };
+    if (addId) {
+      dataToSend.id = this.id;
+      this.id++;
+    }
+
+    this.ws.send(JSON.stringify(dataToSend));
   };
 
   onOpen = () => {
-    console.log('Open');
+    console.log('Websocket open');
   };
 
   onClose = () => {
-    console.log('Closed');
+    console.log('Websocket closed. Reconnecting');
+    this.connectWebsocket();
   };
 
   onError = (err: any) => {
-    console.error('Error raised', err);
+    console.warn('Error raised', err);
   };
 
   onMessage = (e: MessageEvent) => {
@@ -134,7 +155,7 @@ export default class Store {
         this.authenticate();
         break;
       case 'auth_invalid':
-        this.onError(new Error('Authentication invalid'));
+        this.onError('Authentication invalid');
         break;
       case 'auth_ok':
         this.onReady();
@@ -152,6 +173,7 @@ export default class Store {
   };
 
   onMessageResult = (data?: Result[]): void => {
+    console.log('Result received', data);
     if (!data) {
       return;
     }
@@ -160,7 +182,7 @@ export default class Store {
   };
 
   onMessageEvent = (event: Event): void => {
-    console.log('New event received', event);
+    console.log('Event received', event);
     this.data[event.data.entity_id] = event.data.new_state;
   };
 }

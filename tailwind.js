@@ -47,6 +47,9 @@ let colors = {
   link: '#7965f1',
   'hover:link': '#5c43f3',
 
+  'overlay-light': '#232E3C',
+  'overlay-dark': '#151C27',
+
   transparent: 'transparent',
 
   black: '#22292f',
@@ -482,6 +485,8 @@ module.exports = {
     '32': '8rem',
     '48': '12rem',
     '64': '16rem',
+    '96': '24rem',
+    '128': '32rem',
     '1/2': '50%',
     '1/3': '33.33333%',
     '2/3': '66.66667%',
@@ -529,6 +534,8 @@ module.exports = {
     '24': '6rem',
     '32': '8rem',
     '48': '12rem',
+    '96': '24rem',
+    '128': '32rem',
     '64': '16rem',
     full: '100%',
     screen: '100vh'

@@ -13,7 +13,7 @@ interface Props {
 
 const Navigation = ({ navItems }: Props) => {
   return (
-    <nav className="h-screen w-48">
+    <nav className="h-screen w-64 flex-no-shrink">
       <ul>
         {navItems.map(n => (
           <li key={n.url} className={styles.active}>
