@@ -20,7 +20,7 @@ const Entity = ({ entity_id, store, title }: Props) => {
     state = entity.state;
   }
 
-  const units = (entity.attributes && entity.attributes.unit_of_measurement) || '';
+  const units = (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
   return (
     <Panel fit={false} className="relative">
       {title && <H3 className="mb-6 text-grey-dark">{title}</H3>}

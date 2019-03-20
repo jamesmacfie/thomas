@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import Header from '../header';
 import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
-import Loading from '../loading';
+import { PageLoader } from '../loader';
 import Store from '../../store';
 import './styles.css';
 
@@ -23,9 +23,8 @@ const PageWrapper = observer(({ title, children, store }: Props) => {
   if (!store!.accessToken) {
     return <EnterAccessToken />;
   }
-
   if (!store!.hasData) {
-    return <Loading />;
+    return <PageLoader />;
   }
 
   return (
