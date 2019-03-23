@@ -11,7 +11,7 @@ function Home() {
       <Content>
         <Layout rows={3} columns={2} title="Living room">
           <Layout rows={1} columns={2} columnSpan={1} rowSpan={1}>
-            <Entity title="Temperature" entity_id=" sensor.darksky_temperature" />
+            <Entity title="Temperature" entity_id="sensor.darksky_temperature" />
             <Entity title="Humidity" entity_id="sensor.darksky_humidity" />
           </Layout>
           <Layout rowSpan={2}>
@@ -20,7 +20,8 @@ function Home() {
         </Layout>
         <Layout columnSpan={2} rowSpan={0} title="Bubs room">
           <Layout>
-            <Temperature title="Temperature" entity_id=" sensor.darksky_temperature" />
+            <Temperature title="Temperature" entity_id="sensor.darksky_temperature" />
+            <Temperature title="Temperature" entity_id="sensor.test" />
           </Layout>
         </Layout>
         <Layout rows={2} columnSpan={1} rowSpan={1} title="Network">

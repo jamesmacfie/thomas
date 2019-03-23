@@ -17,7 +17,7 @@ const State = ({ entity_id, store }: Props) => {
     state = entity.state;
   }
 
-  const units = (entity.attributes && entity.attributes.unit_of_measurement) || '';
+  const units = (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
   return (
     <span>
       {state} {units}

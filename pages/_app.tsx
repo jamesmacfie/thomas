@@ -2,7 +2,7 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import { Provider } from 'mobx-react';
 import Store, { initializeStore } from '../store';
-import '../index.css';
+import '../styles/index.css';
 
 class Thomas extends App {
   private store: Store;

@@ -50,6 +50,9 @@ let colors = {
   'overlay-light': '#232E3C',
   'overlay-dark': '#151C27',
 
+  'hot-light': '#fe7086',
+  'hot-dark': '#f92987',
+
   danger: '#d45a8c',
 
   transparent: 'transparent',

@@ -1,24 +1,16 @@
-import { observable, set } from 'mobx';
+import { observable } from 'mobx';
 import { useStaticRendering } from 'mobx-react';
 import keyBy from 'lodash/keyBy';
 
-interface Result {
-  attributes: any;
-  entity_id: string;
-  last_changed: Date;
-  last_updated: Date;
-  state: string;
-}
-
-interface Results {
-  [s: string]: Result;
+interface Entities {
+  [s: string]: Entity;
 }
 
 interface Event {
   data: {
     entity_id: string;
-    new_state: Result;
-    old_state: Result;
+    new_state: Entity;
+    old_state: Entity;
   };
 }
 
@@ -28,7 +20,7 @@ useStaticRendering(isServer);
 const wsURLKey = 'ha-ws-url';
 const accessTokenKey = 'ha-access-token';
 
-const localStorageHelper = {
+export const localStorageHelper = {
   getWSURL: (): string | null => {
     if (typeof window === 'undefined') {
       return null;
@@ -53,7 +45,7 @@ const localStorageHelper = {
 
 export default class Store {
   @observable hasData: boolean = false;
-  @observable data: Results = {};
+  @observable data: Entities = {};
   @observable wsUrl: string | null = localStorageHelper.getWSURL();
   @observable accessToken: string | null = localStorageHelper.getAccessToken();
   @observable authenticated: boolean = false;
@@ -128,7 +120,7 @@ export default class Store {
 
     const dataToSend = { ...data };
     if (addId) {
-      dataToSend.id = this.id;
+      (dataToSend as any).id = this.id;
       this.id++;
     }
 
@@ -172,7 +164,7 @@ export default class Store {
     }
   };
 
-  onMessageResult = (data?: Result[]): void => {
+  onMessageResult = (data?: Entity[]): void => {
     console.log('Result received', data);
     if (!data) {
       return;
