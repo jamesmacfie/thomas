@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Panel from '../panel';
+import FullscreenButton from '../fullscreenButton';
 
 interface Props {
   url: string;
 }
 
 const Iframe = ({ url }: Props) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleFullscreen = () => {
+    setIsOpen(!isOpen);
+  };
+  const classes = isOpen ? 'absolute pin p-6' : 'relative';
+  const onClick = isOpen ? toggleFullscreen : undefined;
   return (
-    <Panel padding={false} className="overflow-hidden">
-      <iframe className="h-full w-full" src={url} />
+    <Panel onClick={onClick} padding={false} className={`overflow-hidden ${classes}`}>
+      <iframe className="h-full w-full rounded" src={url} />
+      <FullscreenButton isOpen={isOpen} onClick={toggleFullscreen} />
     </Panel>
   );
 };

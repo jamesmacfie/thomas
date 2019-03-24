@@ -29,8 +29,18 @@ const Graph = ({ data }: { data: Entity[] }) => {
     ]
   };
 
+  let classes = '';
+  const current = hourlyDataValues[hourlyDataValues.length - 1];
+  if (current < 19.9) {
+    classes = 'cold-h';
+  } else if (current > 24) {
+    classes = 'hot-h';
+  } else {
+    classes = 'neutral-h';
+  }
+
   return (
-    <div className="flex-1 hot-h">
+    <div className={`flex-1 ${classes}`}>
       <Line
         data={graphData}
         width={100}

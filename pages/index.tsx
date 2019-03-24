@@ -9,19 +9,27 @@ function Home() {
   return (
     <PageWrapper title="Home">
       <Content>
-        <Layout rows={3} columns={2} title="Living room">
-          <Layout rows={1} columns={2} columnSpan={1} rowSpan={1}>
-            <Entity title="Temperature" entity_id="sensor.darksky_temperature" />
-            <Entity title="Humidity" entity_id="sensor.darksky_humidity" />
+        <Layout rows={3} columns={2} title="Temperature">
+          <Layout rows={3} columns={2} columnSpan={1} rowSpan={1}>
+            <Entity title="Living room" entity_id="sensor.temperature_158d00025f0927" />
+            <Entity title="Thomas' Room" entity_id="sensor.thomas_room_temp" />
+            <Entity title="Kid's Room" entity_id="sensor.kids_room_temp" />
+            <Entity title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" />
+            <Entity title="Kitchen" entity_id="sensor.kitchen_temp" />
+            <Entity title="Office" entity_id="sensor.office_temp" />
           </Layout>
           <Layout rowSpan={2}>
-            <Iframe url="https://github.com/JedWatson/classnames" />
+            <Iframe url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d191997.86324495284!2d174.62177067305853!3d-41.24428516095246!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d38b1fc49e974cb%3A0xa00ef63a213b470!2sWellington!5e0!3m2!1sen!2snz!4v1553398143073" />
           </Layout>
         </Layout>
-        <Layout columnSpan={2} rowSpan={0} title="Bubs room">
+        <Layout columnSpan={2} rowSpan={0} title="Graphs">
           <Layout>
-            <Temperature title="Temperature" entity_id="sensor.darksky_temperature" />
-            <Temperature title="Temperature" entity_id="sensor.test" />
+            <Temperature title="Living room" entity_id="sensor.temperature_158d00025f0927" />
+            <Temperature title="Thomas' Room" entity_id="sensor.thomas_room_temp" />
+            <Temperature title="Kid's Room" entity_id="sensor.kids_room_temp" />
+            <Temperature title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" />
+            <Temperature title="Kitchen" entity_id="sensor.kitchen_temp" />
+            <Temperature title="Office" entity_id="sensor.office_temp" />
           </Layout>
         </Layout>
         <Layout rows={2} columnSpan={1} rowSpan={1} title="Network">

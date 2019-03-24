@@ -53,6 +53,12 @@ let colors = {
   'hot-light': '#fe7086',
   'hot-dark': '#f92987',
 
+  'neutral-light': '#4aebe3',
+  'neutral-dark': '#46b8cd',
+
+  'cold-light': '#56a4ff',
+  'cold-dark': '#718ef6',
+
   danger: '#d45a8c',
 
   transparent: 'transparent',

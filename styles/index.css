@@ -41,6 +41,13 @@ textarea::placeholder {
   transform: translate(-50%, -50%);
 }
 
+.pin-modal {
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  top: 1.5rem;
+}
+
 .blink-1 {
   animation: blink 2s step-start 0s infinite;
 }
@@ -59,4 +66,12 @@ textarea::placeholder {
 
 .hot-h {
   background: linear-gradient(0.1turn, config('colors.hot-light'), config('colors.hot-dark'));
+}
+
+.neutral-h {
+  background: linear-gradient(0.1turn, config('colors.neutral-light'), config('colors.neutral-dark'));
+}
+
+.cold-h {
+  background: linear-gradient(0.1turn, config('colors.cold-light'), config('colors.cold-dark'));
 }

@@ -1,0 +1,8 @@
+.fullscreen-button-closed {
+  bottom: 0;
+  right: 0;
+}
+.fullscreen-button-open {
+  bottom: 1.5rem;
+  right: 1.5rem;
+}
