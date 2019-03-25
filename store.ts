@@ -165,7 +165,7 @@ export default class Store {
   };
 
   onMessageResult = (data?: Entity[]): void => {
-    console.log('Result received', data);
+    // console.log('Result received', data);
     if (!data) {
       return;
     }
@@ -174,7 +174,7 @@ export default class Store {
   };
 
   onMessageEvent = (event: Event): void => {
-    console.log('Event received', event);
+    // console.log('Event received', event);
     this.data[event.data.entity_id] = event.data.new_state;
   };
 }

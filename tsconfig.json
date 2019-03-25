@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "*": ["types/*"] },
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
@@ -17,5 +19,5 @@
     "target": "esnext",
     "experimentalDecorators": true
   },
-  "include": ["pages", "components", "utils", "hooks", "typings.d.ts"]
+  "include": ["pages", "components", "utils", "hooks", "types"]
 }

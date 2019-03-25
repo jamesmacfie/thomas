@@ -9,6 +9,8 @@ import Iframe from '../components/iframe';
 import DoorClosed from '../svg/door-closed.svg';
 import DoorOpen from '../svg/door-open.svg';
 
+console.log(process.env.SPOTIFY_CLIENT_ID);
+
 function Home() {
   return (
     <PageWrapper title="Home">

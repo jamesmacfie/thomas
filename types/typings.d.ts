@@ -1,3 +1,5 @@
+declare module 'react-spotify-login';
+
 declare module '*.css' {
   const content: any;
   export default content;
@@ -7,6 +9,9 @@ declare module '*.svg' {
   const content: any;
   export default content;
 }
+
+declar;
+
 declare interface Entity {
   attributes: {
     attribution?: string;

@@ -2050,6 +2050,10 @@ dot-prop@^4.1.0:
   dependencies:
     is-obj "^1.0.0"
 
+dotenv@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-7.0.0.tgz#a2be3cd52736673206e8a85fb5210eea29628e7c"
+
 double-ended-queue@2.1.0-0:
   version "2.1.0-0"
   resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
@@ -4213,6 +4217,10 @@ react-is@^16.3.2, react-is@^16.7.0, react-is@^16.8.1:
 react-lifecycles-compat@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+
+react-spotify-login@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/react-spotify-login/-/react-spotify-login-0.9.1.tgz#1afc35c02c424ac2f16494c713cd7515937e4b4e"
 
 react@^16.8.4:
   version "16.8.4"
