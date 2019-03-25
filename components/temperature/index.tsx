@@ -99,7 +99,7 @@ const Temperature = ({ title = 'Temperature', ...props }: EntityProps) => {
     <>
       <Panel fit={false} className="flex" padding={false} overflow={false}>
         <div className="flex-1">
-          <div className="p-6">
+          <div className="p-4">
             {title && <H3 className="mb-6 text-grey-dark">{title}</H3>}
             <p className="text-4xl whitespace-no-wrap">
               <State {...props} />

@@ -29,6 +29,10 @@ textarea::placeholder {
   color: config('colors.grey-dark');
 }
 
+.current-stroke path {
+  stroke: currentColor !important;
+}
+
 .grid {
   display: grid;
   grid-column-gap: 1.5rem;

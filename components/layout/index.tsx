@@ -4,18 +4,18 @@ import { H2 } from '../text';
 
 const getTemplateColumns = (columnSpan: number, rowSpan: number) => {
   const templateColumns: { [key: number]: string } = {
-    1: '12rem',
-    2: '24rem',
-    3: '36rem'
+    1: '9rem',
+    2: '18rem',
+    3: '27rem'
   };
   return new Array(rowSpan).fill(templateColumns[columnSpan]).join(' ');
 };
 
 const getTemplateRows = (rowSpan: number, columnSpan: number) => {
   const templateRows: { [key: number]: string } = {
-    1: '12rem',
-    2: '24rem',
-    3: '36rem'
+    1: '9rem',
+    2: '18rem',
+    3: '27rem'
   };
   return new Array(columnSpan).fill(templateRows[rowSpan]).join(' ');
 };
@@ -31,7 +31,7 @@ interface Props {
 }
 
 const Layout = ({ rows = 1, columns = 1, columnSpan = 0, rowSpan = 0, className, children, title }: Props) => {
-  const classes = cn('grid mr-12 over-x-scroll', className);
+  const classes = cn('grid over-x-scroll', className);
   const styles = {
     gridTemplateColumns: getTemplateColumns(columnSpan, columns),
     gridTemplateRows: getTemplateRows(rowSpan, rows)

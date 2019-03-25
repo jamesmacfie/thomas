@@ -14,7 +14,7 @@ const Panel = ({ className, children, fit = true, padding = true, overflow = tru
   const classes = cn(className, 'bg-panel rounded', {
     'w-full': fit,
     'h-full': fit,
-    'p-6': padding,
+    'p-4': padding,
     'overflow-hidden': !overflow,
     'cursor-pointer': !onClick
   });

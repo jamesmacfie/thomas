@@ -3,6 +3,10 @@ declare module '*.css' {
   export default content;
 }
 
+declare module '*.svg' {
+  const content: any;
+  export default content;
+}
 declare interface Entity {
   attributes: {
     attribution?: string;
