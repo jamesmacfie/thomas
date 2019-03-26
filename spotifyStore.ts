@@ -1,6 +1,16 @@
 import { observable } from 'mobx';
 import { useStaticRendering } from 'mobx-react';
 
+type SpotifyStatus = 'DEFAULT' | 'AUTHENTICATING' | 'POPULATING' | 'ERROR' | 'AUTHENTICATED' | 'REFRESHING';
+
+const urls = {
+  profile: '/v1/me',
+  currentlyPlaying: '/v1/me/player/currently-playing',
+  play: '/v1/me/player/play',
+  pause: '/v1/me/player/pause',
+  previous: '/v1/me/player/previous',
+  next: '/v1/me/player/next '
+};
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
@@ -32,38 +42,81 @@ export const localStorageHelper = {
 };
 
 export default class SpotifyStore {
-  @observable hasProfile: boolean = false;
+  @observable status: SpotifyStatus = 'DEFAULT';
   @observable profile: object | null = localStorageHelper.getProfile();
   @observable accessToken: string | null = localStorageHelper.getAccessToken();
-  @observable gettingProfile: boolean = false;
+  @observable currentlyPlaying?: object;
+
+  private currentlyPlayingInterval?: any;
+
+  constructor() {
+    if (this.accessToken) {
+      this.onReady();
+    }
+  }
 
   setAccessToken = async (accessToken: string) => {
-    console.log('Setting', accessToken);
     this.accessToken = accessToken;
     localStorageHelper.setAccessToken(accessToken);
+    await this.onReady();
+  };
+
+  onReady = async () => {
+    this.status = 'POPULATING';
     await this.getProfile();
+    await this.startGettingCurrentlyPlaying();
+    this.status = 'AUTHENTICATED';
+  };
+
+  startGettingCurrentlyPlaying = async () => {
+    clearInterval(this.currentlyPlayingInterval);
+
+    this.currentlyPlayingInterval = setInterval(async () => {
+      const currentlyPlaying = await this.request(urls.currentlyPlaying);
+      console.log('Got', currentlyPlaying);
+      this.currentlyPlaying = currentlyPlaying;
+    }, 5000);
+  };
+
+  play = async () => {
+    await this.request(urls.play, 'PUT', false);
+  };
+
+  pause = async () => {
+    await this.request(urls.pause, 'PUT', false);
+  };
+
+  previous = async () => {
+    await this.request(urls.previous, 'POST', false);
+  };
+
+  next = async () => {
+    await this.request(urls.next, 'POST', false);
   };
 
   getProfile = async () => {
-    console.log('#getProfile');
-    if (!this.accessToken) {
-      console.warn('No access token. Cannot get Spotify profile');
-      return;
-    }
-    this.hasProfile = false;
-    this.gettingProfile = true;
-    console.log('Getting profile', {
-      Authorization: `Bearer ${this.accessToken}`
-    });
-    const profile = await fetch(`https://api.spotify.com/v1/me`, {
-      headers: new Headers({
-        Authorization: `Bearer ${this.accessToken}`
-      })
-    }).then((res: any) => res.json());
+    const profile = await this.request(urls.profile);
     localStorageHelper.setProfile(profile);
     this.profile = profile;
-    this.gettingProfile = false;
-    this.hasProfile = true;
+  };
+
+  request = async (url: string, method: string = 'GET', json: boolean = true) => {
+    if (!this.accessToken) {
+      console.warn('No access token. Cannot do a request to Spotify');
+      return;
+    }
+    try {
+      const result = await fetch(`https://api.spotify.com${url}`, {
+        method,
+        headers: new Headers({
+          Authorization: `Bearer ${this.accessToken}`
+        })
+      }).then((res: any) => (json ? res.json() : res));
+      return result;
+    } catch (err) {
+      console.error('Spotify error', err);
+      this.status = 'ERROR';
+    }
   };
 }
 

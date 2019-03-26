@@ -16,23 +16,25 @@ const SpotifyAuth = ({ spotifyStore }: Props) => {
   }
 
   if (!spotifyStore) return null;
+  // TODO - this is a bit shitty
   const accessToken = window.location.href.match(new RegExp(`#access_token=(.*)&token_type`));
-  console.log('GOT', accessToken);
-
   if (!accessToken || !accessToken.length) {
     return <Loader />;
   }
 
   useEffect(() => {
-    const getProfile = async () => {
+    const setAccessToken = async () => {
       const tokenString = accessToken[0].replace('#access_token=', '').replace('&token_type', '');
-      console.log(tokenString);
       spotifyStore.setAccessToken(tokenString);
     };
-    getProfile();
+    setAccessToken();
   });
 
-  if (!accessToken || !spotifyStore.hasProfile) {
+  if (spotifyStore.status === 'ERROR') {
+    return <p>Shit, error</p>;
+  }
+
+  if (spotifyStore.status !== 'AUTHENTICATED') {
     return <Loader />;
   }
 

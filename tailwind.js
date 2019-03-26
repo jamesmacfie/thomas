@@ -59,6 +59,8 @@ let colors = {
   'cold-light': '#56a4ff',
   'cold-dark': '#718ef6',
 
+  progress: ' #ae27ea',
+
   danger: '#d45a8c',
 
   transparent: 'transparent',

@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import Header from '../header';
 import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
+import NowPlaying from '../../components/nowPlaying';
 import { PageLoader } from '../loader';
 import Store from '../../store';
 import './styles.css';
@@ -35,6 +36,7 @@ const PageWrapper = observer(({ title, children, store }: Props) => {
       <div>
         <Header />
         <div className="flex w-screen overflow-x-scroll page-wrapper">{children};</div>
+        <NowPlaying />
       </div>
     </Fragment>
   );

@@ -30,7 +30,7 @@ const SpotifyAuth = ({ spotifyStore }: Props) => {
       <div className="flex">
         <div>
           <SpotifyLogin
-            scope="user-read-currently-playing user-read-playback-state"
+            scope="user-read-currently-playing user-read-playback-state user-modify-playback-state"
             clientId={process.env.SPOTIFY_CLIENT_ID}
             redirectUri={process.env.SPOTIFY_RETURN_URL}
             onSuccess={onSuccess}
