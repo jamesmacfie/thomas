@@ -12,7 +12,7 @@ const urls = {
   play: '/v1/me/player/play',
   pause: '/v1/me/player/pause',
   previous: '/v1/me/player/previous',
-  next: '/v1/me/player/next '
+  next: '/v1/me/player/next'
 };
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
@@ -48,7 +48,7 @@ export default class SpotifyStore {
   @observable profile: object | null = null;
   @observable accessToken: string | null = localStorageHelper.getAccessToken();
   @observable refreshToken: string | null = localStorageHelper.getRefreshToken();
-  @observable currentlyPlaying?: object;
+  @observable currentlyPlaying?: SpotifyCurrentlyPlaying;
   @observable loginUrl: string = '';
   private currentlyPlayingInterval?: any;
 
@@ -64,7 +64,6 @@ export default class SpotifyStore {
     return fetch(`${API_URL}/spotify/login_url`)
       .then((response: Response) => response.json())
       .then((json: any) => {
-        console.log('got', json);
         this.loginUrl = json.spotify_uri;
       });
   };
@@ -113,6 +112,7 @@ export default class SpotifyStore {
       if (!currentlyPlaying) {
         return;
       }
+      console.log('CP', currentlyPlaying);
       this.currentlyPlaying = currentlyPlaying;
     }, 1000);
   };
@@ -136,6 +136,12 @@ export default class SpotifyStore {
   getProfile = async () => {
     const profile = await this.request(urls.profile);
     this.profile = profile;
+  };
+
+  getPlaylistTracks = async (playlistId: string): Promise<SpotifyPlaylistTrack> => {
+    const url = `/v1/playlists/${playlistId}/tracks`;
+    const tracks = await this.request(url);
+    return tracks;
   };
 
   request = async (url: string, method: string = 'GET') => {

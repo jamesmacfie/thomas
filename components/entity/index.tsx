@@ -21,7 +21,6 @@ const Entity = observer(({ entity_id, title, unitOfMeasurement }: Props) => {
     state = entity.state;
   }
 
-  console.log(unitOfMeasurement);
   const units = unitOfMeasurement || (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
   return (
     <Panel fit={false} className="relative">

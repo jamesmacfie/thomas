@@ -27,3 +27,45 @@ declare interface Entity {
   last_updated: Date;
   state: number | string;
 }
+
+declare interface SpotifyTrack {
+  id: string;
+  href: string;
+  album: SpotifyAlbum;
+  artists: SpotifyArtist[];
+  duration_ms: number;
+}
+
+declare interface SpotifyPlaylistTracks {
+  items: {
+    track: SpotifyTrack;
+  }[];
+}
+
+declare interface SpotifyImage {
+  height: number;
+  width: number;
+  url: string;
+}
+
+declare interface SpotifyArtist {
+  id: string;
+  name: string;
+}
+declare interface SpotifyAlbum {
+  id: string;
+  name: string;
+  artists: SpotifyArtist[];
+  images: SpotifyImage[];
+}
+
+declare interface SpotifyCurrentlyPlaying {
+  currently_playing_type: string;
+  is_playing: boolean;
+  progress_ms: number;
+  item: SpotifyTrack;
+  context: {
+    type: string;
+    href: string;
+  };
+}

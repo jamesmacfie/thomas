@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import useInterval from '../../hooks/useInterval';
 
-import './styles.css';
-
 const Header = () => {
   const [date, setDate] = useState(new Date());
   useInterval(() => {
@@ -14,7 +12,7 @@ const Header = () => {
   const minute = date.getMinutes();
 
   return (
-    <div className={`w-screen relative h-16 px-6 flex items-center header`}>
+    <div className={`w-screen relative h-16 px-6 flex items-center double-border-bottom`}>
       <span className="text-xl inline-block mr-6">
         {hour}
         <span className="blink-1">:</span>

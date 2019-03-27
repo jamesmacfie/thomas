@@ -1,6 +1,10 @@
 import React, { HTMLProps } from 'react';
 import cn from 'classnames';
 
+export const H1 = ({ className, ...props }: HTMLProps<HTMLHeadingElement>) => (
+  <h1 {...props} className={cn('text-5xl font-thin my-6', className)} />
+);
+
 export const H2 = ({ className, ...props }: HTMLProps<HTMLHeadingElement>) => (
   <h2 {...props} className={cn('text-xl font-thin my-6', className)} />
 );

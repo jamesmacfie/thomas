@@ -47,10 +47,10 @@ textarea::placeholder {
 }
 
 .pin-modal {
-  bottom: 1.5rem;
-  left: 1.5rem;
-  right: 1.5rem;
-  top: 1.5rem;
+  bottom: 0rem;
+  left: 0rem;
+  right: 0rem;
+  top: 0rem;
 }
 
 .blink-1 {
@@ -88,4 +88,23 @@ textarea::placeholder {
 
 .progress-now-playing {
   top: -2px;
+}
+
+.double-border-bottom::before,
+.double-border-bottom::after {
+  content: '';
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.double-border-bottom::before {
+  background-color: config('colors.overlay-dark');
+  bottom: 0px;
+}
+
+.double-border-bottom::after {
+  background-color: config('colors.overlay-light');
+  bottom: -1px;
 }
