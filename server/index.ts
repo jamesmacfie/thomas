@@ -9,7 +9,7 @@ const port = 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } = process.env;
+const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI, HOME_ASSISTANT_URL } = process.env;
 
 app.prepare().then(() => {
   const server = express();
@@ -17,7 +17,7 @@ app.prepare().then(() => {
 
   server.use(
     '/api/history/period',
-    proxy('macfie.duckdns.org:8123', {
+    proxy(HOME_ASSISTANT_URL as string, {
       proxyReqPathResolver: (req: express.Request) => {
         return req.originalUrl;
       }

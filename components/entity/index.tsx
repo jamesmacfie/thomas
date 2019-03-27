@@ -11,7 +11,7 @@ export interface Props {
   title?: string;
 }
 
-const Entity = observer(({ entity_id, title }: Props) => {
+const Entity = observer(({ entity_id, title, unitOfMeasurement }: Props) => {
   const store = useContext(StoreContext) as Store;
   const entity = store!.data[entity_id];
   let state;
@@ -21,7 +21,8 @@ const Entity = observer(({ entity_id, title }: Props) => {
     state = entity.state;
   }
 
-  const units = (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
+  console.log(unitOfMeasurement);
+  const units = unitOfMeasurement || (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
   return (
     <Panel fit={false} className="relative">
       {title && <H3 className="mb-6 text-grey-dark">{title}</H3>}

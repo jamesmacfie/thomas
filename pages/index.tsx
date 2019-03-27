@@ -17,20 +17,17 @@ function Home() {
       <Content>
         <Layout rows={3} columns={2} title="Temperature" className="mr-6">
           <Layout rows={4} columns={2} columnSpan={1} rowSpan={1}>
-            <Entity title="Living room" entity_id="sensor.temperature_158d00025f0927" />
-            <Entity title="Thomas' Room" entity_id="sensor.thomas_room_temp" />
-            <Entity title="Kid's Room" entity_id="sensor.kids_room_temp" />
-            <Entity title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" />
-            <Entity title="Kitchen" entity_id="sensor.kitchen_temp" />
-            <Entity title="Office" entity_id="sensor.office_temp" />
+            <Entity title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
+            <Entity title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />
+            <Entity title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
+            <Entity title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" unitOfMeasurement="°C" />
+            <Entity title="Kitchen" entity_id="sensor.kitchen_temp" unitOfMeasurement="°C" />
+            <Entity title="Office" entity_id="sensor.office_temp" unitOfMeasurement="°C" />
             <Icon
               title="Test"
               entity_id="sensor.test"
               subTitle={(s: string) => (s === 'on' ? 'Motion' : 'No motion')}
-              icon={(s: string | number): ReactNode => {
-                console.log('Test state', s);
-                return s === 'on' ? <DoorOpen /> : <DoorClosed />;
-              }}
+              icon={(s: string | number): ReactNode => (s === 'on' ? <DoorOpen /> : <DoorClosed />)}
             />
             <Icon
               title="Motion"
@@ -45,12 +42,16 @@ function Home() {
         </Layout>
         <Layout columnSpan={2} rowSpan={0} title="Graphs" className="mr-6">
           <Layout rows={6} columns={2} columnSpan={2} rowSpan={1}>
-            <Temperature title="Living room" entity_id="sensor.temperature_158d00025f0927" />
-            <Temperature title="Thomas' Room" entity_id="sensor.thomas_room_temp" />
-            <Temperature title="Kid's Room" entity_id="sensor.kids_room_temp" />
-            <Temperature title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" />
-            <Temperature title="Kitchen" entity_id="sensor.kitchen_temp" />
-            <Temperature title="Office" entity_id="sensor.office_temp" />
+            <Temperature title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
+            <Temperature title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />
+            <Temperature title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
+            <Temperature
+              title="Mum and Dad's Room"
+              entity_id="sensor.temperature_158d00025ed7d0"
+              unitOfMeasurement="°C"
+            />
+            <Temperature title="Kitchen" entity_id="sensor.kitchen_temp" unitOfMeasurement="°C" />
+            <Temperature title="Office" entity_id="sensor.office_temp" unitOfMeasurement="°C" />
           </Layout>
         </Layout>
         <Layout rows={2} columnSpan={1} rowSpan={1} title="Network">

@@ -5,6 +5,7 @@ import fetch from 'isomorphic-unfetch';
 
 type SpotifyStatus = 'DEFAULT' | 'AUTHENTICATING' | 'POPULATING' | 'ERROR' | 'AUTHENTICATED' | 'REFRESHING';
 
+const { API_URL } = process.env;
 const urls = {
   profile: '/v1/me',
   currentlyPlaying: '/v1/me/player/currently-playing',
@@ -60,7 +61,7 @@ export default class SpotifyStore {
   }
 
   getAndSetLoginUrl = () => {
-    return fetch('http://localhost:3000/spotify/login_url')
+    return fetch(`${API_URL}/spotify/login_url`)
       .then((response: Response) => response.json())
       .then((json: any) => {
         console.log('got', json);
@@ -70,7 +71,7 @@ export default class SpotifyStore {
 
   getAccessToken = (code: string) => {
     this.status = 'AUTHENTICATING';
-    return fetch(`http://localhost:3000/spotify/token?code=${code}`)
+    return fetch(`${API_URL}/spotify/token?code=${code}`)
       .then((response: Response) => response.json())
       .then((json: any) => {
         this.accessToken = json.access_token;
@@ -82,7 +83,7 @@ export default class SpotifyStore {
   };
 
   refreshAccessToken = () => {
-    return fetch(`http://localhost:3000/spotify/refresh_token?refresh_token=${this.refreshToken}`)
+    return fetch(`${API_URL}/spotify/refresh_token?refresh_token=${this.refreshToken}`)
       .then((response: Response) => response.json())
       .then((json: any) => {
         this.accessToken = json.access_token;

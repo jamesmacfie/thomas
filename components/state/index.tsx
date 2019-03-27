@@ -8,7 +8,7 @@ export interface Props {
   unitOfMeasurement?: string;
 }
 
-const State = observer(({ entity_id }: Props) => {
+const State = observer(({ entity_id, unitOfMeasurement }: Props) => {
   const store = useContext(StoreContext) as Store;
   const entity = store.data[entity_id];
   let state;
@@ -18,7 +18,7 @@ const State = observer(({ entity_id }: Props) => {
     state = entity.state;
   }
 
-  const units = (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
+  const units = unitOfMeasurement || (entity && entity.attributes && entity.attributes.unit_of_measurement) || '';
   return (
     <span>
       {state} {units}
