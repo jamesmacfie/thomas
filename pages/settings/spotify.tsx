@@ -1,45 +1,28 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
-import SpotifyLogin from 'react-spotify-login';
-import SpotifyStore from '../../spotifyStore';
-import Loader from '../../components/loader';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
 import PageWrapper from '../../components/pageWrapper';
+import SpotifyStore from '../../spotifyStore';
+import { SpotifyStoreContext } from '../../spotifyStore';
 
-interface Props {
-  spotifyStore?: SpotifyStore;
-}
+const LoginToSpotifyButton = observer(() => {
+  const spotifyStore = useContext(SpotifyStoreContext) as SpotifyStore;
+  return (
+    <Link href={spotifyStore.loginUrl}>
+      <a>Login</a>
+    </Link>
+  );
+});
 
-const SpotifyAuth = ({ spotifyStore }: Props) => {
-  const isServer = typeof window === 'undefined';
-  if (isServer) {
-    return <Loader />;
-  }
+const SpotifySettings = observer(() => {
+  const spotifyStore = useContext(SpotifyStoreContext) as SpotifyStore;
 
-  if (!spotifyStore) return null;
-  if (spotifyStore.hasProfile) {
-    return <p>Yay!</p>;
-  }
-  const onSuccess = async (response: any) => {
-    console.log(response);
-    await spotifyStore.setAccessToken(response.access_token);
-  };
-  const onFailure = (response: any) => console.error(response);
-
+  const inner = spotifyStore.status !== 'AUTHENTICATED' ? <LoginToSpotifyButton /> : <p>You're good to go!</p>;
   return (
     <PageWrapper title="Settings">
-      <div className="flex">
-        <div>
-          <SpotifyLogin
-            scope="user-read-currently-playing user-read-playback-state user-modify-playback-state"
-            clientId={process.env.SPOTIFY_CLIENT_ID}
-            redirectUri={process.env.SPOTIFY_RETURN_URL}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-          />
-        </div>
-      </div>
+      <div className="flex">{inner}</div>
     </PageWrapper>
   );
-};
+});
 
-export default inject('spotifyStore')(observer(SpotifyAuth));
+export default SpotifySettings;

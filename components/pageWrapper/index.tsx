@@ -1,30 +1,30 @@
-import React, { Fragment, ReactNode } from 'react';
+import React, { Fragment, ReactNode, useContext } from 'react';
 import Head from 'next/head';
-import { inject, observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import Header from '../header';
 import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
 import NowPlaying from '../../components/nowPlaying';
 import { PageLoader } from '../loader';
 import Store from '../../store';
+import { StoreContext } from '../../store';
 import './styles.css';
 
 interface Props {
   title: string;
   children: ReactNode;
-  store?: Store;
 }
 
-const PageWrapper = observer(({ title, children, store }: Props) => {
-  console.log('Store', store);
-  if (!store!.wsUrl) {
+const PageWrapper = observer(({ title, children }: Props) => {
+  const store = useContext(StoreContext) as Store;
+  if (!store.wsUrl) {
     return <EnterWSURL />;
   }
 
-  if (!store!.accessToken) {
+  if (!store.accessToken) {
     return <EnterAccessToken />;
   }
-  if (!store!.hasData) {
+  if (!store.hasData) {
     return <PageLoader />;
   }
 
@@ -35,11 +35,11 @@ const PageWrapper = observer(({ title, children, store }: Props) => {
       </Head>
       <div>
         <Header />
-        <div className="flex w-screen overflow-x-scroll page-wrapper">{children};</div>
+        <div className="flex w-screen overflow-x-scroll page-wrapper">{children}</div>
         <NowPlaying />
       </div>
     </Fragment>
   );
 });
 
-export default inject('store')(PageWrapper);
+export default PageWrapper;

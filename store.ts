@@ -1,5 +1,6 @@
+import { createContext } from 'react';
 import { observable } from 'mobx';
-import { useStaticRendering } from 'mobx-react';
+import { useStaticRendering } from 'mobx-react-lite';
 import keyBy from 'lodash/keyBy';
 
 interface Entities {
@@ -190,3 +191,5 @@ export function initializeStore() {
   }
   return store;
 }
+
+export const StoreContext = createContext(initializeStore());

@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import { inject } from 'mobx-react';
+import React, { useState, useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import Button from '../button';
 import Input from '../input';
 import { H3 } from '../text';
 import Panel from '../panel';
 import Store from '../../store';
+import { StoreContext } from '../../store';
 
-interface Props {
-  store?: Store;
-}
-
-const EnterWSURL = ({ store }: Props) => {
-  if (!store) return null;
+const EnterWSURL = observer(() => {
+  const store = useContext(StoreContext) as Store;
   const [url, setUrl] = useState('');
   const submitUrl = () => store.setWSURL(url);
   return (
@@ -34,6 +31,6 @@ const EnterWSURL = ({ store }: Props) => {
       </div>
     </div>
   );
-};
+});
 
-export default inject('store')(EnterWSURL);
+export default EnterWSURL;

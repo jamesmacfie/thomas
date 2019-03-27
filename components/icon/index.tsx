@@ -1,18 +1,19 @@
-import React, { ReactNode } from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { ReactNode, useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import Panel from '../panel';
 import { H3, H4 } from '../text';
 import Store from '../../store';
+import { StoreContext } from '../../store';
 
 export interface Props {
   entity_id: string;
-  store?: Store;
   title?: string;
   icon: (s: string | number) => ReactNode;
   subTitle: string | ((s: string) => void);
 }
 
-const Icon = ({ entity_id, store, title, subTitle, icon }: Props) => {
+const Icon = observer(({ entity_id, title, subTitle, icon }: Props) => {
+  const store = useContext(StoreContext) as Store;
   const entity = store!.data[entity_id];
   let state;
   if (typeof entity === 'undefined') {
@@ -20,8 +21,6 @@ const Icon = ({ entity_id, store, title, subTitle, icon }: Props) => {
   } else {
     state = entity.state;
   }
-
-  console.log('STATE', state);
 
   const cmp = icon(state);
   const subtitle = typeof subTitle === 'string' ? subTitle : subTitle(state.toString());
@@ -32,6 +31,6 @@ const Icon = ({ entity_id, store, title, subTitle, icon }: Props) => {
       <div className="absolute pin-center h-10 w-10 current-stroke text-grey-darker">{cmp}</div>
     </Panel>
   );
-};
+});
 
-export default inject('store')(observer(Icon));
+export default Icon;

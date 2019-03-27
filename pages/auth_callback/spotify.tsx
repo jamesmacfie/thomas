@@ -1,52 +1,39 @@
-import React, { useEffect } from 'react';
-import { inject, observer } from 'mobx-react';
-import SpotifyStore from '../../spotifyStore';
-import { withRouter } from 'next/router';
+import React, { useContext, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
+import Router from 'next/router';
 import PageWrapper from '../../components/pageWrapper';
 import Loader from '../../components/loader';
+import SpotifyStore from '../../spotifyStore';
+import { SpotifyStoreContext } from '../../spotifyStore';
 
-interface Props {
-  spotifyStore?: SpotifyStore;
-}
-
-const SpotifyAuth = ({ spotifyStore }: Props) => {
+const SpotifyAuth = observer(() => {
+  const spotifyStore = useContext(SpotifyStoreContext) as SpotifyStore;
   const isServer = typeof window === 'undefined';
   if (isServer) {
-    return <Loader />;
-  }
-
-  if (!spotifyStore) return null;
-  // TODO - this is a bit shitty
-  const accessToken = window.location.href.match(new RegExp(`#access_token=(.*)&token_type`));
-  if (!accessToken || !accessToken.length) {
-    return <Loader />;
+    return null;
   }
 
   useEffect(() => {
-    const setAccessToken = async () => {
-      const tokenString = accessToken[0].replace('#access_token=', '').replace('&token_type', '');
-      spotifyStore.setAccessToken(tokenString);
-    };
-    setAccessToken();
-  });
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    spotifyStore.getAccessToken(code as string);
+  }, []);
 
   if (spotifyStore.status === 'ERROR') {
     return <p>Shit, error</p>;
   }
 
-  if (spotifyStore.status !== 'AUTHENTICATED') {
-    return <Loader />;
+  if (spotifyStore.status === 'AUTHENTICATED') {
+    Router.push('/settings/spotify');
   }
 
   return (
     <PageWrapper title="Settings">
       <div className="flex">
-        <div>
-          <p>ok!</p>
-        </div>
+        <Loader />;
       </div>
     </PageWrapper>
   );
-};
+});
 
-export default inject('spotifyStore')(observer(withRouter(SpotifyAuth)));
+export default SpotifyAuth;

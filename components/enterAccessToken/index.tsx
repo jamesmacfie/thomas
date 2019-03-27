@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import { inject } from 'mobx-react';
+import React, { useState, useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import Panel from '../panel';
 import Button from '../button';
 import Input from '../input';
 import { H3 } from '../text';
 import Store from '../../store';
+import { StoreContext } from '../../store';
 
-interface Props {
-  store?: Store;
-}
-
-const EnterAccessToken = ({ store }: Props) => {
-  if (!store) return null;
+const EnterAccessToken = observer(() => {
+  const store = useContext(StoreContext) as Store;
   const [token, setToken] = useState('');
   const submitToken = () => store.setAccessToken(token);
   return (
@@ -34,6 +31,6 @@ const EnterAccessToken = ({ store }: Props) => {
       </div>
     </div>
   );
-};
+});
 
-export default inject('store')(EnterAccessToken);
+export default EnterAccessToken;

@@ -1,4 +1,5 @@
 declare module 'react-spotify-login';
+declare module 'isomorphic-unfetch';
 
 declare module '*.css' {
   const content: any;
@@ -9,8 +10,6 @@ declare module '*.svg' {
   const content: any;
   export default content;
 }
-
-declar;
 
 declare interface Entity {
   attributes: {

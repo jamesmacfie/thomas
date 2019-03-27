@@ -1,17 +1,18 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import Panel from '../panel';
 import { H3 } from '../text';
 import Store from '../../store';
+import { StoreContext } from '../../store';
 
 export interface Props {
   entity_id: string;
   unitOfMeasurement?: string;
-  store?: Store;
   title?: string;
 }
 
-const Entity = ({ entity_id, store, title }: Props) => {
+const Entity = observer(({ entity_id, title }: Props) => {
+  const store = useContext(StoreContext) as Store;
   const entity = store!.data[entity_id];
   let state;
   if (typeof entity === 'undefined') {
@@ -32,6 +33,6 @@ const Entity = ({ entity_id, store, title }: Props) => {
       </div>
     </Panel>
   );
-};
+});
 
-export default inject('store')(observer(Entity));
+export default Entity;

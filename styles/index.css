@@ -29,7 +29,8 @@ textarea::placeholder {
   color: config('colors.grey-dark');
 }
 
-.current-stroke path {
+.current-stroke path,
+.current-stroke circle {
   stroke: currentColor !important;
 }
 
