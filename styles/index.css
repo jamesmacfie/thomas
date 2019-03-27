@@ -29,6 +29,11 @@ textarea::placeholder {
   color: config('colors.grey-dark');
 }
 
+::-webkit-scrollbar {
+  width: 0px; /* remove scrollbar space */
+  background: transparent; /* optional: just make scrollbar invisible */
+}
+
 .current-stroke path,
 .current-stroke circle {
   stroke: currentColor !important;
