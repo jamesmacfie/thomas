@@ -138,7 +138,7 @@ export default class SpotifyStore {
     this.profile = profile;
   };
 
-  getPlaylistTracks = async (playlistId: string): Promise<SpotifyPlaylistTrack> => {
+  getPlaylistTracks = async (playlistId: string): Promise<SpotifyPlaylistTracks> => {
     const url = `/v1/playlists/${playlistId}/tracks`;
     const tracks = await this.request(url);
     return tracks;
