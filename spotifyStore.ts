@@ -91,7 +91,6 @@ export default class SpotifyStore {
   };
 
   onReady = async () => {
-    console.log('onready');
     this.status = 'POPULATING';
     await this.getProfile();
     await this.startGettingCurrentlyPlaying();
@@ -112,7 +111,6 @@ export default class SpotifyStore {
       if (!currentlyPlaying) {
         return;
       }
-      console.log('CP', currentlyPlaying);
       this.currentlyPlaying = currentlyPlaying;
     }, 1000);
   };

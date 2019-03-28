@@ -4,10 +4,7 @@ import { H1, H2, H3, H4 } from '../../components/text';
 import ProgressLine from '../../components/progressLine';
 import PlaylistTracks from '../../components/playlistTracks';
 import Modal from '../../components/modal';
-import ButtonPlay from '../../svg/button-play.svg';
-import ButtonPause from '../../svg/button-pause.svg';
-import ButtonFastForward from '../../svg/button-fast-forward.svg';
-import ButtonRewind from '../../svg/button-rewind.svg';
+import SpotifyPlayerButtons from '../../components/spotifyPlayerButtons';
 import SpotifyStore from '../../spotifyStore';
 import { SpotifyStoreContext } from '../../spotifyStore';
 
@@ -38,10 +35,17 @@ const NowPlayingModal = ({ onClick, spotifyStore }: ModalProps) => {
       <div className="flex h-full">
         <div className="w-128 flex-no-shrink">
           <img className="rounded" src={item.album.images[0].url} />
+
+          <SpotifyPlayerButtons
+            className="mt-20"
+            previousClassName="h-10 w-10 mr-6"
+            fastForwardClassName="h-10 w-10 ml-6"
+            playClassName="h-16 w-16"
+          />
         </div>
         <div className="flex-grow flex flex-col ml-6">
           <div>
-            <H1 className="mt-0 mb-3">{item.album.name}</H1>
+            <H1 className="mt-0 mb-3">{item.name}</H1>
             <H2 className="mt-0 text-grey-darker">{item.artists[0].name}</H2>
           </div>
           <NowPlayingModalDetail className="flex-grow" spotifyStore={spotifyStore} />
@@ -68,10 +72,8 @@ const NowPlaying = observer(() => {
     return <NowPlayingModal spotifyStore={spotifyStore} onClick={toggleModal} />;
   }
 
-  const { item, progress_ms, is_playing } = spotifyStore.currentlyPlaying as any;
+  const { item, progress_ms } = spotifyStore.currentlyPlaying!;
   const percentComplete = (progress_ms / item.duration_ms) * 100;
-  const playPauseClick = is_playing ? spotifyStore.pause : spotifyStore.play;
-  const PlayPause = is_playing ? ButtonPause : ButtonPlay;
 
   return (
     <div className="fixed h-24 pin-b w-screen z-10 bg-overlay-dark">
@@ -82,17 +84,7 @@ const NowPlaying = observer(() => {
           <H3>{item.name}</H3>
           <H4 className="text-grey-darker">{item.artists[0].name}</H4>
         </div>
-        <div className="flex flex-grow items-center justify-center">
-          <div className="h-8 w-8 current-stroke text-grey-light mr-3">
-            <ButtonRewind onClick={spotifyStore.previous} />
-          </div>
-          <div className="h-10 w-10 current-stroke text-grey-light">
-            <PlayPause onClick={playPauseClick} />
-          </div>
-          <div className="h-8 w-8 current-stroke text-grey-light ml-3">
-            <ButtonFastForward onClick={spotifyStore.next} />
-          </div>
-        </div>
+        <SpotifyPlayerButtons previousClassName="h-8 w-8" fastForwardClassName="h-8 w-8" playClassName="h-10 w-10" />
       </div>
     </div>
   );

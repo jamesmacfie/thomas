@@ -97,7 +97,6 @@ export default class Store {
       console.warn('No access token. Cannot authenticate');
       return;
     }
-    console.log('Authenticating');
     this.send(
       {
         type: 'auth',
@@ -128,12 +127,9 @@ export default class Store {
     this.ws.send(JSON.stringify(dataToSend));
   };
 
-  onOpen = () => {
-    console.log('Websocket open');
-  };
+  onOpen = () => {};
 
   onClose = () => {
-    console.log('Websocket closed. Reconnecting');
     this.connectWebsocket();
   };
 
@@ -166,7 +162,6 @@ export default class Store {
   };
 
   onMessageResult = (data?: Entity[]): void => {
-    // console.log('Result received', data);
     if (!data) {
       return;
     }
@@ -175,7 +170,6 @@ export default class Store {
   };
 
   onMessageEvent = (event: Event): void => {
-    // console.log('Event received', event);
     this.data[event.data.entity_id] = event.data.new_state;
   };
 }

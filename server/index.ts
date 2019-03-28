@@ -41,7 +41,6 @@ app.prepare().then(() => {
   });
 
   server.get('/spotify/token', (req: express.Request, res: express.Response) => {
-    console.log('Getting Spotify tokens');
     const code = req.query.code;
     const authOptions = {
       url: 'https://accounts.spotify.com/api/token',
@@ -57,7 +56,6 @@ app.prepare().then(() => {
     };
 
     request.post(authOptions, (error, response, body) => {
-      console.log('Got token response', error, response.body);
       if (error) {
         return res.sendStatus(500).send(error);
       }
@@ -95,19 +93,6 @@ app.prepare().then(() => {
       return res.send(body);
     });
   });
-
-  // server.get('/api/history/period', (req: express.Request, res: express.Response) => {
-  //   console.log('AAA');
-  //   return app.render(req, res, '/a', req.query);
-  // });
-
-  // server.get('/b', (req: express.Request, res: express.Response) => {
-  //   return app.render(req, res, '/b', req.query);
-  // });
-
-  // server.get('/posts/:id', (req: express.Request, res: express.Response) => {
-  //   return app.render(req, res, '/posts', { id: req.params.id });
-  // });
 
   server.get('*', (req: express.Request, res: express.Response) => {
     return handle(req, res);

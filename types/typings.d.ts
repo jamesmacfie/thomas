@@ -32,6 +32,7 @@ declare interface SpotifyTrack {
   id: string;
   href: string;
   album: SpotifyAlbum;
+  name: string;
   artists: SpotifyArtist[];
   duration_ms: number;
 }
