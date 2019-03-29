@@ -63,5 +63,5 @@ interface ContentProps {
 }
 
 export const Content = ({ className, children }: ContentProps) => {
-  return <div className={cn('flex px-6', className)}>{children}</div>;
+  return <div className={cn('flex px-6 mb-32', className)}>{children}</div>;
 };

@@ -46,7 +46,7 @@ const PlaylistTracks = observer(({ className, playlistId }: Props) => {
         return (
           <li key={track.href} className={classes}>
             <div className="flex-grow">
-              <H3>{track.album.name}</H3>
+              <H3>{track.name}</H3>
               <H4 className="mb-0 text-grey-darker">{track.album.artists[0].name}</H4>
             </div>
             <div className="h-8 w-8 ml-6 current-stroke text-progress">{isCurrent && <SpeakersNote />}</div>

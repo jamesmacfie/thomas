@@ -16,7 +16,7 @@ a {
 a:hover,
 a:focus,
 a:active {
-  color: config('colors.hover:link');
+  color: config('colors.link');
 }
 
 input,
@@ -112,4 +112,24 @@ textarea::placeholder {
 .double-border-bottom::after {
   background-color: config('colors.overlay-light');
   bottom: -1px;
+}
+
+.double-border-right::before,
+.double-border-right::after {
+  bottom: 0;
+  content: '';
+  width: 1px;
+  top: 0;
+  position: absolute;
+  right: 0;
+}
+
+.double-border-right::before {
+  background-color: config('colors.overlay-dark');
+  right: 0px;
+}
+
+.double-border-right::after {
+  background-color: config('colors.overlay-light');
+  right: -1px;
 }

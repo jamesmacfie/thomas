@@ -1,30 +1,52 @@
 import React from 'react';
+import cn from 'classnames';
 import Link from 'next/link';
-import withNavItems from '../withNavItems';
-import styles from './styles.css';
-export interface NavItem {
-  url: string;
-  name: string;
-}
+import { withRouter, SingletonRouter } from 'next/router';
+import LayoutDashboard from '../../svg/layout-dashboard.svg';
+import Cog from '../../svg/cog.svg';
 
 interface Props {
-  navItems: NavItem[];
+  router: SingletonRouter;
 }
 
-const Navigation = ({ navItems }: Props) => {
+const items = [
+  {
+    icon: LayoutDashboard,
+    url: '/'
+  },
+  null,
+  {
+    icon: Cog,
+    url: '/settings'
+  }
+];
+
+const Navigation = ({ router }: Props) => {
   return (
-    <nav className="h-screen w-64 flex-no-shrink">
-      <ul>
-        {navItems.map(n => (
-          <li key={n.url} className={styles.active}>
-            <Link href={n.url}>
-              <a>{n.name}</a>
-            </Link>
-          </li>
-        ))}
+    <nav className="w-16 flex-no-shrink double-border-right relative">
+      <ul className="list-reset flex flex-col ">
+        {items.map(item => {
+          if (!item) {
+            return <li className="flex-grow" />;
+          }
+          const Cmp = item.icon;
+          const aClasses = cn('current-stroke w-16 h-16 flex items-center justify-center', {
+            'text-link': router.pathname === item.url,
+            'text-grey-darker': router.pathname !== item.url
+          });
+          return (
+            <li key={item.url}>
+              <Link href={item.url}>
+                <a className={aClasses}>
+                  <Cmp className="w-10 h-10" />
+                </a>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );
 };
 
-export default withNavItems(Navigation);
+export default withRouter(Navigation);

@@ -2,6 +2,7 @@ import React, { Fragment, ReactNode, useContext } from 'react';
 import Head from 'next/head';
 import { observer } from 'mobx-react-lite';
 import Header from '../header';
+import Navigation from '../navigation';
 import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
 import NowPlaying from '../../components/nowPlaying';
@@ -35,7 +36,10 @@ const PageWrapper = observer(({ title, children }: Props) => {
       </Head>
       <div>
         <Header />
-        <div className="flex w-screen overflow-x-scroll page-wrapper">{children}</div>
+        <div className="flex w-screen page-wrapper">
+          <Navigation />
+          <div className="flex-grow overflow-scroll">{children}</div>
+        </div>
         <NowPlaying />
       </div>
     </Fragment>
