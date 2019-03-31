@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import cn from 'classnames';
 import Panel from '../panel';
+import AddCircle from '../../svg/add-circle.svg';
 
 interface Props {
   className?: string;
@@ -23,7 +24,10 @@ const Modal = ({ children, className, size, onClick }: Props) => {
   return (
     <>
       <Overlay onClick={onClick} />
-      <Panel fit={false} className={cn(classes[size], 'z-10 absolute pin-center p-6 overflow-hidden', className)}>
+      <Panel fit={false} className={cn(classes[size], 'z-10 absolute pin-center p-6', className)}>
+        <div className="z-20 absolute pin-close h-12 w-12 text-white current-stroke rotate-45deg" onClick={onClick}>
+          <AddCircle />
+        </div>
         {children}
       </Panel>
     </>

@@ -6,7 +6,10 @@ const getTemplateColumns = (columnSpan: number, rowSpan: number) => {
   const templateColumns: { [key: number]: string } = {
     1: '9rem',
     2: '18rem',
-    3: '27rem'
+    3: '27rem',
+    4: '36rem',
+    5: '45rem',
+    6: '54rem'
   };
   return new Array(rowSpan).fill(templateColumns[columnSpan]).join(' ');
 };
@@ -15,7 +18,10 @@ const getTemplateRows = (rowSpan: number, columnSpan: number) => {
   const templateRows: { [key: number]: string } = {
     1: '9rem',
     2: '18rem',
-    3: '27rem'
+    3: '27rem',
+    4: '36rem',
+    5: '45rem',
+    6: '54rem'
   };
   return new Array(columnSpan).fill(templateRows[rowSpan]).join(' ');
 };

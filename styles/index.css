@@ -58,6 +58,11 @@ textarea::placeholder {
   top: 0rem;
 }
 
+.pin-close {
+  right: -4rem;
+  top: 1rem;
+}
+
 .blink-1 {
   animation: blink 2s step-start 0s infinite;
 }
@@ -132,4 +137,8 @@ textarea::placeholder {
 .double-border-right::after {
   background-color: config('colors.overlay-light');
   right: -1px;
+}
+
+.rotate-45deg {
+  transform: rotate(45deg);
 }

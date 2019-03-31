@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { withRouter, SingletonRouter } from 'next/router';
 import LayoutDashboard from '../../svg/layout-dashboard.svg';
 import Cog from '../../svg/cog.svg';
+import CarClouds from '../../svg/car-clouds.svg';
 
 interface Props {
   router: SingletonRouter;
@@ -13,6 +14,10 @@ const items = [
   {
     icon: LayoutDashboard,
     url: '/'
+  },
+  {
+    icon: CarClouds,
+    url: '/traffic'
   },
   null,
   {
@@ -31,7 +36,7 @@ const Navigation = ({ router }: Props) => {
           }
           const Cmp = item.icon;
           const aClasses = cn('current-stroke w-16 h-16 flex items-center justify-center', {
-            'text-link': router.pathname === item.url,
+            'text-white': router.pathname === item.url,
             'text-grey-darker': router.pathname !== item.url
           });
           return (
