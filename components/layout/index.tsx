@@ -9,7 +9,8 @@ const getTemplateColumns = (columnSpan: number, rowSpan: number) => {
     3: '27rem',
     4: '36rem',
     5: '45rem',
-    6: '54rem'
+    6: '54rem',
+    7: '63rem'
   };
   return new Array(rowSpan).fill(templateColumns[columnSpan]).join(' ');
 };

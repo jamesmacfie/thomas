@@ -17,6 +17,10 @@ const items = [
   },
   {
     icon: CarClouds,
+    url: '/weather'
+  },
+  {
+    icon: CarClouds,
     url: '/traffic'
   },
   null,
@@ -43,7 +47,7 @@ const Navigation = ({ router }: Props) => {
             <li key={item.url}>
               <Link href={item.url}>
                 <a className={aClasses}>
-                  <Cmp className="w-10 h-10" />
+                  <Cmp className="w-6 h-6" />
                 </a>
               </Link>
             </li>

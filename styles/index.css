@@ -35,7 +35,8 @@ textarea::placeholder {
 }
 
 .current-stroke path,
-.current-stroke circle {
+.current-stroke circle,
+.current-stroke rect {
   stroke: currentColor !important;
 }
 
