@@ -30,7 +30,7 @@ export function init(server: express.Express) {
   });
 
   server.get('/google/login_url', (_req: express.Request, res: express.Response) => {
-    const google_uri = googleOauth2Client.generateAuthUrl({
+    const url = googleOauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: ['https://www.googleapis.com/auth/calendar']
     });
