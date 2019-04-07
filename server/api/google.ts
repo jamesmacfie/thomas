@@ -54,8 +54,6 @@ export function init(server: express.Express) {
     });
   });
 
-  server.get('/google/refresh_token', (_req: express.Request, _res: express.Response) => {});
-
   server.get('/google/api/calendar/events', (req: express.Request, res: express.Response) => {
     const calendar = google.calendar({ version: 'v3', auth: googleOauth2Client });
     const { timeMin, timeMax } = req.query;
