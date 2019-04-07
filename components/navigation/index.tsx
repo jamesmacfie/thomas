@@ -6,6 +6,7 @@ import LayoutDashboard from '../../svg/layout-dashboard.svg';
 import Cog from '../../svg/cog.svg';
 import CarClouds from '../../svg/car-clouds.svg';
 import WeatherEtc from '../../svg/weather-cloud-sun-wind.svg';
+import Calendar from '../../svg/calendar.svg';
 
 interface Props {
   router: SingletonRouter;
@@ -15,6 +16,10 @@ const items = [
   {
     icon: LayoutDashboard,
     url: '/'
+  },
+  {
+    icon: Calendar,
+    url: '/calendar'
   },
   {
     icon: WeatherEtc,

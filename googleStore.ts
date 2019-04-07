@@ -13,7 +13,8 @@ useStaticRendering(isServer);
 
 export default class GoogleStore {
   @observable status: GoogleStatus = 'DEFAULT';
-
+  @observable fetching: boolean = false;
+  @observable events?: gapi.client.calendar.Event[];
   @observable loginUrl: string = '';
 
   constructor() {
@@ -40,6 +41,7 @@ export default class GoogleStore {
   };
 
   getThisMonthEvents = () => {
+    this.fetching = true;
     const timeMin = moment()
       .startOf('month')
       .toISOString();
@@ -48,9 +50,10 @@ export default class GoogleStore {
       .toISOString();
     return fetch(`${API_URL}/google/api/calendar/events?timeMin=${timeMin}&timeMax=${timeMax}`)
       .then((response: Response) => response.json())
-      .then((json: any) => {
+      .then((json: { events: gapi.client.calendar.Event[] }) => {
         console.log('Got events', json);
-        return json;
+        this.events = json.events;
+        this.fetching = false;
       });
   };
 }
