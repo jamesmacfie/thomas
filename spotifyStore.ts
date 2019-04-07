@@ -64,7 +64,7 @@ export default class SpotifyStore {
     return fetch(`${API_URL}/spotify/login_url`)
       .then((response: Response) => response.json())
       .then((json: any) => {
-        this.loginUrl = json.spotify_uri;
+        this.loginUrl = json.url;
       });
   };
 

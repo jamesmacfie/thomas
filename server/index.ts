@@ -4,6 +4,7 @@ import cors from 'cors';
 import querystring from 'querystring';
 import proxy from 'express-http-proxy';
 import next from 'next';
+import { init as initGoogle } from './api/google';
 
 const port = 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -14,6 +15,7 @@ const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI, HOME_ASS
 app.prepare().then(() => {
   const server = express();
   server.use(cors());
+  initGoogle(server);
 
   server.use(
     '/api/history/period',
@@ -27,7 +29,7 @@ app.prepare().then(() => {
   server.get('/spotify/login_url', (_req: express.Request, res: express.Response) => {
     const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
 
-    const spotify_uri =
+    const url =
       'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
         show_dialog: true,
@@ -37,7 +39,7 @@ app.prepare().then(() => {
         redirect_uri: SPOTIFY_REDIRECT_URI
       });
 
-    res.send({ spotify_uri });
+    res.send({ url });
   });
 
   server.get('/spotify/token', (req: express.Request, res: express.Response) => {

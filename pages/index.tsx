@@ -7,13 +7,14 @@ import Layout, { Content } from '../components/layout';
 
 import DoorClosed from '../svg/door-closed.svg';
 import DoorOpen from '../svg/door-open.svg';
-import PictureSun from '../svg/picture-sun.svg';
+import GoogleCalendarToday from '../components/googleCalendarToday';
 
 function Home() {
   return (
     <PageWrapper title="Home">
       <Content>
         <Layout rows={3} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
+          <GoogleCalendarToday />
           {/* <Layout rows={4} columns={2} columnSpan={1} rowSpan={1}> */}
           <Entity title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
           <Entity title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />

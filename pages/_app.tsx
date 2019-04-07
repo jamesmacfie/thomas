@@ -2,6 +2,7 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import { initializeStore } from '../store';
 import { initializeSpotifyStore } from '../spotifyStore';
+import { initializeGoogleStore } from '../googleStore';
 import '../styles/index.css';
 
 class Thomas extends App {
@@ -11,6 +12,7 @@ class Thomas extends App {
     if (!isServer) {
       initializeStore();
       initializeSpotifyStore();
+      initializeGoogleStore();
     }
   }
 

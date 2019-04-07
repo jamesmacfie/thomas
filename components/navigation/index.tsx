@@ -5,6 +5,7 @@ import { withRouter, SingletonRouter } from 'next/router';
 import LayoutDashboard from '../../svg/layout-dashboard.svg';
 import Cog from '../../svg/cog.svg';
 import CarClouds from '../../svg/car-clouds.svg';
+import WeatherEtc from '../../svg/weather-cloud-sun-wind.svg';
 
 interface Props {
   router: SingletonRouter;
@@ -16,7 +17,7 @@ const items = [
     url: '/'
   },
   {
-    icon: CarClouds,
+    icon: WeatherEtc,
     url: '/weather'
   },
   {
@@ -45,7 +46,7 @@ const Navigation = ({ router }: Props) => {
           });
           return (
             <li key={item.url}>
-              <Link href={item.url}>
+              <Link href={item.url} prefetch>
                 <a className={aClasses}>
                   <Cmp className="w-6 h-6" />
                 </a>

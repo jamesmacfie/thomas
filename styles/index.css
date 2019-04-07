@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
   color: config('colors.text');
   background-color: config('backgroundColors.body');
@@ -10,12 +11,19 @@ body {
 }
 
 a {
-  color: config('colors.link');
+  color: config('colors.white');
+  text-decoration: none;
 }
 
 a:hover,
 a:focus,
 a:active {
+  color: config('colors.link');
+}
+
+button > a:hover,
+button > a:focus,
+button > a:active {
   color: config('colors.link');
 }
 
