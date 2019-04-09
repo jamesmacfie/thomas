@@ -7,10 +7,8 @@ export default class Calendar extends Component {
   render() {
     return (
       <PageWrapper title="Settings">
-        <div className="flex h-full">
-          <div>
-            <GoogleCalendar />
-          </div>
+        <div className="flex full">
+          <GoogleCalendar />
         </div>
       </PageWrapper>
     );

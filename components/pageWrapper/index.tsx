@@ -1,4 +1,5 @@
 import React, { Fragment, ReactNode, useContext } from 'react';
+import cn from 'classnames';
 import Head from 'next/head';
 import { observer } from 'mobx-react-lite';
 import Header from '../header';
@@ -7,8 +8,8 @@ import EnterWSURL from '../enterWsURL';
 import EnterAccessToken from '../enterAccessToken';
 import NowPlaying from '../../components/nowPlaying';
 import { PageLoader } from '../loader';
-import Store from '../../store';
-import { StoreContext } from '../../store';
+import Store, { StoreContext } from '../../store';
+import SpotifyStore, { SpotifyStoreContext } from '../../spotifyStore';
 import './styles.css';
 
 interface Props {
@@ -18,6 +19,8 @@ interface Props {
 
 const PageWrapper = observer(({ title, children }: Props) => {
   const store = useContext(StoreContext) as Store;
+  const spotifyStore = useContext(SpotifyStoreContext) as SpotifyStore;
+
   if (!store.wsUrl) {
     return <EnterWSURL />;
   }
@@ -29,6 +32,8 @@ const PageWrapper = observer(({ title, children }: Props) => {
     return <PageLoader />;
   }
 
+  const classes = spotifyStore.currentlyPlaying ? 'page-wraper-drawer' : 'h-screen';
+
   return (
     <Fragment>
       <Head>
@@ -36,7 +41,7 @@ const PageWrapper = observer(({ title, children }: Props) => {
       </Head>
       <div>
         <Header />
-        <div className="flex w-screen page-wrapper">
+        <div className={cn('flex w-screen', classes)}>
           <Navigation />
           <div className="flex-grow overflow-scroll">{children}</div>
         </div>

@@ -151,3 +151,88 @@ textarea::placeholder {
 .rotate-45deg {
   transform: rotate(45deg);
 }
+
+.full {
+  height: calc(100vh - 6rem);
+  padding: 1.5rem;
+  width: calc(100vw - 6rem);
+}
+
+/* React big calendar */
+.rbc-calendar .rbc-header {
+  padding: 0.5rem 0;
+}
+
+.rbc-calendar .rbc-toolbar button {
+  border-color: transparent;
+  border-radius: 9999px;
+  color: config('colors.text');
+}
+
+.rbc-calendar .rbc-btn-group > button:first-child:not(:last-child) {
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+}
+
+.rbc-calendar .rbc-btn-group > button:last-child:not(:first-child) {
+  border-top-left-radius: 9999px;
+  border-bottom-left-radius: 9999px;
+}
+
+.rbc-calendar .rbc-btn-group > button:not(:first-child):not(:last-child) {
+  border-radius: 9999px;
+}
+
+.rbc-calendar .rbc-day-bg {
+  background-color: config('colors.panel');
+}
+
+.rbc-calendar .rbc-toolbar button.rbc-active,
+.rbc-calendar .rbc-toolbar button:hover {
+  border-color: transparent;
+  background-color: config('colors.blue');
+}
+
+.rbc-calendar .rbc-toolbar button:hover {
+  color: config('colors.text');
+}
+
+.rbc-calendar .rbc-event {
+  background-color: config('colors.blue');
+}
+
+.rbc-calendar .rbc-toolbar button:active:hover,
+.rbc-calendar .rbc-toolbar button.rbc-active:hover,
+.rbc-calendar .rbc-toolbar button:active:focus,
+.rbc-calendar .rbc-toolbar button.rbc-active:focus {
+  background-color: config('colors.blue');
+  color: config('colors.text');
+}
+
+.rbc-calendar .rbc-toolbar button:active:hover,
+.rbc-calendar .rbc-toolbar button.rbc-active:hover,
+.rbc-calendar .rbc-toolbar button:active:focus,
+.rbc-calendar .rbc-toolbar button.rbc-active:focus {
+  background-color: config('colors.blue-darker');
+  color: config('colors.text');
+}
+
+.rbc-calendar .rbc-today {
+  background-color: config('colors.grey-light');
+}
+
+.rbc-calendar .rbc-now {
+  color: config('colors.grey-darker');
+}
+
+.rbc-calendar .rbc-now > a {
+  font-weight: 200;
+}
+
+.rbc-calendar .rbc-off-range {
+  color: config('colors.grey');
+}
+
+.rbc-calendar .rbc-off-range-bg {
+  background-color: config('colors.grey-darker');
+}
