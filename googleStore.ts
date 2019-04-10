@@ -14,7 +14,7 @@ useStaticRendering(isServer);
 export default class GoogleStore {
   @observable status: GoogleStatus = 'DEFAULT';
   @observable fetching: boolean = false;
-  @observable events?: gapi.client.calendar.Event[];
+  @observable events: gapi.client.calendar.Event[] | null = null;
   @observable loginUrl: string = '';
 
   constructor() {
@@ -53,6 +53,11 @@ export default class GoogleStore {
       .then((json: { events: gapi.client.calendar.Event[] }) => {
         console.log('Got events', json);
         this.events = json.events;
+        this.fetching = false;
+      })
+      .catch((err: Error) => {
+        console.error('Error getting events', err);
+        this.events = null;
         this.fetching = false;
       });
   };

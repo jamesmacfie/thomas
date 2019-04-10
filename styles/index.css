@@ -159,6 +159,10 @@ textarea::placeholder {
 }
 
 /* React big calendar */
+.rbc-calendar {
+  width: 100%;
+}
+
 .rbc-calendar .rbc-header {
   padding: 0.5rem 0;
 }
@@ -198,7 +202,7 @@ textarea::placeholder {
 }
 
 .rbc-calendar .rbc-event {
-  background-color: config('colors.blue');
+  background-color: config('colors.purple-dark');
 }
 
 .rbc-calendar .rbc-toolbar button:active:hover,
@@ -218,11 +222,11 @@ textarea::placeholder {
 }
 
 .rbc-calendar .rbc-today {
-  background-color: config('colors.grey-light');
+  background-color: config('colors.purple-darker');
 }
 
 .rbc-calendar .rbc-now {
-  color: config('colors.grey-darker');
+  color: config('colors.text');
 }
 
 .rbc-calendar .rbc-now > a {
@@ -234,5 +238,5 @@ textarea::placeholder {
 }
 
 .rbc-calendar .rbc-off-range-bg {
-  background-color: config('colors.grey-darker');
+  background-color: transparent;
 }

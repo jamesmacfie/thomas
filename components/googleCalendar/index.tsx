@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import Loader from '../loader';
@@ -24,7 +25,7 @@ const mushEvents = (events: gapi.client.calendar.Event[]): any[] => {
   const mushed = events.map(event => {
     return {
       id: event.id,
-      title: event.description,
+      title: event.summary,
       allDay: false,
       start: event.start ? event.start.dateTime : null,
       end: event.end ? event.end.dateTime : null
@@ -46,6 +47,14 @@ const GoogleCalendar = observer(({ className }: Props) => {
 
   if (store.fetching) {
     return <Loader />;
+  }
+
+  if (store.status === 'DEFAULT') {
+    return (
+      <Link href="/settings/accounts">
+        <a>Login to show the calendar</a>
+      </Link>
+    );
   }
 
   if (!store.events) {
