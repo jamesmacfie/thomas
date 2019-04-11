@@ -31,8 +31,8 @@ export function init(server: express.Express) {
       return;
     }
     console.log(value);
-    logger.info(`🙆‍ Got storage value ${value}`);
-    googleOauth2Client.setCredentials(JSON.parse(value));
+    logger.info(`🙆‍ Got storage value`);
+    googleOauth2Client.setCredentials(value);
   });
 
   server.get('/google/login_url', (_req: express.Request, res: express.Response) => {
