@@ -31,12 +31,13 @@ export default class GoogleStore {
 
   setAccessToken = (code: string) => {
     this.status = 'AUTHENTICATING';
-    return fetch(`${API_URL}/google/token?code=${code}`)
-      .then((response: Response) => response.json())
-      .then((json: any) => {
-        console.log('Google URL ok', json);
+    return fetch(`${API_URL}/google/token?code=${code}`).then((response: Response) => {
+      if (response.status != 200) {
+        this.status = 'ERROR';
+      } else {
         this.status = 'AUTHENTICATED';
-      });
+      }
+    });
   };
 
   getThisMonthEvents = () => {
