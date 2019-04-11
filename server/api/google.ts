@@ -5,6 +5,7 @@ import { createLogger } from '../logger';
 
 export function init(server: express.Express) {
   const logger = createLogger({ name: 'Google', color: 'blue' });
+  logger.info('🍪 Initializing');
   const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
   const storageKey = 'google';
   const googleOauth2Client = new google.auth.OAuth2(
@@ -12,8 +13,6 @@ export function init(server: express.Express) {
     GOOGLE_CLIENT_SECRET,
     `http://localhost:3000/auth_callback/google`
   );
-
-  logger.info('🍪 Initializing');
 
   // TODO - check this. Do we actually get a refresh token via the `getToken` call later on?
   googleOauth2Client.on('tokens', tokens => {
@@ -31,6 +30,7 @@ export function init(server: express.Express) {
       logger.info('🙅‍ No stored token');
       return;
     }
+    console.log(value);
     logger.info(`🙆‍ Got storage value ${value}`);
     googleOauth2Client.setCredentials(JSON.parse(value));
   });
@@ -41,7 +41,6 @@ export function init(server: express.Express) {
       access_type: 'offline',
       scope: ['https://www.googleapis.com/auth/calendar']
     });
-    logger.info(`📨 Sending ${url}`);
     res.send({ url });
   });
 

@@ -26,6 +26,13 @@ const storage = {
     }
     jsonFile[key] = value;
     await writeFile(filepath, JSON.stringify(jsonFile));
+  },
+  updateField: async (key: string, property: string, value: any) => {
+    const currentValue = await storage.get(key);
+    const newValue = Object.assign(currentValue, {
+      [property]: value
+    });
+    await storage.set(key, newValue);
   }
 };
 

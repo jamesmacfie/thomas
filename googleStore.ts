@@ -25,7 +25,6 @@ export default class GoogleStore {
     return fetch(`${API_URL}/google/login_url`)
       .then((response: Response) => response.json())
       .then((json: any) => {
-        console.log('got', json);
         this.loginUrl = json.url;
       });
   };

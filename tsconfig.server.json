@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "paths": { "*": ["types/*"] },
     "allowSyntheticDefaultImports": true,
     "module": "commonjs",
     "target": "es2017",
@@ -17,6 +18,6 @@
     "allowUnusedLabels": true,
     "esModuleInterop": true
   },
-  "include": ["server/**/*.ts"],
+  "include": ["server/**/*.ts", "types"],
   "exclude": [".next"]
 }

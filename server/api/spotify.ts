@@ -1,91 +1,131 @@
+/// <reference path="../../types/typings.d.ts" />
+
 import express from 'express';
+import querystring from 'querystring';
+import WebSocket from 'ws';
 import storage from '../storage';
 import { createLogger } from '../logger';
+import SpotifyWebApi from 'spotify-web-api-node';
 
-export function init(server: express.Express) {
+export function init(server: express.Express, ws: WebSocket.Server) {
   const logger = createLogger({ name: 'Spotify', color: 'green' });
-  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
-  const storageKey = 'oogle';
-  const googleOauth2Client = new google.auth.OAuth2(
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    `http://localhost:3000/auth_callback/google`
-  );
-
   logger.info('🍪 Initializing');
-
-  // TODO - check this. Do we actually get a refresh token via the `getToken` call later on?
-  googleOauth2Client.on('tokens', tokens => {
-    if (tokens.refresh_token) {
-      logger.info('Got refresh token');
-      googleOauth2Client.setCredentials({
-        refresh_token: tokens.refresh_token
-      });
-    }
+  const storageKey = 'spotify';
+  const wsClients: WebSocket[] = [];
+  const { SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI } = process.env;
+  const spotifyApi = new SpotifyWebApi({
+    clientId: SPOTIFY_CLIENT_ID,
+    clientSecret: SPOTIFY_CLIENT_SECRET,
+    redirectUri: SPOTIFY_REDIRECT_URI
   });
 
-  logger.info('📦 Getting storage value');
-  storage.get(storageKey).then(value => {
-    if (!value) {
-      logger.info('🙅‍ No stored token');
+  ws.on('connection', (w: WebSocket) => {
+    logger.info(`🔌 New connection`);
+    wsClients.push(w);
+  });
+
+  logger.info('🎼 Setting currently-playing loop');
+  setInterval(async () => {
+    if (wsClients.length === 0) {
       return;
     }
-    logger.info(`🙆‍ Got storage value ${value}`);
-    googleOauth2Client.setCredentials(JSON.parse(value));
+
+    spotifyApi.getMyCurrentPlaybackState({}).then(
+      function(data: any) {
+        wsClients.forEach(function each(client: WebSocket) {
+          if (client.readyState === WebSocket.OPEN) {
+            const message: WSMessage = {
+              type: 'currently_playing',
+              data: data.body
+            };
+
+            client.send(JSON.stringify(message));
+          }
+        });
+      },
+      function(err: Error) {
+        logger.error(`🎺 Error with currently playing ${err.message}`);
+      }
+    );
+  }, 1000);
+
+  logger.info('🏬 Checking storage for key');
+  storage
+    .get(storageKey)
+    .then(storageData => {
+      logger.info(storageData);
+      if (!storageData) {
+        throw new Error('No existing key set');
+      }
+
+      logger.info('🏛 Got storage. Refreshing');
+      spotifyApi.setAccessToken(storageData['access_token']);
+      spotifyApi.setRefreshToken(storageData['refresh_token']);
+      return spotifyApi.refreshAccessToken();
+    })
+    .then(
+      (data: any) => {
+        logger.info('🏢The access token has been refreshed');
+        return storage.updateField(storageKey, 'access_token', data.body['access_token']);
+      },
+      (err: Error) => {
+        logger.error(`🏥 Could not refresh access token ${err.message}`);
+      }
+    )
+    .catch((err: Error) => {
+      logger.error(`🏨 Error checking for key ${err.message}`);
+    });
+
+  server.get('/spotify/status', (_req: express.Request, res: express.Response) => {
+    spotifyApi.getMe().then(
+      () => {
+        return res.sendStatus(200);
+      },
+      () => {
+        return res.sendStatus(500);
+      }
+    );
   });
 
-  server.get('/google/login_url', (_req: express.Request, res: express.Response) => {
+  server.get('/spotify/login_url', (_req: express.Request, res: express.Response) => {
     logger.info('💌 Getting login URL');
-    const url = googleOauth2Client.generateAuthUrl({
-      access_type: 'offline',
-      scope: ['https://www.googleapis.com/auth/calendar']
-    });
-    logger.info(`📨 Sending ${url}`);
+    const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
+
+    const url =
+      'https://accounts.spotify.com/authorize?' +
+      querystring.stringify({
+        show_dialog: true,
+        response_type: 'code',
+        client_id: SPOTIFY_CLIENT_ID,
+        scopes,
+        redirect_uri: SPOTIFY_REDIRECT_URI
+      });
+
     res.send({ url });
   });
 
-  server.get('/google/token', (req: express.Request, res: express.Response) => {
+  server.get('/spotify/token', (req: express.Request, res: express.Response) => {
     logger.info(`🤑 Getting token`);
     const code = req.query.code;
-    googleOauth2Client.getToken(code, (err: any, token: any) => {
-      if (err) {
-        logger.error(`😵 Error retrieving access token: ${err.message}`);
-        return;
-      }
-      logger.info(`💰 Got token`);
-      googleOauth2Client.setCredentials(token);
-      storage
-        .set(storageKey, token)
-        .then(() => {
-          logger.info(`🏦 Saved token`);
-          return res.sendStatus(200);
-        })
-        .catch(err => {
-          logger.error(`💸 Error setting token ${err.message}`);
-          return res.sendStatus(500);
-        });
-    });
-  });
+    spotifyApi.authorizationCodeGrant(code).then(
+      (data: any) => {
+        logger.info(`💰 Got token`);
+        spotifyApi.setAccessToken(data.body['access_token']);
+        spotifyApi.setRefreshToken(data.body['refresh_token']);
 
-  server.get('/google/api/calendar/events', (req: express.Request, res: express.Response) => {
-    logger.info(`🗓 Getting calendar events`);
-    const calendar = google.calendar({ version: 'v3', auth: googleOauth2Client });
-    const { timeMin, timeMax } = req.query;
-    calendar.events.list(
-      {
-        calendarId: 'primary',
-        timeMin,
-        timeMax,
-        singleEvents: true,
-        orderBy: 'startTime'
+        storage
+          .set(storageKey, data.body)
+          .then(() => {
+            logger.info(`🏦 Saved token`);
+            return res.send(data.body);
+          })
+          .catch(err => {
+            logger.error(`💸 Error setting token ${err.message}`);
+            res.sendStatus(500);
+          });
       },
-      (err: Error | null, events: any) => {
-        if (err) {
-          logger.error(`👻 Error getting calendar events ${err.message}`);
-          return res.sendStatus(500);
-        }
-        logger.info(`📅 Got ${events.data.items.length} calender event(s)`);
-        return res.send({ events: events.data.items });
+      (err: Error) => {
+        console.log('Something went wrong!', err);
       }
     );
   });

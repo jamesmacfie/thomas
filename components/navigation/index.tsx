@@ -51,7 +51,7 @@ const Navigation = ({ router }: Props) => {
           });
           return (
             <li key={item.url}>
-              <Link href={item.url} prefetch>
+              <Link href={item.url}>
                 <a className={aClasses}>
                   <Cmp className="w-6 h-6" />
                 </a>

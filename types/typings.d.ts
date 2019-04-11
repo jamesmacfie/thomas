@@ -1,6 +1,6 @@
 declare module 'react-spotify-login';
 declare module 'isomorphic-unfetch';
-
+declare module 'spotify-web-api-node';
 declare module '*.css' {
   const content: any;
   export default content;
@@ -69,4 +69,9 @@ declare interface SpotifyCurrentlyPlaying {
     type: string;
     href: string;
   };
+}
+
+declare interface WSMessage {
+  type: string;
+  data: object;
 }

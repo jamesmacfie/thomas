@@ -50,14 +50,11 @@ export default class SpotifyStore {
   @observable refreshToken: string | null = localStorageHelper.getRefreshToken();
   @observable currentlyPlaying?: SpotifyCurrentlyPlaying;
   @observable loginUrl: string = '';
-  private currentlyPlayingInterval?: any;
+  private ws: WebSocket | null = null;
 
   constructor() {
-    this.getAndSetLoginUrl().then(() => {
-      if (this.accessToken) {
-        this.onReady();
-      }
-    });
+    this.getAndSetLoginUrl();
+    this.getCurrentStatus();
   }
 
   getAndSetLoginUrl = () => {
@@ -66,6 +63,40 @@ export default class SpotifyStore {
       .then((json: any) => {
         this.loginUrl = json.url;
       });
+  };
+
+  getCurrentStatus = () => {
+    return fetch(`${API_URL}/spotify/status`).then((response: Response) => {
+      if (response.status === 200) {
+        console.log('Spotify auth Ok');
+        this.status = 'AUTHENTICATED';
+        this.connect();
+      }
+    });
+  };
+
+  connect = () => {
+    if (this.ws || isServer) {
+      console.log('No need to connect');
+      return;
+    }
+    this.ws = new WebSocket(`ws://localhost:3001`);
+    this.ws.onclose = () => {
+      console.log('Spotify WS closed');
+      this.ws = null;
+      // Try to reconnect in a few seconds
+      setTimeout(() => {
+        this.connect();
+      }, 5000);
+    };
+
+    this.ws.onmessage = (message: MessageEvent) => {
+      const parsedMessage: WSMessage = JSON.parse(message.data);
+      console.log(parsedMessage);
+      if (parsedMessage.type === 'currently_playing') {
+        this.currentlyPlaying = parsedMessage.data as SpotifyCurrentlyPlaying;
+      }
+    };
   };
 
   getAccessToken = (code: string) => {
@@ -104,15 +135,14 @@ export default class SpotifyStore {
   };
 
   startGettingCurrentlyPlaying = async () => {
-    clearInterval(this.currentlyPlayingInterval);
-
-    this.currentlyPlayingInterval = setInterval(async () => {
-      const currentlyPlaying = await this.request(urls.currentlyPlaying);
-      if (!currentlyPlaying) {
-        return;
-      }
-      this.currentlyPlaying = currentlyPlaying;
-    }, 1000);
+    // clearInterval(this.currentlyPlayingInterval);
+    // this.currentlyPlayingInterval = setInterval(async () => {
+    //   const currentlyPlaying = await this.request(urls.currentlyPlaying);
+    //   if (!currentlyPlaying) {
+    //     return;
+    //   }
+    //   this.currentlyPlaying = currentlyPlaying;
+    // }, 1000);
   };
 
   play = async () => {

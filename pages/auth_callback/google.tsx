@@ -24,7 +24,7 @@ const SpotifyAuth = observer(() => {
   }
 
   if (googleStore.status === 'AUTHENTICATED') {
-    Router.push('/settings/spotify');
+    Router.push('/settings/accounts');
   }
 
   return (
