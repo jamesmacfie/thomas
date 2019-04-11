@@ -29,9 +29,13 @@ const storage = {
   },
   updateField: async (key: string, property: string, value: any) => {
     const currentValue = await storage.get(key);
-    const newValue = Object.assign(currentValue, {
+    console.log('CURRENT');
+    console.log(currentValue);
+    const newValue = Object.assign({}, currentValue, {
       [property]: value
     });
+    console.log('NEW', property, value);
+    console.log(newValue);
     await storage.set(key, newValue);
   }
 };

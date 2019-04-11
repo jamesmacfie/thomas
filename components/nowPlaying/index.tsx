@@ -64,7 +64,6 @@ const NowPlaying = observer(() => {
   }
 
   if (!spotifyStore.currentlyPlaying) {
-    spotifyStore.startGettingCurrentlyPlaying();
     return null;
   }
 

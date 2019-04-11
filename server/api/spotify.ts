@@ -7,6 +7,11 @@ import storage from '../storage';
 import { createLogger } from '../logger';
 import SpotifyWebApi from 'spotify-web-api-node';
 
+/**
+ * TODO: This whole thing needs to be rethought. Async/await + a few more helper functions would server
+ * us well here
+ */
+
 export function init(server: express.Express, ws: WebSocket.Server) {
   const logger = createLogger({ name: 'Spotify', color: 'green' });
   logger.info('🍪 Initializing');
@@ -18,36 +23,56 @@ export function init(server: express.Express, ws: WebSocket.Server) {
     clientSecret: SPOTIFY_CLIENT_SECRET,
     redirectUri: SPOTIFY_REDIRECT_URI
   });
+  let hasBeenConnected = false;
+  let interval: NodeJS.Timeout | null = null;
 
   ws.on('connection', (w: WebSocket) => {
     logger.info(`🔌 New connection`);
     wsClients.push(w);
   });
 
-  logger.info('🎼 Setting currently-playing loop');
-  setInterval(async () => {
-    if (wsClients.length === 0) {
+  const startCurrentPlaying = () => {
+    if (interval) {
       return;
     }
-
-    spotifyApi.getMyCurrentPlaybackState({}).then(
-      function(data: any) {
-        wsClients.forEach(function each(client: WebSocket) {
-          if (client.readyState === WebSocket.OPEN) {
-            const message: WSMessage = {
-              type: 'currently_playing',
-              data: data.body
-            };
-
-            client.send(JSON.stringify(message));
-          }
-        });
-      },
-      function(err: Error) {
-        logger.error(`🎺 Error with currently playing ${err.message}`);
+    logger.info('🎼 Setting currently-playing loop');
+    interval = setInterval(async () => {
+      if (wsClients.length === 0 || !hasBeenConnected) {
+        return;
       }
-    );
-  }, 1000);
+
+      spotifyApi.getMyCurrentPlaybackState({}).then(
+        function(data: any) {
+          wsClients.forEach(function each(client: WebSocket) {
+            if (client.readyState === WebSocket.OPEN) {
+              const message: WSMessage = {
+                type: 'currently_playing',
+                data: data.body
+              };
+
+              client.send(JSON.stringify(message));
+            }
+          });
+        },
+        function(err: Error) {
+          logger.error(`🎺 Error with currently playing ${err.message}`);
+          if (err.message === 'Unauthorized') {
+            spotifyApi.refreshAccessToken().then(
+              (data: any) => {
+                if (data.body['refresh_token']) {
+                  logger.info('🏢The access token has been refreshed');
+                  return storage.updateField(storageKey, 'refresh_token', data.body['refresh_token']);
+                }
+              },
+              (err: Error) => {
+                logger.error(`🏥 Could not refresh access token ${err.message}`);
+              }
+            );
+          }
+        }
+      );
+    }, 1000);
+  };
 
   logger.info('🏬 Checking storage for key');
   storage
@@ -79,9 +104,12 @@ export function init(server: express.Express, ws: WebSocket.Server) {
   server.get('/spotify/status', (_req: express.Request, res: express.Response) => {
     spotifyApi.getMe().then(
       () => {
+        startCurrentPlaying();
+        hasBeenConnected = true;
         return res.sendStatus(200);
       },
       () => {
+        hasBeenConnected = false;
         return res.sendStatus(500);
       }
     );
@@ -106,6 +134,8 @@ export function init(server: express.Express, ws: WebSocket.Server) {
 
   server.get('/spotify/token', (req: express.Request, res: express.Response) => {
     logger.info(`🤑 Getting token`);
+    spotifyApi.resetAccessToken();
+    spotifyApi.resetRefreshToken();
     const code = req.query.code;
     spotifyApi.authorizationCodeGrant(code).then(
       (data: any) => {
@@ -117,15 +147,18 @@ export function init(server: express.Express, ws: WebSocket.Server) {
           .set(storageKey, data.body)
           .then(() => {
             logger.info(`🏦 Saved token`);
+            hasBeenConnected = true;
+            startCurrentPlaying();
             return res.send(data.body);
           })
           .catch(err => {
             logger.error(`💸 Error setting token ${err.message}`);
+            hasBeenConnected = false;
             res.sendStatus(500);
           });
       },
       (err: Error) => {
-        console.log('Something went wrong!', err);
+        logger.error(`Something went wrong ${err.message}`);
       }
     );
   });

@@ -40,14 +40,8 @@ export default class GoogleStore {
     });
   };
 
-  getThisMonthEvents = () => {
+  getEvents = (timeMin: string, timeMax: string) => {
     this.fetching = true;
-    const timeMin = moment()
-      .startOf('month')
-      .toISOString();
-    const timeMax = moment()
-      .endOf('month')
-      .toISOString();
     return fetch(`${API_URL}/google/api/calendar/events?timeMin=${timeMin}&timeMax=${timeMax}`)
       .then((response: Response) => response.json())
       .then((json: { events: gapi.client.calendar.Event[] }) => {
@@ -60,6 +54,16 @@ export default class GoogleStore {
         this.events = null;
         this.fetching = false;
       });
+  };
+
+  getThisMonthEvents = () => {
+    const timeMin = moment()
+      .startOf('month')
+      .toISOString();
+    const timeMax = moment()
+      .endOf('month')
+      .toISOString();
+    return this.getEvents(timeMin, timeMax);
   };
 }
 

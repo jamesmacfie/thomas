@@ -101,48 +101,13 @@ export default class SpotifyStore {
 
   getAccessToken = (code: string) => {
     this.status = 'AUTHENTICATING';
-    return fetch(`${API_URL}/spotify/token?code=${code}`)
-      .then((response: Response) => response.json())
-      .then((json: any) => {
-        this.accessToken = json.access_token;
-        localStorageHelper.setAccessToken(json.access_token);
-        this.refreshToken = json.refresh_token;
-        localStorageHelper.setRefreshToken(json.refresh_token);
-        return this.onReady();
-      });
-  };
-
-  refreshAccessToken = () => {
-    return fetch(`${API_URL}/spotify/refresh_token?refresh_token=${this.refreshToken}`)
-      .then((response: Response) => response.json())
-      .then((json: any) => {
-        this.accessToken = json.access_token;
-        this.refreshToken = json.refresh_token;
-      });
-  };
-
-  onReady = async () => {
-    this.status = 'POPULATING';
-    await this.getProfile();
-    await this.startGettingCurrentlyPlaying();
-    this.status = 'AUTHENTICATED';
-  };
-
-  setAccessToken = async (accessToken: string) => {
-    this.accessToken = accessToken;
-    localStorageHelper.setAccessToken(accessToken);
-    await this.onReady();
-  };
-
-  startGettingCurrentlyPlaying = async () => {
-    // clearInterval(this.currentlyPlayingInterval);
-    // this.currentlyPlayingInterval = setInterval(async () => {
-    //   const currentlyPlaying = await this.request(urls.currentlyPlaying);
-    //   if (!currentlyPlaying) {
-    //     return;
-    //   }
-    //   this.currentlyPlaying = currentlyPlaying;
-    // }, 1000);
+    return fetch(`${API_URL}/spotify/token?code=${code}`).then((response: Response) => {
+      if (response.status != 200) {
+        this.status = 'ERROR';
+      } else {
+        this.status = 'AUTHENTICATED';
+      }
+    });
   };
 
   play = async () => {
@@ -190,7 +155,7 @@ export default class SpotifyStore {
     try {
       let result = await doRequest();
       if (result.status === 401) {
-        await this.refreshAccessToken();
+        // await this.refreshAccessToken();
         result = await doRequest();
       }
 
