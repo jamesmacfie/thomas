@@ -83,7 +83,12 @@ const NowPlaying = observer(() => {
           <H3>{item.name}</H3>
           <H4 className="text-grey-darker">{item.artists[0].name}</H4>
         </div>
-        <SpotifyPlayerButtons previousClassName="h-8 w-8" fastForwardClassName="h-8 w-8" playClassName="h-10 w-10" />
+        <SpotifyPlayerButtons
+          className="absolute pin-center"
+          previousClassName="h-10 w-10"
+          fastForwardClassName="h-10 w-10"
+          playClassName="h-16 w-16"
+        />
       </div>
     </div>
   );

@@ -22,13 +22,13 @@ const SpotifyPlayerButtons = ({ className, playClassName, fastForwardClassName, 
 
   return (
     <div className={cn('flex flex-grow items-center justify-center', className)}>
-      <div className={cn('current-stroke text-grey-light mr-3', previousClassName)}>
+      <div className={cn('current-stroke text-grey-light active:text-progress mr-3', previousClassName)}>
         <ButtonRewind onClick={spotifyStore.previous} />
       </div>
-      <div className={cn('h-10 w-10 current-stroke text-grey-light', playClassName)}>
+      <div className={cn('h-10 w-10 current-stroke text-grey-light active:text-progress', playClassName)}>
         <PlayPause onClick={playPauseClick} />
       </div>
-      <div className={cn('current-stroke text-grey-light ml-3', fastForwardClassName)}>
+      <div className={cn('current-stroke text-grey-light ml-3 active:text-progress', fastForwardClassName)}>
         <ButtonFastForward onClick={spotifyStore.next} />
       </div>
     </div>

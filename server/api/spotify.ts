@@ -179,7 +179,7 @@ export function init(server: express.Express, ws: WebSocket.Server) {
 
   server.put('/spotify/v1/me/player/pause', (_req: express.Request, res: express.Response) => {
     logger.info(`⏯ Pausing`);
-    spotifyApi.play().then(
+    spotifyApi.pause().then(
       () => {
         logger.info(`▶️ Paused`);
         res.sendStatus(200);
