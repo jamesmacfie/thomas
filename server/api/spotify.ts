@@ -162,4 +162,60 @@ export function init(server: express.Express, ws: WebSocket.Server) {
       }
     );
   });
+
+  server.put('/spotify/v1/me/player/play', (_req: express.Request, res: express.Response) => {
+    logger.info(`⏯ Playing`);
+    spotifyApi.play().then(
+      () => {
+        logger.info(`▶️ Played`);
+        res.sendStatus(200);
+      },
+      (err: Error) => {
+        logger.error(`▶️ Error playing ${err.message}`);
+        res.sendStatus(500);
+      }
+    );
+  });
+
+  server.put('/spotify/v1/me/player/pause', (_req: express.Request, res: express.Response) => {
+    logger.info(`⏯ Pausing`);
+    spotifyApi.play().then(
+      () => {
+        logger.info(`▶️ Paused`);
+        res.sendStatus(200);
+      },
+      (err: Error) => {
+        logger.error(`▶️ Error pausing ${err.message}`);
+        res.sendStatus(500);
+      }
+    );
+  });
+
+  server.post('/spotify/v1/me/player/previous', (_req: express.Request, res: express.Response) => {
+    logger.info(`⏯ Previous`);
+    spotifyApi.skipToPrevious().then(
+      () => {
+        logger.info(`▶️ Previous'd`);
+        res.sendStatus(200);
+      },
+      (err: Error) => {
+        logger.error(`▶️ Error previousing ${err.message}`);
+        res.sendStatus(500);
+      }
+    );
+  });
+
+  server.post('/spotify/v1/me/player/next', (_req: express.Request, res: express.Response) => {
+    logger.info(`⏯ Next`);
+    spotifyApi.skipToNext().then(
+      () => {
+        logger.info(`▶️ Next'd`);
+        res.sendStatus(200);
+      },
+      (err: Error) => {
+        logger.error(`▶️ Error nexting ${err.message}`);
+        res.sendStatus(500);
+      }
+    );
+  });
 }

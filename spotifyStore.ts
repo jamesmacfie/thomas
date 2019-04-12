@@ -6,48 +6,11 @@ import fetch from 'isomorphic-unfetch';
 type SpotifyStatus = 'DEFAULT' | 'AUTHENTICATING' | 'POPULATING' | 'ERROR' | 'AUTHENTICATED' | 'REFRESHING';
 
 const { API_URL } = process.env;
-const urls = {
-  profile: '/v1/me',
-  currentlyPlaying: '/v1/me/player/currently-playing',
-  play: '/v1/me/player/play',
-  pause: '/v1/me/player/pause',
-  previous: '/v1/me/player/previous',
-  next: '/v1/me/player/next'
-};
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
-const accessTokenKey = 'spotify-access-token';
-const refreshTokenKey = 'spotify-refresh-token';
-
-export const localStorageHelper = {
-  getAccessToken: (): string | null => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
-    return window.localStorage.getItem(accessTokenKey);
-  },
-  getRefreshToken: (): string | null => {
-    if (typeof window === 'undefined') {
-      return null;
-    }
-
-    return window.localStorage.getItem(refreshTokenKey);
-  },
-  setRefreshToken: (refreshToken: string): void => {
-    window.localStorage.setItem(refreshTokenKey, refreshToken);
-  },
-  setAccessToken: (accessToken: string): void => {
-    window.localStorage.setItem(accessTokenKey, accessToken);
-  }
-};
-
 export default class SpotifyStore {
   @observable status: SpotifyStatus = 'DEFAULT';
-  @observable profile: object | null = null;
-  @observable accessToken: string | null = localStorageHelper.getAccessToken();
-  @observable refreshToken: string | null = localStorageHelper.getRefreshToken();
   @observable currentlyPlaying?: SpotifyCurrentlyPlaying;
   @observable loginUrl: string = '';
   private ws: WebSocket | null = null;
@@ -67,7 +30,7 @@ export default class SpotifyStore {
 
   getCurrentStatus = () => {
     return fetch(`${API_URL}/spotify/status`).then((response: Response) => {
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 304) {
         console.log('Spotify auth Ok');
         this.status = 'AUTHENTICATED';
         this.connect();
@@ -77,10 +40,13 @@ export default class SpotifyStore {
 
   connect = () => {
     if (this.ws || isServer) {
-      console.log('No need to connect');
       return;
     }
+    console.log('Connecting via websockets');
     this.ws = new WebSocket(`ws://localhost:3001`);
+    this.ws.onopen = () => {
+      console.log('Spotify WS opened');
+    };
     this.ws.onclose = () => {
       console.log('Spotify WS closed');
       this.ws = null;
@@ -105,29 +71,25 @@ export default class SpotifyStore {
         this.status = 'ERROR';
       } else {
         this.status = 'AUTHENTICATED';
+        this.connect();
       }
     });
   };
 
   play = async () => {
-    await this.request(urls.play, 'PUT');
+    await this.request('/v1/me/player/play', 'PUT');
   };
 
   pause = async () => {
-    await this.request(urls.pause, 'PUT');
+    await this.request('/v1/me/player/pause', 'PUT');
   };
 
   previous = async () => {
-    await this.request(urls.previous, 'POST');
+    await this.request('/v1/me/player/previous', 'POST');
   };
 
   next = async () => {
-    await this.request(urls.next, 'POST');
-  };
-
-  getProfile = async () => {
-    const profile = await this.request(urls.profile);
-    this.profile = profile;
+    await this.request('/v1/me/player/next', 'POST');
   };
 
   getPlaylistTracks = async (playlistId: string): Promise<SpotifyPlaylistTracks> => {
@@ -137,43 +99,15 @@ export default class SpotifyStore {
   };
 
   request = async (url: string, method: string = 'GET') => {
-    const doRequest = () => {
-      return fetch(`https://api.spotify.com${url}`, {
-        method,
-        headers: new Headers({
-          Authorization: `Bearer ${this.accessToken}`
-        })
-      });
-    };
+    const result = await fetch(`${API_URL}/spotify${url}`, {
+      method
+    });
 
-    if (!this.accessToken) {
-      console.warn('No access token. Cannot do a request to Spotify');
-      return;
+    if (method === 'GET') {
+      return result.json();
     }
 
-    try {
-      let result = await doRequest();
-      if (result.status === 401) {
-        // await this.refreshAccessToken();
-        result = await doRequest();
-      }
-
-      if (result.status === 204) {
-        return;
-      }
-
-      if (result.status !== 200) {
-        throw new Error(JSON.stringify(result.body));
-      }
-
-      if (method === 'GET') {
-        return result.json();
-      }
-
-      return result;
-    } catch (err) {
-      console.error('Spotify error', err);
-    }
+    return result;
   };
 }
 
