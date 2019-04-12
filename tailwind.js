@@ -43,6 +43,9 @@ let defaultConfig = require('tailwindcss/defaultConfig')();
 */
 
 let colors = {
+  body: '#1d2632',
+  panel: '#232d3b',
+
   text: '#fff',
   link: '#7965f1',
   'hover:link': '#5c43f3',
@@ -369,8 +372,6 @@ module.exports = {
   */
 
   backgroundColors: {
-    body: '#1d2632',
-    panel: '#232d3b',
     ...colors
   },
 

@@ -6,6 +6,7 @@ import WebSocket from 'ws';
 import { createLogger } from './logger';
 import { init as initGoogle } from './api/google';
 import { init as initSpotify } from './api/spotify';
+import { init as initHomeAssistant } from './api/homeassistant';
 
 const port = 3000;
 const wsPort = 3001;
@@ -24,6 +25,7 @@ app.prepare().then(() => {
   const ws = new WebSocket.Server({ port: wsPort });
 
   initGoogle(server);
+  initHomeAssistant(server);
   initSpotify(server, ws);
 
   server.use(

@@ -51,6 +51,7 @@ export default class GoogleStore {
   };
 
   getEvents = (timeMin: string, timeMax: string) => {
+    console.log('Getting events', timeMin, timeMax);
     this.fetching = true;
     return fetch(`${API_URL}/google/api/calendar/events?timeMin=${timeMin}&timeMax=${timeMax}`)
       .then((response: Response) => response.json())

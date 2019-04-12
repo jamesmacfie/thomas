@@ -3,7 +3,7 @@ import chalk from 'chalk';
 
 interface LoggerInitConfig {
   name: string;
-  color: 'red' | 'blue' | 'green';
+  color: 'red' | 'blue' | 'green' | 'yellow';
 }
 
 export const createLogger = ({ name, color }: LoggerInitConfig) => {

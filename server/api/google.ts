@@ -31,7 +31,6 @@ export function init(server: express.Express) {
       logger.info('🙅‍ No stored token');
       return;
     }
-    console.log(value);
     logger.info(`🙆‍ Got storage value`);
     googleOauth2Client.setCredentials(value);
     hasBeenConnected = true;
@@ -55,6 +54,7 @@ export function init(server: express.Express) {
 
   server.get('/google/token', (req: express.Request, res: express.Response) => {
     logger.info(`🤑 Getting token`);
+
     const code = req.query.code;
     googleOauth2Client.getToken(code, (err: any, token: any) => {
       if (err) {

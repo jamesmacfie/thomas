@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import { observable } from 'mobx';
 import { useStaticRendering } from 'mobx-react-lite';
 import keyBy from 'lodash/keyBy';
-
+import fetch from 'isomorphic-unfetch';
 interface Entities {
   [s: string]: Entity;
 }
@@ -14,6 +14,10 @@ interface Event {
     old_state: Entity;
   };
 }
+
+type HAStatus = 'DEFAULT' | 'AUTHENTICATING' | 'POPULATING' | 'ERROR' | 'AUTHENTICATED' | 'REFRESHING';
+
+const { API_URL } = process.env;
 
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
@@ -45,22 +49,32 @@ export const localStorageHelper = {
 };
 
 export default class Store {
+  @observable status: HAStatus = 'DEFAULT';
   @observable hasData: boolean = false;
   @observable data: Entities = {};
   @observable wsUrl: string | null = localStorageHelper.getWSURL();
   @observable accessToken: string | null = localStorageHelper.getAccessToken();
   @observable authenticated: boolean = false;
+  @observable loginUrl: string = '';
   id: number = 1;
   ws: WebSocket | undefined;
 
   constructor() {
-    const isServer = typeof window === 'undefined';
+    this.getAndSetLoginUrl();
     if (isServer) {
       return;
     }
 
     this.connectWebsocket();
   }
+
+  getAndSetLoginUrl = () => {
+    return fetch(`${API_URL}/home_assistant/login_url`)
+      .then((response: Response) => response.json())
+      .then((json: any) => {
+        this.loginUrl = json.url;
+      });
+  };
 
   setWSURL = (wsURL: string) => {
     this.wsUrl = wsURL;

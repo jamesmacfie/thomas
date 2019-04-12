@@ -6,6 +6,7 @@ import moment from 'moment';
 import Loader from '../loader';
 import GoogleStore from '../../googleStore';
 import { GoogleStoreContext } from '../../googleStore';
+import { useCalendarNavigate } from '../../hooks/useCalendarNavigate';
 
 interface Props {
   className?: string;
@@ -21,28 +22,41 @@ interface Props {
 
 const localizer = BigCalendar.momentLocalizer(moment);
 const mushEvents = (events: gapi.client.calendar.Event[]): any[] => {
-  console.log(events);
   const mushed = events.map(event => {
     return {
       id: event.id,
       title: event.summary,
-      allDay: false,
-      start: event.start ? event.start.dateTime : null,
-      end: event.end ? event.end.dateTime : null
+      allDay: event.start && event.start.date,
+      start: event.start ? event.start.dateTime || event.start.date : null,
+      end: event.end ? event.end.dateTime || event.start!.date : null // TODO - this is a hack. Do a better test, currently using start date for all date events
     };
   });
 
+  console.log('Mushed events', mushed);
   return mushed;
 };
 
 const GoogleCalendar = observer(({ className }: Props) => {
   const store = useContext(GoogleStoreContext) as GoogleStore;
   useEffect(() => {
-    store.getThisMonthEvents();
+    // store.getThisMonthEvents();
   }, []);
+  const { navigate } = useCalendarNavigate({
+    date: new Date(),
+    viewType: 'month'
+  });
 
   if (store.events) {
-    return <BigCalendar localizer={localizer} events={mushEvents(store.events)} step={60} showMultiDayTimes />;
+    return (
+      <BigCalendar
+        views={['month', 'agenda']}
+        onNavigate={navigate}
+        localizer={localizer}
+        events={mushEvents(store.events)}
+        step={60}
+        showMultiDayTimes
+      />
+    );
   }
 
   if (store.fetching) {
