@@ -46,7 +46,7 @@ export function init(server: express.Express, ws: WebSocket.Server) {
           wsClients.forEach(function each(client: WebSocket) {
             if (client.readyState === WebSocket.OPEN) {
               const message: WSMessage = {
-                type: 'currently_playing',
+                type: 'spotify:currently_playing',
                 data: data.body
               };
 

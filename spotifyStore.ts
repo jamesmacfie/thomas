@@ -92,8 +92,7 @@ export default class SpotifyStore {
 
     this.ws.onmessage = (message: MessageEvent) => {
       const parsedMessage: WSMessage = JSON.parse(message.data);
-      console.log(parsedMessage);
-      if (parsedMessage.type === 'currently_playing') {
+      if (parsedMessage.type === 'spotify:currently_playing') {
         this.currentlyPlaying = parsedMessage.data as SpotifyCurrentlyPlaying;
       }
     };
