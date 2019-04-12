@@ -19,6 +19,7 @@ export default class GoogleStore {
 
   constructor() {
     this.getAndSetLoginUrl();
+    this.getCurrentStatus();
   }
 
   getAndSetLoginUrl = () => {
@@ -27,6 +28,15 @@ export default class GoogleStore {
       .then((json: any) => {
         this.loginUrl = json.url;
       });
+  };
+
+  getCurrentStatus = () => {
+    return fetch(`${API_URL}/google/status`).then((response: Response) => {
+      if (response.status === 200 || response.status === 304) {
+        console.log('Google auth Ok');
+        this.status = 'AUTHENTICATED';
+      }
+    });
   };
 
   setAccessToken = (code: string) => {

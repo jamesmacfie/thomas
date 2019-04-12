@@ -13,6 +13,7 @@ export function init(server: express.Express) {
     GOOGLE_CLIENT_SECRET,
     `http://localhost:3000/auth_callback/google`
   );
+  let hasBeenConnected = false;
 
   // TODO - check this. Do we actually get a refresh token via the `getToken` call later on?
   googleOauth2Client.on('tokens', tokens => {
@@ -33,6 +34,7 @@ export function init(server: express.Express) {
     console.log(value);
     logger.info(`🙆‍ Got storage value`);
     googleOauth2Client.setCredentials(value);
+    hasBeenConnected = true;
   });
 
   server.get('/google/login_url', (_req: express.Request, res: express.Response) => {
@@ -42,6 +44,13 @@ export function init(server: express.Express) {
       scope: ['https://www.googleapis.com/auth/calendar']
     });
     res.send({ url });
+  });
+
+  server.get('/google/status', (_req: express.Request, res: express.Response) => {
+    if (hasBeenConnected) {
+      return res.sendStatus(200);
+    }
+    return res.sendStatus(500);
   });
 
   server.get('/google/token', (req: express.Request, res: express.Response) => {
@@ -58,10 +67,12 @@ export function init(server: express.Express) {
         .set(storageKey, token)
         .then(() => {
           logger.info(`🏦 Saved token`);
+          hasBeenConnected = true;
           return res.sendStatus(200);
         })
         .catch(err => {
           logger.error(`💸 Error setting token ${err.message}`);
+          hasBeenConnected = false;
           return res.sendStatus(500);
         });
     });
