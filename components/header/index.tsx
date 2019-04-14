@@ -4,8 +4,9 @@ import useInterval from '../../hooks/useInterval';
 import { useFullscreen } from '../../hooks/useFullscreen';
 
 const Header = () => {
+  const isServer = typeof window === 'undefined';
   const [date, setDate] = useState(new Date());
-  const { toggleFullscreen } = useFullscreen(window.document.body);
+  const { toggleFullscreen } = useFullscreen(!isServer ? document.body : null);
 
   useInterval(() => {
     setDate(new Date());

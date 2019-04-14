@@ -54,18 +54,17 @@ export default class Store {
   @observable data: Entities = {};
   @observable wsUrl: string | null = localStorageHelper.getWSURL();
   @observable accessToken: string | null = localStorageHelper.getAccessToken();
-  @observable authenticated: boolean = false;
   @observable loginUrl: string = '';
   id: number = 1;
   ws: WebSocket | undefined;
 
   constructor() {
-    this.getAndSetLoginUrl();
     if (isServer) {
       return;
     }
 
-    this.connectWebsocket();
+    this.getAndSetLoginUrl();
+    this.connect();
   }
 
   getAndSetLoginUrl = () => {
@@ -79,7 +78,7 @@ export default class Store {
   setWSURL = (wsURL: string) => {
     this.wsUrl = wsURL;
     localStorageHelper.setWSURL(wsURL);
-    this.connectWebsocket();
+    this.connect();
   };
 
   setAccessToken = (accessToken: string) => {
@@ -88,7 +87,7 @@ export default class Store {
     this.authenticate();
   };
 
-  connectWebsocket = () => {
+  connect = () => {
     if (!this.wsUrl) {
       console.warn('No websocket URL set - cannot create');
       return;
@@ -121,7 +120,7 @@ export default class Store {
   };
 
   onReady = () => {
-    this.authenticated = true;
+    this.status = 'AUTHENTICATED';
     this.send({ type: 'get_states' });
     this.send({ type: 'subscribe_events' });
   };
@@ -144,10 +143,11 @@ export default class Store {
   onOpen = () => {};
 
   onClose = () => {
-    this.connectWebsocket();
+    this.connect();
   };
 
   onError = (err: any) => {
+    this.status = 'ERROR';
     console.warn('Error raised', err);
   };
 

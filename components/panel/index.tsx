@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 interface Props {
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
   fit?: Boolean;
   padding?: Boolean;
   overflow?: Boolean;

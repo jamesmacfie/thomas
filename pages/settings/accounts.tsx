@@ -14,9 +14,11 @@ export default class Settings extends Component {
           <SubNavigation />
           <div className="p-6">
             <H1 className="mt-0">Accounts</H1>
+            <div className="flex mb-6">
+              <HomeAssistantAccountPanel className="mr-6" />
+              <GoogleAccountPanel />
+            </div>
             <div>
-              <HomeAssistantAccountPanel className="mb-6" />
-              <GoogleAccountPanel className="mb-6" />
               <SpotifyAccountPanel />
             </div>
           </div>

@@ -16,6 +16,7 @@ export default class GoogleStore {
   @observable fetching: boolean = false;
   @observable events: gapi.client.calendar.Event[] | null = null;
   @observable loginUrl: string = '';
+  interval: number | null = null;
 
   constructor() {
     this.getAndSetLoginUrl();
@@ -50,8 +51,7 @@ export default class GoogleStore {
     });
   };
 
-  getEvents = (timeMin: string, timeMax: string) => {
-    console.log('Getting events', timeMin, timeMax);
+  getEvents = (timeMin: string, timeMax: string, ignoreRefresh: boolean = false) => {
     this.fetching = true;
     return fetch(`${API_URL}/google/api/calendar/events?timeMin=${timeMin}&timeMax=${timeMax}`)
       .then((response: Response) => response.json())
@@ -59,11 +59,15 @@ export default class GoogleStore {
         console.log('Got events', json);
         this.events = json.events;
         this.fetching = false;
+        if (!ignoreRefresh) {
+          this.startEventRefresh(timeMin, timeMax);
+        }
       })
       .catch((err: Error) => {
         console.error('Error getting events', err);
         this.events = null;
         this.fetching = false;
+        this.stopEventRefresh;
       });
   };
 
@@ -75,6 +79,23 @@ export default class GoogleStore {
       .endOf('month')
       .toISOString();
     return this.getEvents(timeMin, timeMax);
+  };
+
+  startEventRefresh = (timeMin: string, timeMax: string) => {
+    // Stop any current polling that's going on
+    this.stopEventRefresh();
+    // Refresh every minute
+    this.interval = window.setInterval(() => {
+      this.getEvents(timeMin, timeMax, true);
+    }, 60000);
+  };
+
+  stopEventRefresh = () => {
+    if (!this.interval) {
+      return;
+    }
+
+    window.clearInterval(this.interval);
   };
 }
 

@@ -13,6 +13,10 @@ export interface Props {
 
 const Entity = observer(({ entity_id, title, unitOfMeasurement }: Props) => {
   const store = useContext(StoreContext) as Store;
+  if (store.status !== 'AUTHENTICATED') {
+    return <Panel fit={false} className="relative" />;
+  }
+
   const entity = store!.data[entity_id];
   let state;
   if (typeof entity === 'undefined') {

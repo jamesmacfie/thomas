@@ -78,7 +78,6 @@ export function init(server: express.Express, ws: WebSocket.Server) {
   storage
     .get(storageKey)
     .then(storageData => {
-      logger.info(storageData);
       if (!storageData) {
         throw new Error('No existing key set');
       }

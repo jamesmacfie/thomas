@@ -32,7 +32,7 @@ const items = [
   null,
   {
     icon: Cog,
-    url: '/settings'
+    url: '/settings/accounts'
   }
 ];
 

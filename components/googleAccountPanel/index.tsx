@@ -16,9 +16,9 @@ const LoginLogoutButton = observer(() => {
   const buttonText = store.status === 'AUTHENTICATED' ? 'Logout' : 'Login';
   const link = store.status === 'AUTHENTICATED' ? '/google/logout' : store.loginUrl;
   return (
-    <Button type="primary">
+    <Button type="primary" padding={false}>
       <Link href={link}>
-        <a>{buttonText}</a>
+        <a className="px-6 py-2 inline-block">{buttonText}</a>
       </Link>
     </Button>
   );

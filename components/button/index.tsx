@@ -5,6 +5,7 @@ interface Props {
   children: ReactNode;
   onClick?: (e: Event) => void;
   className?: string;
+  padding?: Boolean;
   type: 'primary' | 'secondary' | 'danger';
 }
 
@@ -14,9 +15,10 @@ const typeClasses = {
   danger: 'bg-red'
 };
 
-const Button = ({ children, type, className }: Props) => {
+const Button = ({ children, type, className, padding = true }: Props) => {
   const classes = cn(
-    'text-xs uppercase font-bold rounded-full px-6 py-2 leading-normal border text-white',
+    'text-xs uppercase font-bold rounded-full leading-normal border text-white',
+    { 'px-6 py-2': padding },
     typeClasses[type],
     className
   );

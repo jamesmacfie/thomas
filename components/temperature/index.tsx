@@ -1,6 +1,7 @@
-import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Line } from 'react-chartjs-2';
+import moment from 'moment';
 import Panel from '../panel';
 import { H3 } from '../text';
 import State from '../state';
@@ -9,6 +10,8 @@ import Loader from '../loader';
 import { Props as EntityProps } from '../entity';
 import useEntityHistory from '../../hooks/useEntityHistory';
 import { entityHistoryIntoHourlyDataset } from '../../utils/morph';
+import Store from '../../store';
+import { StoreContext } from '../../store';
 
 const Graph = ({ data }: { data: Entity[] }) => {
   const hourlyData = entityHistoryIntoHourlyDataset(data);
@@ -89,11 +92,22 @@ const Graph = ({ data }: { data: Entity[] }) => {
   );
 };
 
-const Temperature = ({ title = 'Temperature', ...props }: EntityProps) => {
+const Temperature = observer(({ title = 'Temperature', ...props }: EntityProps) => {
+  const store = useContext(StoreContext) as Store;
   const [res, setRes] = useState<Entity[] | null>(null);
   useEntityHistory(([d]) => setRes(d), props.entity_id);
 
-  const graph = !res ? <Loader /> : <Graph data={res} />;
+  if (store.status !== 'AUTHENTICATED') {
+    return <Panel fit={false} className="relative" />;
+  }
+
+  const graph = !res ? (
+    <div className="flex-grow relative">
+      <Loader className="absolute pin-center" />
+    </div>
+  ) : (
+    <Graph data={res} />
+  );
 
   return (
     <>
@@ -111,6 +125,6 @@ const Temperature = ({ title = 'Temperature', ...props }: EntityProps) => {
       <HistoryLine />
     </>
   );
-};
+});
 
 export default Temperature;
