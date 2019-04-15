@@ -40,9 +40,9 @@ const Navigation = ({ router }: Props) => {
   return (
     <nav className="w-16 flex-no-shrink double-border-right relative">
       <ul className="list-reset flex flex-col ">
-        {items.map(item => {
+        {items.map((item, idx) => {
           if (!item) {
-            return <li className="flex-grow" />;
+            return <li key={idx} className="flex-grow" />;
           }
           const Cmp = item.icon;
           const aClasses = cn('current-stroke w-16 h-16 flex items-center justify-center', {

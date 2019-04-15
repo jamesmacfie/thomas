@@ -165,6 +165,7 @@ textarea::placeholder {
 
 .rbc-calendar .rbc-header {
   border-color: config('colors.overlay-dark') !important;
+  font-weight: config('fontWeights.thin') !important;
   padding: 0.5rem 0;
 }
 
@@ -174,8 +175,21 @@ textarea::placeholder {
 .rbc-calendar .rbc-day-bg + .rbc-day-bg,
 .rbc-calendar .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
 .rbc-calendar .rbc-agenda-table,
-.rbc-calendar .rbc-agenda-view table.rbc-agenda-table {
+.rbc-calendar .rbc-agenda-view table.rbc-agenda-table,
+.rbc-calendar .rbc-header + .rbc-header,
+.rbc-calendar .rbc-time-content > * + * > *,
+.rbc-calendar .rbc-day-slot .rbc-time-slot,
+.rbc-calendar .rbc-time-header-content,
+.rbc-calendar .rbc-time-view {
   border-color: config('colors.overlay-dark');
+}
+
+.rbc-calendar .rbc-time-content {
+  border-top: none;
+}
+
+.rbc-calendar .rbc-timeslot-group {
+  border-color: transparent;
 }
 
 .rbc-calendar .rbc-agenda-table .rbc-header {
@@ -251,7 +265,7 @@ textarea::placeholder {
 }
 
 .rbc-calendar .rbc-now > a {
-  font-weight: 200;
+  font-weight: config('fontWeights.thin');
 }
 
 .rbc-calendar .rbc-off-range {
@@ -262,8 +276,30 @@ textarea::placeholder {
   background-color: config('colors.overlay-dark');
 }
 
-.rbc-calendar .rbc-event-content {
+.rbc-calendar .rbc-event-content,
+.rbc-calendar .rbc-label,
+.rbc-calendar .rbc-header,
+.rbc-calendar .rbc-agenda-event-cell,
+.rbc-calendar .rbc-agenda-date-cell,
+.rbc-calendar .rbc-agenda-time-cell {
   color: config('colors.grey-dark');
-  font-size: 0.75rem;
+  font-size: config('textSizes.sm');
+  text-transform: uppercase;
+}
+
+.rbc-calendar .rbc-time-view .rbc-row {
+  min-height: auto;
+}
+
+.rbc-calendar .rbc-agenda-empty {
+  background-color: config('colors.panel');
+  border-radius: 0.25rem;
+  left: 50%;
+  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: config('colors.grey-dark');
+  font-size: config('textSizes.sm');
   text-transform: uppercase;
 }

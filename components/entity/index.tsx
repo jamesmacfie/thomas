@@ -17,7 +17,7 @@ const Entity = observer(({ entity_id, title, unitOfMeasurement }: Props) => {
     return <Panel fit={false} className="relative" />;
   }
 
-  const entity = store!.data[entity_id];
+  const entity = store.data[entity_id];
   let state;
   if (typeof entity === 'undefined') {
     state = '--';

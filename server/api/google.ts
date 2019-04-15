@@ -15,16 +15,6 @@ export function init(server: express.Express) {
   );
   let hasBeenConnected = false;
 
-  // TODO - check this. Do we actually get a refresh token via the `getToken` call later on?
-  googleOauth2Client.on('tokens', tokens => {
-    if (tokens.refresh_token) {
-      logger.info('Got refresh token');
-      googleOauth2Client.setCredentials({
-        refresh_token: tokens.refresh_token
-      });
-    }
-  });
-
   logger.info('📦 Getting storage value');
   storage.get(storageKey).then(value => {
     if (!value) {

@@ -107,7 +107,8 @@ export function init(server: express.Express, ws: WebSocket.Server) {
         hasBeenConnected = true;
         return res.sendStatus(200);
       },
-      () => {
+      (err: Error) => {
+        console.log(err);
         hasBeenConnected = false;
         return res.sendStatus(500);
       }
@@ -152,6 +153,22 @@ export function init(server: express.Express, ws: WebSocket.Server) {
           })
           .catch(err => {
             logger.error(`💸 Error setting token ${err.message}`);
+            if (err.message === 'Unauthorized') {
+              spotifyApi.refreshAccessToken().then(
+                (data: any) => {
+                  if (data.body['refresh_token']) {
+                    logger.info('🏢The access token has been refreshed');
+                    res.sendStatus(200);
+                    return storage.updateField(storageKey, 'refresh_token', data.body['refresh_token']);
+                  }
+                },
+                (err: Error) => {
+                  logger.error(`🏥 Could not refresh access token ${err.message}`);
+                  hasBeenConnected = false;
+                  res.sendStatus(500);
+                }
+              );
+            }
             hasBeenConnected = false;
             res.sendStatus(500);
           });

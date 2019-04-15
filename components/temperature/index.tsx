@@ -95,7 +95,13 @@ const Graph = ({ data }: { data: Entity[] }) => {
 const Temperature = observer(({ title = 'Temperature', ...props }: EntityProps) => {
   const store = useContext(StoreContext) as Store;
   const [res, setRes] = useState<Entity[] | null>(null);
-  useEntityHistory(([d]) => setRes(d), props.entity_id);
+  useEntityHistory(d => {
+    if (d) {
+      setRes(d[0]);
+    } else {
+      setRes([]);
+    }
+  }, props.entity_id);
 
   if (store.status !== 'AUTHENTICATED') {
     return <Panel fit={false} className="relative" />;

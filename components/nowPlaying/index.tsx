@@ -75,7 +75,7 @@ const NowPlaying = observer(() => {
   const percentComplete = (progress_ms / item.duration_ms) * 100;
 
   return (
-    <div className="fixed h-24 pin-b w-screen z-10 bg-overlay-dark">
+    <div className="h-24 w-screen bg-overlay-dark">
       <ProgressLine className="progress-now-playing" percentComplete={percentComplete} />
       <div className="relative w-full h-full flex">
         <img onClick={toggleModal} src={item.album.images[2].url} className="w-20 h-20 mr-4 rounded-sm mt-2 ml-2" />

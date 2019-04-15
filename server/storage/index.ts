@@ -24,9 +24,12 @@ const storage = {
       const file = await readFile(filepath, 'utf8');
       jsonFile = JSON.parse(file);
     }
-    jsonFile[key] = value;
+    const currentValue = jsonFile[key] || {};
+    const newValue = Object.assign({}, currentValue, value);
+    jsonFile[key] = newValue;
     await writeFile(filepath, JSON.stringify(jsonFile));
   },
+
   updateField: async (key: string, property: string, value: any) => {
     const currentValue = await storage.get(key);
     const newValue = Object.assign({}, currentValue, {

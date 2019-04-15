@@ -6,6 +6,7 @@ import fetch from 'isomorphic-unfetch';
 type SpotifyStatus = 'DEFAULT' | 'AUTHENTICATING' | 'POPULATING' | 'ERROR' | 'AUTHENTICATED' | 'REFRESHING';
 
 const { API_URL } = process.env;
+const { WS_URL } = process.env; // Weird, this breaks if I add it to the destructuring above
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
@@ -43,7 +44,7 @@ export default class SpotifyStore {
       return;
     }
     console.log('Connecting via websockets');
-    this.ws = new WebSocket(`ws://localhost:3001`);
+    this.ws = new WebSocket(WS_URL!);
     this.ws.onopen = () => {
       console.log('Spotify WS opened');
     };

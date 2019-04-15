@@ -12,23 +12,24 @@ interface Props {
   className?: string;
 }
 
-// interface BigCalendarEvent {
-//   id: number;
-//   title: string;
-//   allDay: boolean;
-//   start?: Date;
-//   end?: Date;
-// }
-
 const localizer = BigCalendar.momentLocalizer(moment);
+
+// Times for week view
+const minTime = new Date();
+minTime.setHours(8, 30, 0);
+const maxTime = new Date();
+maxTime.setHours(20, 30, 0);
+
 const mushEvents = (events: gapi.client.calendar.Event[]): any[] => {
   const mushed = events.map(event => {
+    const start = event.start ? event.start.dateTime || event.start.date : null;
+    const end = event.end ? event.end.dateTime || event.start!.date : null; // TODO - this is a hack. Do a better test, currently using start date for all date events
     return {
       id: event.id,
       title: event.summary,
       allDay: event.start && event.start.date,
-      start: event.start ? event.start.dateTime || event.start.date : null,
-      end: event.end ? event.end.dateTime || event.start!.date : null // TODO - this is a hack. Do a better test, currently using start date for all date events
+      start: start ? new Date(start) : null,
+      end: end ? new Date(end) : null
     };
   });
 
@@ -49,7 +50,10 @@ const GoogleCalendar = observer(({ className }: Props) => {
   if (store.events) {
     return (
       <BigCalendar
-        views={['month', 'agenda']}
+        views={['month', 'week', 'agenda']}
+        defaultView="week"
+        min={minTime}
+        max={maxTime}
         onNavigate={navigate}
         localizer={localizer}
         events={mushEvents(store.events)}

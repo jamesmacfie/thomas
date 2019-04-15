@@ -53,7 +53,7 @@ const Layout = ({ rows = 1, columns = 1, columnSpan = 0, rowSpan = 0, className,
   if (title) {
     return (
       <div>
-        <H2 className="mt-6">{title}</H2>
+        <H2 className="mt-0">{title}</H2>
         {returnLayout}
       </div>
     );
@@ -70,5 +70,5 @@ interface ContentProps {
 }
 
 export const Content = ({ className, children }: ContentProps) => {
-  return <div className={cn('flex px-6 mb-32', className)}>{children}</div>;
+  return <div className={cn('flex px-6 py-6', className)}>{children}</div>;
 };
