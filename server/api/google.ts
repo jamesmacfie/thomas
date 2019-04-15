@@ -23,6 +23,11 @@ export function init(server: express.Express) {
     }
     logger.info(`🙆‍ Got storage value`);
     googleOauth2Client.setCredentials(value);
+    // Setup listener to deal with refresh tokens changing
+    googleOauth2Client.on('tokens', tokens => {
+      logger.info(`💆‍ New token received`);
+      storage.set(storageKey, tokens.refresh_token);
+    });
     hasBeenConnected = true;
   });
 

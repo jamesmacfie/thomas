@@ -48,6 +48,10 @@ textarea::placeholder {
   stroke: currentColor !important;
 }
 
+.current-fill path {
+  fill: currentColor !important;
+}
+
 .grid {
   display: grid;
   grid-column-gap: 1.5rem;
@@ -68,8 +72,14 @@ textarea::placeholder {
 }
 
 .pin-close {
-  right: -4rem;
+  right: 1rem;
   top: 1rem;
+}
+
+.pin-b-center {
+  bottom: 0rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .blink-1 {
@@ -246,14 +256,7 @@ textarea::placeholder {
 .rbc-calendar .rbc-toolbar button.rbc-active:focus {
   background-color: config('colors.blue');
   color: config('colors.text');
-}
-
-.rbc-calendar .rbc-toolbar button:active:hover,
-.rbc-calendar .rbc-toolbar button.rbc-active:hover,
-.rbc-calendar .rbc-toolbar button:active:focus,
-.rbc-calendar .rbc-toolbar button.rbc-active:focus {
-  background-color: config('colors.blue-darker');
-  color: config('colors.text');
+  outline: none;
 }
 
 .rbc-calendar .rbc-today {

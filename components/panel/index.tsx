@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, CSSProperties } from 'react';
 import cn from 'classnames';
 
 interface Props {
@@ -8,9 +8,10 @@ interface Props {
   padding?: Boolean;
   overflow?: Boolean;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
+  style?: CSSProperties;
 }
 
-const Panel = ({ className, children, fit = true, padding = true, overflow = true, onClick }: Props) => {
+const Panel = ({ className, children, fit = true, padding = true, overflow = true, onClick, style }: Props) => {
   const classes = cn(className, 'bg-panel rounded', {
     'w-full': fit,
     'h-full': fit,
@@ -19,7 +20,7 @@ const Panel = ({ className, children, fit = true, padding = true, overflow = tru
     'cursor-pointer': !onClick
   });
   return (
-    <div onClick={onClick} className={classes}>
+    <div style={style} onClick={onClick} className={classes}>
       {children}
     </div>
   );

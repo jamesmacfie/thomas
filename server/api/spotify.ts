@@ -8,7 +8,7 @@ import { createLogger } from '../logger';
 import SpotifyWebApi from 'spotify-web-api-node';
 
 /**
- * TODO: This whole thing needs to be rethought. Async/await + a few more helper functions would server
+ * TODO: This whole thing needs to be rethought. Async/await + a few more helper functions would serve
  * us well here
  */
 

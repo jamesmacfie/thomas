@@ -14,6 +14,8 @@ export default class SpotifyStore {
   @observable status: SpotifyStatus = 'DEFAULT';
   @observable currentlyPlaying?: SpotifyCurrentlyPlaying;
   @observable loginUrl: string = '';
+  @observable uiCollapsed: boolean = false;
+
   private ws: WebSocket | null = null;
 
   constructor() {
@@ -32,7 +34,6 @@ export default class SpotifyStore {
   getCurrentStatus = () => {
     return fetch(`${API_URL}/spotify/status`).then((response: Response) => {
       if (response.status === 200 || response.status === 304) {
-        console.log('Spotify auth Ok');
         this.status = 'AUTHENTICATED';
         this.connect();
       }
@@ -43,7 +44,6 @@ export default class SpotifyStore {
     if (this.ws || isServer) {
       return;
     }
-    console.log('Connecting via websockets');
     this.ws = new WebSocket(WS_URL!);
     this.ws.onopen = () => {
       console.log('Spotify WS opened');
@@ -77,6 +77,10 @@ export default class SpotifyStore {
     });
   };
 
+  toggleUiCollapsed = () => {
+    this.uiCollapsed = !this.uiCollapsed;
+  };
+
   play = async () => {
     await this.request('/v1/me/player/play', 'PUT');
   };
@@ -91,12 +95,6 @@ export default class SpotifyStore {
 
   next = async () => {
     await this.request('/v1/me/player/next', 'POST');
-  };
-
-  getPlaylistTracks = async (playlistId: string): Promise<SpotifyPlaylistTracks> => {
-    const url = `/v1/playlists/${playlistId}/tracks`;
-    const tracks = await this.request(url);
-    return tracks;
   };
 
   request = async (url: string, method: string = 'GET') => {
