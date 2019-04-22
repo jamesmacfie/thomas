@@ -73,5 +73,5 @@ declare interface SpotifyCurrentlyPlaying {
 
 declare interface WSMessage {
   type: string;
-  data: object;
+  data: object | null;
 }

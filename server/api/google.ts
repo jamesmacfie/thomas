@@ -6,13 +6,9 @@ import { createLogger } from '../logger';
 export function init(server: express.Express) {
   const logger = createLogger({ name: 'Google', color: 'blue' });
   logger.info('🍪 Initializing');
-  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
+  const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CLIENT_REDIRECT_URI } = process.env;
   const storageKey = 'google';
-  const googleOauth2Client = new google.auth.OAuth2(
-    GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET,
-    `http://localhost:3000/auth_callback/google`
-  );
+  const googleOauth2Client = new google.auth.OAuth2(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CLIENT_REDIRECT_URI);
   let hasBeenConnected = false;
 
   logger.info('📦 Getting storage value');

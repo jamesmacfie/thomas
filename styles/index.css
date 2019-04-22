@@ -306,3 +306,11 @@ textarea::placeholder {
   font-size: config('textSizes.sm');
   text-transform: uppercase;
 }
+
+.calendar-hero {
+  border-top-right-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: 180px;
+}

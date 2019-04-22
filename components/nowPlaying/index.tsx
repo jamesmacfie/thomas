@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { H1, H2, H3, H4 } from '../../components/text';
+import { H3, H4 } from '../../components/text';
 import ProgressLine from '../../components/progressLine';
 import Modal from '../../components/modal';
 import SpotifyPlayerButtons from '../../components/spotifyPlayerButtons';

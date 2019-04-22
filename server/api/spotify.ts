@@ -31,6 +31,33 @@ export function init(server: express.Express, ws: WebSocket.Server) {
     wsClients.push(w);
   });
 
+  const broadcast = (message: WSMessage) => {
+    wsClients.forEach(function each(client: WebSocket) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(message));
+      }
+    });
+  };
+
+  const refreshAfterTime = () => {
+    setInterval(async () => {
+      if (!hasBeenConnected) {
+        return;
+      }
+      spotifyApi.refreshAccessToken().then(
+        (data: any) => {
+          console.log(data);
+          logger.info('🏢 The automagic access token has been refreshed');
+          spotifyApi.setAccessToken(data.body['access_token']);
+          return storage.updateField(storageKey, 'access_token', data.body['access_token']);
+        },
+        (err: Error) => {
+          logger.error(`🏥 Could not automagicaly refresh access token ${err.message}`);
+        }
+      );
+    }, 20 * 60 * 1000); // Twenty minutes
+  };
+
   const startCurrentPlaying = () => {
     if (interval) {
       return;
@@ -43,26 +70,20 @@ export function init(server: express.Express, ws: WebSocket.Server) {
 
       spotifyApi.getMyCurrentPlaybackState({}).then(
         function(data: any) {
-          wsClients.forEach(function each(client: WebSocket) {
-            if (client.readyState === WebSocket.OPEN) {
-              const message: WSMessage = {
-                type: 'spotify:currently_playing',
-                data: data.body
-              };
-
-              client.send(JSON.stringify(message));
-            }
-          });
+          const message: WSMessage = {
+            type: 'spotify:currently_playing',
+            data: data.body
+          };
+          broadcast(message);
         },
         function(err: Error) {
           logger.error(`🎺 Error with currently playing ${err.message}`);
           if (err.message === 'Unauthorized') {
             spotifyApi.refreshAccessToken().then(
               (data: any) => {
-                if (data.body['refresh_token']) {
-                  logger.info('🏢The access token has been refreshed');
-                  return storage.updateField(storageKey, 'refresh_token', data.body['refresh_token']);
-                }
+                logger.info('🏢The access token has been refreshed');
+                spotifyApi.setAccessToken(data.body['access_token']);
+                return storage.updateField(storageKey, 'access_token', data.body['access_token']);
               },
               (err: Error) => {
                 logger.error(`🏥 Could not refresh access token ${err.message}`);
@@ -71,7 +92,7 @@ export function init(server: express.Express, ws: WebSocket.Server) {
           }
         }
       );
-    }, 1000);
+    }, 500);
   };
 
   logger.info('🏬 Checking storage for key');
@@ -85,11 +106,13 @@ export function init(server: express.Express, ws: WebSocket.Server) {
       logger.info('🏛 Got storage. Refreshing');
       spotifyApi.setAccessToken(storageData['access_token']);
       spotifyApi.setRefreshToken(storageData['refresh_token']);
+      refreshAfterTime();
       return spotifyApi.refreshAccessToken();
     })
     .then(
       (data: any) => {
         logger.info('🏢The access token has been refreshed');
+        spotifyApi.setAccessToken(data.body['access_token']);
         return storage.updateField(storageKey, 'access_token', data.body['access_token']);
       },
       (err: Error) => {
@@ -104,6 +127,7 @@ export function init(server: express.Express, ws: WebSocket.Server) {
     spotifyApi.getMe().then(
       () => {
         startCurrentPlaying();
+        refreshAfterTime();
         hasBeenConnected = true;
         return res.sendStatus(200);
       },
@@ -118,7 +142,6 @@ export function init(server: express.Express, ws: WebSocket.Server) {
   server.get('/spotify/login_url', (_req: express.Request, res: express.Response) => {
     logger.info('💌 Getting login URL');
     const scopes = 'user-read-currently-playing user-read-playback-state user-modify-playback-state';
-
     const url =
       'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
@@ -149,26 +172,11 @@ export function init(server: express.Express, ws: WebSocket.Server) {
             logger.info(`🏦 Saved token`);
             hasBeenConnected = true;
             startCurrentPlaying();
+            refreshAfterTime();
             return res.send(data.body);
           })
           .catch(err => {
             logger.error(`💸 Error setting token ${err.message}`);
-            if (err.message === 'Unauthorized') {
-              spotifyApi.refreshAccessToken().then(
-                (data: any) => {
-                  if (data.body['refresh_token']) {
-                    logger.info('🏢The access token has been refreshed');
-                    res.sendStatus(200);
-                    return storage.updateField(storageKey, 'refresh_token', data.body['refresh_token']);
-                  }
-                },
-                (err: Error) => {
-                  logger.error(`🏥 Could not refresh access token ${err.message}`);
-                  hasBeenConnected = false;
-                  res.sendStatus(500);
-                }
-              );
-            }
             hasBeenConnected = false;
             res.sendStatus(500);
           });
