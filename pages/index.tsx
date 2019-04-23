@@ -13,14 +13,12 @@ function Home() {
     <PageWrapper title="Home">
       <Content>
         <Layout rows={3} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
-          {/* <Layout rows={4} columns={2} columnSpan={1} rowSpan={1}> */}
           <Entity title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
           <Entity title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />
           <Entity title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
           <Entity title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" unitOfMeasurement="°C" />
           <Entity title="Kitchen" entity_id="sensor.kitchen_temp" unitOfMeasurement="°C" />
           <Entity title="Office" entity_id="sensor.office_temp" unitOfMeasurement="°C" />
-          {/* </Layout> */}
         </Layout>
         <Layout rows={3} columns={1} rowSpan={1} columnSpan={1} title="Doors" className="mr-6">
           <Icon

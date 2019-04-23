@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import cn from 'classnames';
 import { H2 } from '../text';
 
-const getTemplateColumns = (columnSpan: number, rowSpan: number) => {
+const getTemplateColumns = (columnSpan: number, columns: number) => {
   const templateColumns: { [key: number]: string } = {
     1: '9rem',
     2: '18rem',
@@ -12,10 +12,10 @@ const getTemplateColumns = (columnSpan: number, rowSpan: number) => {
     6: '54rem',
     7: '63rem'
   };
-  return new Array(rowSpan).fill(templateColumns[columnSpan]).join(' ');
+  return new Array(columns).fill(templateColumns[columnSpan]).join(' ');
 };
 
-const getTemplateRows = (rowSpan: number, columnSpan: number) => {
+const getTemplateRows = (rowSpan: number, rows: number) => {
   const templateRows: { [key: number]: string } = {
     1: '9rem',
     2: '18rem',
@@ -24,7 +24,7 @@ const getTemplateRows = (rowSpan: number, columnSpan: number) => {
     5: '45rem',
     6: '54rem'
   };
-  return new Array(columnSpan).fill(templateRows[rowSpan]).join(' ');
+  return new Array(rows).fill(templateRows[rowSpan]).join(' ');
 };
 
 interface Props {
