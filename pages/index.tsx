@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import PageWrapper from '../components/pageWrapper';
 import Entity from '../components/entity';
+import LayoutEntity from '../components/layoutEntity';
 import Temperature from '../components/temperature';
 import Icon from '../components/icon';
 import Layout, { Content } from '../components/layout';
@@ -13,7 +14,7 @@ function Home() {
     <PageWrapper title="Home">
       <Content>
         <Layout rows={3} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
-          <Entity title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
+          <Temperature title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
           <Entity title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />
           <Entity title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
           <Entity title="Mum and Dad's Room" entity_id="sensor.temperature_158d00025ed7d0" unitOfMeasurement="°C" />
@@ -40,19 +41,22 @@ function Home() {
             icon={(s: string | number): ReactNode => (s === 'on' ? <DoorOpen /> : <DoorClosed />)}
           />
         </Layout>
-        <Layout columnSpan={2} rowSpan={0} title="Graphs" className="mr-6">
-          <Layout rows={6} columns={2} columnSpan={2} rowSpan={1}>
-            <Temperature title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
-            <Temperature title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />
-            <Temperature title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
-            <Temperature
-              title="Mum and Dad's Room"
-              entity_id="sensor.temperature_158d00025ed7d0"
-              unitOfMeasurement="°C"
-            />
-            <Temperature title="Kitchen" entity_id="sensor.kitchen_temp" unitOfMeasurement="°C" />
-            <Temperature title="Office" entity_id="sensor.office_temp" unitOfMeasurement="°C" />
-          </Layout>
+        <Layout rows={5} columns={1} columnSpan={2} rowSpan={1} title="Graphs" className="mr-6">
+          <Temperature
+            width={2}
+            title="Living room"
+            entity_id="sensor.temperature_158d00025f0927"
+            unitOfMeasurement="°C"
+          />
+          <Temperature width={2} title="Thomas' Room" entity_id="sensor.thomas_room_temp" unitOfMeasurement="°C" />
+          <Temperature width={2} title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
+          <Temperature
+            title="Mum and Dad's Room"
+            entity_id="sensor.temperature_158d00025ed7d0"
+            unitOfMeasurement="°C"
+          />
+          <Temperature width={2} title="Kitchen" entity_id="sensor.kitchen_temp" unitOfMeasurement="°C" />
+          <Temperature width={2} title="Office" entity_id="sensor.office_temp" unitOfMeasurement="°C" />
         </Layout>
         <Layout rows={2} columnSpan={1} rowSpan={1} title="Network">
           <Entity title="Network In" entity_id="sensor.network_in_eth0" />

@@ -12,7 +12,7 @@ const getTemplateColumns = (columnSpan: number, columns: number) => {
     6: '54rem',
     7: '63rem'
   };
-  return new Array(columns).fill(templateColumns[columnSpan]).join(' ');
+  return `repeat(${columns}, ${templateColumns[columnSpan]}`;
 };
 
 const getTemplateRows = (rowSpan: number, rows: number) => {
@@ -24,7 +24,7 @@ const getTemplateRows = (rowSpan: number, rows: number) => {
     5: '45rem',
     6: '54rem'
   };
-  return new Array(rows).fill(templateRows[rowSpan]).join(' ');
+  return `repeat(${rows}, ${templateRows[rowSpan]}`;
 };
 
 interface Props {
