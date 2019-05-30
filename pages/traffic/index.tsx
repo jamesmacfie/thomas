@@ -9,8 +9,8 @@ function Traffic() {
     <PageWrapper title="Traffic">
       <Content className="h-full">
         <Layout rows={2} rowSpan={1} columnSpan={1} columns={1} title="Travel times" className="mr-6">
-          <Entity title="To Masterton" entity_id="sensor.time_to_wellington" unitOfMeasurement="mins" />
-          <Entity title="To Wellington" entity_id="sensor.time_to_masterton" unitOfMeasurement="mins" />
+          <Entity title="To Wellington" entity_id="sensor.time_to_wellington" unitOfMeasurement="mins" />
+          <Entity title="To Masterton" entity_id="sensor.time_to_masterton" unitOfMeasurement="mins" />
         </Layout>
         <div className="flex-grow">
           <Iframe
