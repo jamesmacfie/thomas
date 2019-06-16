@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { format } from 'date-fns';
+import moment from 'moment';
 import useInterval from '../../hooks/useInterval';
 import { useFullscreen } from '../../hooks/useFullscreen';
 
 const Header = () => {
   const isServer = typeof window === 'undefined';
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment());
   const { toggleFullscreen } = useFullscreen(!isServer ? document.body : null);
 
   useInterval(() => {
-    setDate(new Date());
+    setDate(moment());
   }, 1000);
 
-  const hour = date.getHours();
-  const minute = date.getMinutes();
+  const hours = date.format('HH');
+  const minutes = date.format('mm');
 
   return (
     <div
@@ -21,11 +21,11 @@ const Header = () => {
       onClick={toggleFullscreen}
     >
       <span className="text-xl inline-block mr-6">
-        {hour}
+        {hours}
         <span className="blink-1">:</span>
-        {minute}
+        {minutes}
       </span>
-      <span className="text-xl">{format(date, 'dddd, Do MMMM')}</span>
+      <span className="text-xl">{date.format('dddd, Do MMMM')}</span>
     </div>
   );
 };
