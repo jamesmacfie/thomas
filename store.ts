@@ -179,7 +179,9 @@ export default class Store {
     if (!data) {
       return;
     }
+
     this.data = keyBy(data, 'entity_id');
+    console.log(data);
     this.hasData = true;
   };
 
