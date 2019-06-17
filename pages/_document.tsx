@@ -6,6 +6,8 @@ export default class PageDocument extends Document {
       <html>
         <Head>
           <link rel="stylesheet" href="/_next/static/styles.css" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <link rel="manifest" href="/static/manifest.json" />
         </Head>
         <body>
           <Main />

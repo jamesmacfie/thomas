@@ -34,7 +34,7 @@ const LayoutEntity = observer(({ width = 1, height = 1, entity_id, title, unitOf
 
   const entity = store.data[entity_id];
   let state;
-  if (typeof entity === 'undefined') {
+  if (typeof entity === 'undefined' || entity.state === 'unavailable') {
     state = '--';
   } else {
     state = entity.state;

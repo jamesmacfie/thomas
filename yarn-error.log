@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.6.0/libexec/bin/yarn.js add @types/spotify-web-api-node
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.6.0/libexec/bin/yarn.js add @types/degrees-to-direction
 
 PATH: 
   /Users/james/.npm-packages/bin:/Users/james/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Development/android-sdk-macosx/platform-tools:/Development/android-sdk-macosx/tools
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fspotify-web-api-node: Not found
+  Error: https://registry.yarnpkg.com/@types%2fdegrees-to-direction: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.6.0/libexec/lib/cli.js:65327:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.6.0/libexec/lib/cli.js:133155:22)
       at Request.emit (events.js:182:13)
@@ -34,7 +34,8 @@ npm manifest:
     "scripts": {
       "dev": "nodemon",
       "build": "next build",
-      "start": "next start"
+      "start": "next start",
+      "prod": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts"
     },
     "keywords": [],
     "author": "",
@@ -53,6 +54,7 @@ npm manifest:
       "@types/gapi.client.calendar": "^3.0.1",
       "@types/lodash": "^4.14.123",
       "@types/next": "^8.0.1",
+      "@types/numeral": "^0.0.25",
       "@types/react": "^16.8.7",
       "@types/react-big-calendar": "^0.20.11",
       "@types/react-dom": "^16.8.2",
@@ -71,6 +73,7 @@ npm manifest:
       "cookie-parser": "^1.4.4",
       "cors": "^2.8.5",
       "date-fns": "^1.30.1",
+      "degrees-to-direction": "^1.1.1",
       "dotenv": "^7.0.0",
       "express": "^4.16.4",
       "express-http-proxy": "^1.5.1",
@@ -83,6 +86,7 @@ npm manifest:
       "moment": "^2.24.0",
       "next": "^8.0.3",
       "nodemon": "^1.18.10",
+      "numeral": "^2.0.6",
       "postcss-easy-import": "^3.0.0",
       "postcss-loader": "^3.0.0",
       "querystring": "^0.2.0",
@@ -933,6 +937,10 @@ Lockfile:
   "@types/node@*":
     version "11.10.5"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-11.10.5.tgz#fbaca34086bdc118011e1f05c47688d432f2d571"
+  
+  "@types/numeral@^0.0.25":
+    version "0.0.25"
+    resolved "https://registry.yarnpkg.com/@types/numeral/-/numeral-0.0.25.tgz#b6f55062827a4787fe4ab151cf3412a468e65271"
   
   "@types/prop-types@*":
     version "15.7.0"
@@ -2293,6 +2301,10 @@ Lockfile:
   defined@^1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/defined/-/defined-1.0.0.tgz#c98d9bcef75674188e110969151199e39b1fa693"
+  
+  degrees-to-direction@^1.1.1:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/degrees-to-direction/-/degrees-to-direction-1.1.1.tgz#50392725ab55351ea1e273bbba4ad74ecdcdb4e8"
   
   del@3.0.0, del@^3.0.0:
     version "3.0.0"
@@ -4203,6 +4215,10 @@ Lockfile:
   number-is-nan@^1.0.0:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
+  
+  numeral@^2.0.6:
+    version "2.0.6"
+    resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
   
   oauth-sign@~0.9.0:
     version "0.9.0"

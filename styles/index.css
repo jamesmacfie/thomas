@@ -37,6 +37,10 @@ textarea::placeholder {
   color: config('colors.grey-dark');
 }
 
+.text-shadow {
+  text-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
+}
+
 ::-webkit-scrollbar {
   width: 0px; /* remove scrollbar space */
   background: transparent; /* optional: just make scrollbar invisible */

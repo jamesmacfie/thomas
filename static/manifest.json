@@ -1,0 +1,7 @@
+{
+  "short_name": "House",
+  "name": "Macfie house",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "landscape"
+}

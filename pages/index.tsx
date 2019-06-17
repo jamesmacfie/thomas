@@ -12,8 +12,8 @@ function Home() {
   return (
     <PageWrapper title="Home">
       <Content>
-        <Layout rows={3} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
-          <LayoutForecast width={2} height={3} title="Forecast" unitOfMeasurement="°C" />
+        <Layout rows={6} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
+          <LayoutForecast width={2} title="Forecast" unitOfMeasurement="°C" />
         </Layout>
         <Layout rows={4} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
           <LayoutEntity title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
