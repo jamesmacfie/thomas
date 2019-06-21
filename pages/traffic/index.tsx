@@ -1,6 +1,6 @@
 import React from 'react';
 import PageWrapper from '../../components/pageWrapper';
-import Entity from '../../components/entity';
+import LayoutEntity from '../../components/layoutEntity';
 import Layout, { Content } from '../../components/layout';
 import Iframe from '../../components/iframe';
 
@@ -9,8 +9,8 @@ function Traffic() {
     <PageWrapper title="Traffic">
       <Content className="h-full">
         <Layout rows={2} rowSpan={1} columnSpan={1} columns={1} title="Travel times" className="mr-6">
-          <Entity title="To Wellington" entity_id="sensor.time_to_wellington" unitOfMeasurement="mins" />
-          <Entity title="To Masterton" entity_id="sensor.time_to_masterton" unitOfMeasurement="mins" />
+          <LayoutEntity title="To Wellington" entity_id="sensor.time_to_wellington" unitOfMeasurement="mins" />
+          <LayoutEntity title="To Masterton" entity_id="sensor.time_to_masterton" unitOfMeasurement="mins" />
         </Layout>
         <div className="flex-grow">
           <Iframe

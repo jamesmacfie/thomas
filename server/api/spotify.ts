@@ -44,9 +44,10 @@ export function init(server: express.Express, ws: WebSocket.Server) {
       if (!hasBeenConnected) {
         return;
       }
+      logger.debug('💂️Refreshing token');
       spotifyApi.refreshAccessToken().then(
         (data: any) => {
-          console.log(data);
+          console.log('RF', data);
           logger.info('🏢 The automagic access token has been refreshed');
           spotifyApi.setAccessToken(data.body['access_token']);
           return storage.updateField(storageKey, 'access_token', data.body['access_token']);
@@ -77,6 +78,7 @@ export function init(server: express.Express, ws: WebSocket.Server) {
           broadcast(message);
         },
         function(err: Error) {
+          console.log('ERRR', err);
           logger.error(`🎺 Error with currently playing ${err.message}`);
           if (err.message === 'Unauthorized') {
             spotifyApi.refreshAccessToken().then(
@@ -126,13 +128,13 @@ export function init(server: express.Express, ws: WebSocket.Server) {
   server.get('/spotify/status', (_req: express.Request, res: express.Response) => {
     spotifyApi.getMe().then(
       () => {
+        hasBeenConnected = true;
         startCurrentPlaying();
         refreshAfterTime();
-        hasBeenConnected = true;
         return res.sendStatus(200);
       },
       (err: Error) => {
-        console.log(err);
+        console.log('Status', err);
         hasBeenConnected = false;
         return res.sendStatus(500);
       }
@@ -163,6 +165,7 @@ export function init(server: express.Express, ws: WebSocket.Server) {
     spotifyApi.authorizationCodeGrant(code).then(
       (data: any) => {
         logger.info(`💰 Got token`);
+        console.log('TOKEN data', data);
         spotifyApi.setAccessToken(data.body['access_token']);
         spotifyApi.setRefreshToken(data.body['refresh_token']);
 
@@ -171,8 +174,10 @@ export function init(server: express.Express, ws: WebSocket.Server) {
           .then(() => {
             logger.info(`🏦 Saved token`);
             hasBeenConnected = true;
-            startCurrentPlaying();
-            refreshAfterTime();
+            setTimeout(() => {
+              startCurrentPlaying();
+              refreshAfterTime();
+            }, 5000);
             return res.send(data.body);
           })
           .catch(err => {

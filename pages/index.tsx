@@ -12,10 +12,10 @@ function Home() {
   return (
     <PageWrapper title="Home">
       <Content>
-        <Layout rows={6} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
+        <Layout rows={6} columns={2} columnSpan={1} rowSpan={1} className="mr-6">
           <LayoutForecast width={2} title="Forecast" unitOfMeasurement="°C" />
         </Layout>
-        <Layout rows={4} columns={2} columnSpan={1} rowSpan={1} title="Temperature" className="mr-6">
+        <Layout rows={4} columns={2} columnSpan={1} rowSpan={1} className="mr-6">
           <LayoutEntity title="Living room" entity_id="sensor.temperature_158d00025f0927" unitOfMeasurement="°C" />
           <LayoutEntity title="Kitchen" entity_id="sensor.kitchen_temp" unitOfMeasurement="°C" />
           <LayoutEntity title="Kid's Room" entity_id="sensor.kids_room_temp" unitOfMeasurement="°C" />
@@ -28,7 +28,7 @@ function Home() {
           <LayoutEntity title="Bathroom" entity_id="sensor.temperature_158d00025efd69" unitOfMeasurement="°C" />
           <LayoutEntity title="Office" entity_id="sensor.office_temp" unitOfMeasurement="°C" />
         </Layout>
-        <Layout rows={3} columns={1} rowSpan={1} columnSpan={1} title="Doors" className="mr-6">
+        <Layout rows={3} columns={1} rowSpan={1} columnSpan={1} className="mr-6">
           <LayoutIcon
             title="Back door"
             entity_id="binary_sensor.door_window_sensor_158d00028b4a2a"
@@ -48,7 +48,7 @@ function Home() {
             icon={(s: string | number): ReactNode => (s === 'on' ? <DoorOpen /> : <DoorClosed />)}
           />
         </Layout>
-        <Layout rows={1} columns={1} rowSpan={1} columnSpan={1} title="Windows" className="mr-6">
+        <Layout rows={1} columns={1} rowSpan={1} columnSpan={1} className="mr-6">
           <LayoutIcon
             title="Bathroom basin"
             entity_id="binary_sensor.door_window_sensor_158d0002c7b9c5"

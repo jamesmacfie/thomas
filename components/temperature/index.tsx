@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
 import Panel from '../panel';
-import { H3 } from '../text';
+import { H4 } from '../text';
 import State from '../state';
 import Loader from '../loader';
 import { Props as EntityProps } from '../entity';
@@ -93,12 +93,12 @@ const Graph = ({ data }: { data: Entity[] }) => {
 };
 
 const dimensions: { [key: number]: string } = {
-  1: '9rem',
-  2: '18rem',
-  3: '27rem',
-  4: '36rem',
-  5: '45rem',
-  6: '54rem'
+  1: '7.5rem',
+  2: '15rem',
+  3: '22.5rem',
+  4: '30rem',
+  5: '37.5rem',
+  6: '45rem'
 };
 
 const Temperature = observer(({ width = 1, height = 1, title = 'Temperature', ...props }: EntityProps) => {
@@ -134,7 +134,7 @@ const Temperature = observer(({ width = 1, height = 1, title = 'Temperature', ..
   const pinClasses = cn({
     ['absolute pin-center']: height === width
   });
-  const stateClasses = cn('whitespace-no-wrap', {
+  const stateClasses = cn('mt-6 whitespace-no-wrap', {
     'text-4xl': height === 1 && width === 1,
     'text-6xl': height === 2 && width === 2
   });
@@ -143,7 +143,7 @@ const Temperature = observer(({ width = 1, height = 1, title = 'Temperature', ..
     <Panel fit={false} className={classes} padding={false} overflow={false}>
       <div className="flex-1">
         <div className="p-4">
-          {title && <H3 className="mb-6 text-grey-dark">{title}</H3>}
+          {title && <H4 className="uppercase mb-6 text-grey-dark">{title}</H4>}
           <div className={pinClasses}>
             <p className={stateClasses}>
               <State {...props} />

@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import numeral from 'numeral';
 import Panel from '../panel';
-import { H3 } from '../text';
+import { H4 } from '../text';
 import Store from '../../store';
 import getForecastImage from './image';
 import { StoreContext } from '../../store';
@@ -16,20 +16,20 @@ export interface Props {
   width?: number;
 }
 
-const dimensions: { [key: number]: string } = {
-  1: '9rem',
-  2: '18rem',
-  3: '27rem',
-  4: '36rem',
-  5: '45rem',
-  6: '54rem'
-};
+// const dimensions: { [key: number]: string } = {
+//   1: '7.5rem',
+//   2: '15rem',
+//   3: '22.5rem',
+//   4: '30rem',
+//   5: '37.5rem',
+//   6: '45rem'
+// };
 
-const LayoutForecast = observer(({ width = 1, title, unitOfMeasurement }: Props) => {
+const LayoutForecast = observer(({ title, unitOfMeasurement }: Props) => {
   const store = useContext(StoreContext) as Store;
   const styles = {
-    height: '41rem', // Hack. Would be better if this is dynamic
-    width: dimensions[width]
+    height: '45em', // Hack. Would be better if this is dynamic
+    width: '16rem' // Hack. Would be better if this is dynamic
   };
   if (store.status !== 'AUTHENTICATED') {
     return <Panel fit={false} className="relative" style={styles} />;
@@ -55,12 +55,12 @@ const LayoutForecast = observer(({ width = 1, title, unitOfMeasurement }: Props)
 
   return (
     <Panel fit={false} padding={false} className="relative" style={styles}>
-      {title && <H3 className="mb-6 text-grey-dark relative z-10 text-shadow m-4">{title}</H3>}
+      {title && <H4 className="uppercase mb-6 text-grey-dark relative z-10 text-shadow m-4">{title}</H4>}
       <div
         className="absolute z-0 pin-t pin-l pin-r rounded-t bg-cover forecast-image"
         style={{ backgroundImage: `url(${imageLocation})` }}
       />
-      <div className="relative z-10 p-4 forecast-image-inner">
+      <div className="relative z-10 px-4 forecast-image-inner">
         <div className="flex items-center mb-4">
           <p className="flex-grow text-6xl whitespace-no-wrap text-shadow relative">
             {currentTempState}

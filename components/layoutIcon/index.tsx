@@ -15,12 +15,12 @@ export interface Props {
 }
 
 const dimensions: { [key: number]: string } = {
-  1: '9rem',
-  2: '18rem',
-  3: '27rem',
-  4: '36rem',
-  5: '45rem',
-  6: '54rem'
+  1: '7.5rem',
+  2: '15rem',
+  3: '22.5rem',
+  4: '30rem',
+  5: '37.5rem',
+  6: '45rem'
 };
 
 const LayoutEntity = observer(({ width = 1, height = 1, entity_id, title, subTitle, icon }: Props) => {
@@ -45,7 +45,7 @@ const LayoutEntity = observer(({ width = 1, height = 1, entity_id, title, subTit
   const subtitle = typeof subTitle === 'string' ? subTitle : subTitle(state.toString());
   return (
     <Panel fit={false} className="relative" style={styles}>
-      {title && <H3 className="mb-6 text-grey-dark">{title}</H3>}
+      {title && <H4 className="uppercase mb-6 text-grey-dark">{title}</H4>}
       {subtitle && <H4 className="text-grey-light mb-4 ml-4 absolute pin-b pin-l">{subtitle}</H4>}
       <div className="absolute pin-center h-10 w-10 current-stroke text-grey-darker">{cmp}</div>
     </Panel>

@@ -4,25 +4,26 @@ import { H2 } from '../text';
 
 const getTemplateColumns = (columnSpan: number, columns: number) => {
   const templateColumns: { [key: number]: string } = {
-    1: '9rem',
-    2: '18rem',
-    3: '27rem',
-    4: '36rem',
-    5: '45rem',
-    6: '54rem',
-    7: '63rem'
+    1: '7.5rem',
+    2: '15rem',
+    3: '22.5rem',
+    4: '30rem',
+    5: '37.5rem',
+    6: '45rem',
+    7: '52.5rem'
   };
   return `repeat(${columns}, ${templateColumns[columnSpan]}`;
 };
 
 const getTemplateRows = (rowSpan: number, rows: number) => {
   const templateRows: { [key: number]: string } = {
-    1: '9rem',
-    2: '18rem',
-    3: '27rem',
-    4: '36rem',
-    5: '45rem',
-    6: '54rem'
+    1: '7.5rem',
+    2: '15rem',
+    3: '22.5rem',
+    4: '30rem',
+    5: '37.5rem',
+    6: '45rem',
+    7: '52.5rem'
   };
   return `repeat(${rows}, ${templateRows[rowSpan]}`;
 };

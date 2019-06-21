@@ -3,6 +3,7 @@ import cn from 'classnames';
 import moment from 'moment';
 import numeral from 'numeral';
 import { observer } from 'mobx-react-lite';
+import Icon from './icon';
 import Store from '../../store';
 import { StoreContext } from '../../store';
 import AddCircle from '../../svg/add-circle.svg';
@@ -19,16 +20,19 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
     return null;
   }
 
-  const values = [];
+  const values: any[] = [];
   for (let i = 1; i <= 6; i++) {
     const high = store.data[`sensor.darksky_daytime_high_temperature_${i}`];
     const low = store.data[`sensor.darksky_overnight_low_apparent_temperature_${i}`];
     const summary = store.data[`sensor.darksky_summary_${i}`];
     const windSpeed = store.data[`sensor.dark_sky_wind_speed_${i}`];
     const windBearing = store.data[`sensor.darksky_wind_bearing_${i}`];
-    // const icon = store.data[`sensor.darksky_icon_${i}`];
+    const rainProbability = store.data[`sensor.darksky_precip_probability_${i}`];
+    const icon = store.data[`sensor.darksky_icon_${i}`];
 
-    values.push({
+    const value: any = {
+      rainProbability: parseInt(entityToValue(rainProbability), 10),
+      icon: icon.state,
       high: entityToValue(high),
       low: entityToValue(low),
       summary: entityToValue(summary, 'n/a'),
@@ -37,17 +41,21 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
           ? 'Tomorrow'
           : moment()
               .add(i, 'd')
-              .format('dddd'),
-      windKmph: parseInt(
+              .format('dddd')
+    };
+
+    if (windSpeed && windSpeed.state !== 0) {
+      value.windKmph = parseInt(
         numeral(windSpeed ? windSpeed.state : 0)
           .multiply(3.6)
           .value()
           .toString(),
         10
-      ),
-      windDirection: bearingToCompassDirection(windBearing ? parseFloat(windBearing.state.toString()) : 0)
-      // icon: icon.state
-    });
+      );
+      value.windDirection = bearingToCompassDirection(windBearing ? parseFloat(windBearing.state.toString()) : 0);
+    }
+
+    values.push(value);
   }
 
   return (
@@ -64,8 +72,8 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
                 <p className="pl-3 text-sm">
                   <span className="text-red-light">
                     {parseInt(v.high, 10)} {unitOfMeasurement}
-                  </span>{' '}
-                  -{' '}
+                  </span>
+                  {' . '}
                   <span className="text-blue-light">
                     {parseInt(v.low, 10)}
                     {unitOfMeasurement}
@@ -73,11 +81,12 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
                 </p>
               </div>
               <p className="pt-2 text-sm">
-                {v.summary} Winds {v.windDirection} at {v.windKmph}km/h
+                {v.summary} There is a {v.rainProbability}% chance of rain{'. '}
+                {v.windKmph ? `Winds ${v.windDirection} at ${v.windKmph}km/h` : ''}
               </p>
             </div>
-            <div className="ml-2 w-12 flex-no-shrink flex justify-center items-center">
-              <AddCircle className="h-6 w-6 text-white current-stroke" />
+            <div className="ml-2 w-8 flex-no-shrink flex justify-center items-center">
+              <Icon icon={v.icon} className="h-4 w-4 text-white current-stroke" />
             </div>
           </div>
         );

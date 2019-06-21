@@ -7,9 +7,10 @@ WORKDIR /usr/app
 COPY package*.json ./
 RUN yarn install
 
-# Copying source files
-COPY . .
-
 # Building app
 RUN yarn build
 
+# Copying source files
+COPY . .
+
+EXPOSE 3000
