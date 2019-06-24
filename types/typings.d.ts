@@ -15,6 +15,7 @@ declare interface Entity {
   attributes: {
     attribution?: string;
     friendly_name?: string;
+    battery_level?: number;
     icon?: string;
     unit_of_measurement: string;
   };
@@ -26,6 +27,7 @@ declare interface Entity {
   last_changed: Date;
   last_updated: Date;
   state: number | string;
+  [key: string]: string;
 }
 
 declare interface SpotifyTrack {

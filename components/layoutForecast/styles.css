@@ -5,3 +5,8 @@
 .forecast-image-inner {
   height: 130px;
 }
+
+.forecast-icon {
+  top: -8px;
+  right: 15px;
+}

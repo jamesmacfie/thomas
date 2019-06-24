@@ -12,15 +12,26 @@ interface Props {
 }
 
 const LoginLogoutButton = observer(() => {
+  const isServer = typeof window === 'undefined';
+  if (isServer) {
+    return null;
+  }
+
   const store = useContext(GoogleStoreContext) as GoogleStore;
   const buttonText = store.status === 'AUTHENTICATED' ? 'Logout' : 'Login';
   const link = store.status === 'AUTHENTICATED' ? '/google/logout' : store.loginUrl;
+  if (!store.loginUrl) {
+    return null;
+  }
+
   return (
-    <Button type="primary" padding={false}>
-      <Link href={link}>
-        <a className="px-6 py-2 inline-block">{buttonText}</a>
-      </Link>
-    </Button>
+    <>
+      <Button type="primary" padding={false}>
+        <Link href={link}>
+          <a className="px-6 py-2 inline-block">{buttonText}</a>
+        </Link>
+      </Button>
+    </>
   );
 });
 

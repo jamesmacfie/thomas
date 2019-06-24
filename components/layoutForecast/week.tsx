@@ -3,10 +3,9 @@ import cn from 'classnames';
 import moment from 'moment';
 import numeral from 'numeral';
 import { observer } from 'mobx-react-lite';
-import Icon from './icon';
+import ForecastImage from './image';
 import Store from '../../store';
 import { StoreContext } from '../../store';
-import AddCircle from '../../svg/add-circle.svg';
 import { entityToValue } from '../../utils/entity';
 import { bearingToCompassDirection } from '../../utils/bearing';
 
@@ -32,7 +31,7 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
 
     const value: any = {
       rainProbability: parseInt(entityToValue(rainProbability), 10),
-      icon: icon.state,
+      icon: icon ? icon.state : null,
       high: entityToValue(high),
       low: entityToValue(low),
       summary: entityToValue(summary, 'n/a'),
@@ -61,7 +60,7 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
   return (
     <div>
       {values.map((v, idx) => {
-        const classes = cn('flex px-2 py-3', {
+        const classes = cn('flex px-4 py-3', {
           ' border-b border-grey-dark': idx < values.length - 1
         });
         return (
@@ -69,24 +68,25 @@ const LayoutForecast = observer(({ unitOfMeasurement }: Props) => {
             <div className="flex-grow">
               <div className="flex block">
                 <p className="flex-grow text-sm font-semibold">{v.day}</p>
-                <p className="pl-3 text-sm">
-                  <span className="text-red-light">
-                    {parseInt(v.high, 10)} {unitOfMeasurement}
-                  </span>
-                  {' . '}
-                  <span className="text-blue-light">
-                    {parseInt(v.low, 10)}
-                    {unitOfMeasurement}
-                  </span>
-                </p>
               </div>
               <p className="pt-2 text-sm">
                 {v.summary} There is a {v.rainProbability}% chance of rain{'. '}
                 {v.windKmph ? `Winds ${v.windDirection} at ${v.windKmph}km/h` : ''}
               </p>
             </div>
-            <div className="ml-2 w-8 flex-no-shrink flex justify-center items-center">
-              <Icon icon={v.icon} className="h-4 w-4 text-white current-stroke" />
+            <div className="ml-2 w-8 flex-no-shrink flex justify-center items-center flex-col">
+              <ForecastImage icon={v.icon} className="h-6 w-6 text-white current-stroke mb-2" />
+              <p className="text-sm mb-1">
+                <span className="text-red-light">
+                  {parseInt(v.high, 10)} {unitOfMeasurement}
+                </span>
+              </p>
+              <p className="text-sm">
+                <span className="text-blue-light">
+                  {parseInt(v.low, 10)}
+                  {unitOfMeasurement}
+                </span>
+              </p>
             </div>
           </div>
         );

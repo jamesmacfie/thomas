@@ -23,7 +23,7 @@ const dimensions: { [key: number]: string } = {
   6: '45rem'
 };
 
-const LayoutEntity = observer(({ width = 1, height = 1, entity_id, title, subTitle, icon }: Props) => {
+const LayoutIcon = observer(({ width = 1, height = 1, entity_id, title, subTitle, icon }: Props) => {
   const store = useContext(StoreContext) as Store;
   const styles = {
     height: dimensions[height],
@@ -52,4 +52,4 @@ const LayoutEntity = observer(({ width = 1, height = 1, entity_id, title, subTit
   );
 });
 
-export default LayoutEntity;
+export default LayoutIcon;

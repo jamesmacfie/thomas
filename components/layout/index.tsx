@@ -39,7 +39,7 @@ interface Props {
 }
 
 const Layout = ({ rows = 1, columns = 1, columnSpan = 0, rowSpan = 0, className, children, title }: Props) => {
-  const classes = cn('grid over-x-scroll', className);
+  const classes = cn('grid over-x-scroll content-start', className);
   const styles = {
     gridTemplateColumns: getTemplateColumns(columnSpan, columns),
     gridTemplateRows: getTemplateRows(rowSpan, rows)

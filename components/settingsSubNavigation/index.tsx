@@ -18,12 +18,12 @@ const items: SubNavigationItem[] = [
     title: 'Accounts'
   },
   {
-    url: '/settings/test',
-    title: 'Something else'
+    url: '/settings/battery',
+    title: 'Battery levels'
   },
   {
-    url: '/settings/test2',
-    title: 'Another thing'
+    url: '/settings/system',
+    title: 'System'
   }
 ];
 

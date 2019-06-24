@@ -4,7 +4,7 @@ import SubNavigation from '../../components/settingsSubNavigation';
 import HomeAssistantAccountPanel from '../../components/homeAssistantAccountPanel';
 import GoogleAccountPanel from '../../components/googleAccountPanel';
 import SpotifyAccountPanel from '../../components/spotifyAccountPanel';
-import { H1 } from '../../components/text';
+import { H2 } from '../../components/text';
 
 export default class Settings extends Component {
   render() {
@@ -13,7 +13,7 @@ export default class Settings extends Component {
         <div className="flex h-full">
           <SubNavigation />
           <div className="p-6">
-            <H1 className="mt-0">Accounts</H1>
+            <H2 className="mt-0">Accounts</H2>
             <div className="flex mb-6">
               <HomeAssistantAccountPanel className="mr-6" />
               <GoogleAccountPanel />
