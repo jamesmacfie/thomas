@@ -19,7 +19,6 @@ const images: { [key: string]: string } = {
 };
 
 const ForcastImage = ({ icon, className }: Props) => {
-  console.log(icon);
   const image = images[icon];
   const src = !image ? images['partly-cloudy-day'] : image;
 

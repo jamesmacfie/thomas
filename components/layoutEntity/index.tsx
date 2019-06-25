@@ -53,7 +53,6 @@ const LayoutEntity = observer(
     if (typeof entity === 'undefined' || entity[state] === 'unavailable') {
       outputState = '--';
     } else {
-      console.log(entity, state);
       outputState = entity[state];
     }
 

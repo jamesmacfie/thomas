@@ -49,7 +49,6 @@ const LayoutBattery = observer(({ width = 1, height = 1, entity_id, title }: Pro
   const batt = (entity.attributes && entity.attributes.battery_level) || null;
   let Icon = <Unknown />;
   if (batt !== null) {
-    console.log(batt);
     if (batt < 25) {
       Icon = <Low />;
     } else if (batt < 50) {

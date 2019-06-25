@@ -51,13 +51,19 @@ export default class GoogleStore {
     });
   };
 
-  getEvents = (timeMin: string, timeMax: string, ignoreRefresh: boolean = false) => {
-    this.fetching = true;
+  returnEvents = (timeMin: string, timeMax: string) => {
     return fetch(`${API_URL}/google/api/calendar/events?timeMin=${timeMin}&timeMax=${timeMax}`)
       .then((response: Response) => response.json())
       .then((json: { events: gapi.client.calendar.Event[] }) => {
-        console.log('Got events', json);
-        this.events = json.events;
+        return json.events;
+      });
+  };
+
+  getEvents = (timeMin: string, timeMax: string, ignoreRefresh: boolean = false) => {
+    this.fetching = true;
+    return this.returnEvents(timeMin, timeMax)
+      .then((events: gapi.client.calendar.Event[]) => {
+        this.events = events;
         this.fetching = false;
         if (!ignoreRefresh) {
           this.startEventRefresh(timeMin, timeMax);

@@ -14,7 +14,6 @@ export const useCalendarNavigate = (opts: CalendarNavigateOptions) => {
   const [options, setOptions] = useState(opts);
   const store = useContext(GoogleStoreContext) as GoogleStore;
   useEffect(() => {
-    console.log(options);
     const timeMin = moment(options.date)
       .startOf('month')
       .toISOString();
@@ -25,7 +24,6 @@ export const useCalendarNavigate = (opts: CalendarNavigateOptions) => {
   }, [options]);
 
   const navigate = (date: Date, viewType: View, action: Navigate) => {
-    console.log('navigated', date, viewType, action);
     setOptions({ date, viewType, action });
   };
 

@@ -54,7 +54,6 @@ const LayoutForecast = observer(({ title, unitOfMeasurement }: Props) => {
   const windDirectionState = entityToValue(windDirection);
   // const imageLocation = getForecastImage(currentIconState);
   const gradient = getForecastGradient(currentIconState);
-  console.log(gradient);
 
   return (
     <Panel fit={false} padding={false} className="relative" style={style}>
