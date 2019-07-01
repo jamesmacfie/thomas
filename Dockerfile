@@ -1,16 +1,10 @@
-FROM node:10-slim
+FROM node:10
+WORKDIR /usr/src/app
 
-# Setting working directory. All the path will be relative to WORKDIR
-WORKDIR /usr/app
+COPY package.json yarn.lock ./
+RUN yarn
 
-# Installing dependencies
-COPY package*.json ./
-RUN yarn install
-
-# Building app
+COPY . ./
 RUN yarn build
 
-# Copying source files
-COPY . .
-
-EXPOSE 3000
+CMD ["yarn", "prod"]

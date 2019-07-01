@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build",
-    "start": "next start",
-    "prod": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts"
+    "next_start": "next start",
+    "start": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts",
+    "pm2-start": "pm2 start npm --name 'Thomas' -- start",
+    "pm2-stop": "pm2 stop 'Thomas'"
   },
   "keywords": [],
   "author": "",
@@ -57,6 +59,7 @@
     "next": "^8.0.3",
     "nodemon": "^1.18.10",
     "numeral": "^2.0.6",
+    "pm2": "^3.5.1",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
     "querystring": "^0.2.0",
