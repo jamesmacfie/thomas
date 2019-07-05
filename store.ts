@@ -59,20 +59,27 @@ export default class Store {
   ws: WebSocket | undefined;
 
   constructor() {
-    if (isServer) {
-      return;
-    }
-
     this.getAndSetLoginUrl();
-    this.connect();
+    this.getCurrentStatus();
   }
 
   getAndSetLoginUrl = () => {
     return fetch(`${API_URL}/home_assistant/login_url`)
       .then((response: Response) => response.json())
       .then((json: any) => {
+        console.log('Setting HA login URL', json);
         this.loginUrl = json.url;
       });
+  };
+
+  getCurrentStatus = () => {
+    return fetch(`${API_URL}/home_assistant/status`).then((response: Response) => {
+      if (response.status === 200 || response.status === 304) {
+        console.log('HA auth Ok');
+        this.status = 'AUTHENTICATED';
+        this.connect();
+      }
+    });
   };
 
   setWSURL = (wsURL: string) => {
@@ -88,6 +95,10 @@ export default class Store {
   };
 
   connect = () => {
+    if (isServer) {
+      return;
+    }
+
     if (!this.wsUrl) {
       console.warn('No websocket URL set - cannot create');
       return;

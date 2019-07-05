@@ -14,7 +14,8 @@ interface Props {
 const LoginLogoutButton = observer(() => {
   const store = useContext(StoreContext) as Store;
   const buttonText = store.status === 'AUTHENTICATED' ? 'Logout' : 'Login';
-  const link = store.status === 'AUTHENTICATED' ? '/google/logout' : store.loginUrl;
+  const link = store.status === 'AUTHENTICATED' ? '/homeassistant/logout' : store.loginUrl;
+  console.log(link);
   return (
     <Button type="primary" padding={false}>
       <Link href={link}>
