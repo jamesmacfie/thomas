@@ -35,7 +35,7 @@ const LoginLogoutButton = observer(() => {
   );
 });
 
-const HomeAssistantAccountPanel = ({ className }: Props) => {
+const GoogleAccountPanel = ({ className }: Props) => {
   return (
     <Panel fit={false} className={cn(className, 'flex flex-col h-48 w-48')}>
       <div className="flex flex-grow justify-center items-center">
@@ -48,4 +48,4 @@ const HomeAssistantAccountPanel = ({ className }: Props) => {
   );
 };
 
-export default HomeAssistantAccountPanel;
+export default GoogleAccountPanel;

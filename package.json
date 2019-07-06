@@ -6,7 +6,7 @@
     "dev": "nodemon",
     "build": "next build",
     "next_start": "next start",
-    "start": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts",
+    "start": "ts-node --project tsconfig.server.json server/index.ts",
     "pm2-start": "pm2 start npm --name 'Thomas' -- start",
     "pm2-stop": "pm2 stop 'Thomas'"
   },
@@ -16,6 +16,8 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@sentry/browser": "^5.4.3",
+    "@sentry/node": "^5.4.3",
     "@types/axios": "^0.14.0",
     "@types/capitalize": "^1.0.1",
     "@types/classnames": "^2.2.7",
@@ -34,6 +36,7 @@
     "@types/request": "^2.48.1",
     "@types/ws": "^6.0.1",
     "@zeit/next-css": "^1.0.1",
+    "@zeit/next-source-maps": "^0.0.3",
     "@zeit/next-typescript": "^1.1.1",
     "autoprefixer": "^9.5.0",
     "axios": "^0.18.0",

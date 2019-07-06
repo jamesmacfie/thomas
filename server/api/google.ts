@@ -37,6 +37,7 @@ export function init(server: express.Express) {
   });
 
   server.get('/google/status', (_req: express.Request, res: express.Response) => {
+    logger.info('GETTING STATUS');
     if (hasBeenConnected) {
       return res.sendStatus(200);
     }
