@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import useInterval from '../../hooks/useInterval';
-import { useFullscreen } from '../../hooks/useFullscreen';
+import useInterval from 'hooks/useInterval';
+import { useFullscreen } from 'hooks/useFullscreen';
 
 const Header = () => {
   const isServer = typeof window === 'undefined';

@@ -1,17 +1,20 @@
 const { parsed: localEnv } = require('dotenv').config();
+const path = require('path');
 const webpack = require('webpack');
-const withTypescript = require('@zeit/next-typescript');
 const withCSS = require('@zeit/next-css');
-// const withSourceMaps = require('@zeit/next-source-maps')();
+const withIntegrationComponents = require('./build/withIntegrationComponents');
 
-module.exports = withTypescript(
+module.exports = withIntegrationComponents(
   withCSS({
-    webpack(config, { isServer }) {
-      config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+    webpack(config) {
+      ['components', 'integrations', 'stores', 'svg', 'hooks', 'containers'].forEach(
+        n => (config.resolve.alias[n] = path.join(__dirname, n))
+      );
 
-      if (!isServer) {
-        config.resolve.alias['@sentry/node'] = '@sentry/browser';
-      }
+      config.resolve.alias['thomas'] = path.join(__dirname, '.thomas');
+
+      config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+      config.plugins.push(new webpack.IgnorePlugin(/.thomas/));
 
       return config;
     }

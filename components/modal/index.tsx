@@ -1,12 +1,14 @@
 import React, { ReactNode, CSSProperties } from 'react';
 import cn from 'classnames';
-import Panel from '../panel';
-import AddCircle from '../../svg/add-circle.svg';
+import Panel from 'components/panel';
+import Icon from 'components/icon';
+import { H4 } from 'components/text';
 
 interface Props {
   className?: string;
+  title?: string;
   size: 'sm' | 'md' | 'lg';
-  onClick?: () => void;
+  onClose: () => void;
   children: ReactNode;
   style?: CSSProperties;
   padding?: boolean;
@@ -18,28 +20,42 @@ const classes: { [key: string]: string } = {
   lg: 'w-256 h-192'
 };
 
-const Overlay = ({ onClick }: { onClick?: () => void }) => {
-  return <div onClick={onClick} className="cursor-pointer absolute pin-modal bg-overlay-dark z-10" />;
-};
-
-const Modal = ({ children, className, size, onClick, style, padding = true }: Props) => {
+const Modal = ({ title, children, className, size, onClose, style, padding = true }: Props) => {
   const panelClasses = cn(
     classes[size],
-    'z-10 absolute pin-center',
+    'z-10 absolute pin-center cursor-default',
     {
       'p-6': padding
     },
     className
   );
+  const onOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.currentTarget !== event.target) {
+      return;
+    }
+    event.stopPropagation();
+    onClose();
+  };
+
   return (
     <>
-      <Overlay onClick={onClick} />
-      <Panel style={style} fit={false} className={panelClasses} padding={padding}>
-        <div className="z-20 absolute pin-close h-12 w-12 text-white current-stroke rotate-45deg" onClick={onClick}>
-          <AddCircle />
-        </div>
-        {children}
-      </Panel>
+      <div
+        onClick={onOverlayClick}
+        className="cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-10"
+      >
+        <Panel style={style} fit={false} className={panelClasses} padding={padding}>
+          <div>
+            <H4 className="text-2">{title}</H4>
+            <Icon
+              onClick={onClose}
+              icon="addCircle"
+              className="cursor-pointer z-20 absolute pin-close w-8 h-8 margin text-white current-stroke rotate-45deg"
+            />
+          </div>
+
+          {children}
+        </Panel>
+      </div>
     </>
   );
 };

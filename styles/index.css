@@ -1,49 +1,24 @@
-@tailwind preflight;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html,
+:root {
+  --bg-color: theme('colors.background');
+  --bg-panel: theme('colors.panel');
+  --ovelray-dark: theme('colors.overlay-dark');
+  --ovelray-light: theme('colors.overlay-light');
+  --text-color: theme('colors.text');
+  --font-family: theme('fontFamily.sans');
+  --font-weight: theme('fontWeight.light');
+}
+
 body {
-  color: config('colors.text');
-  background-color: config('backgroundColors.body');
-  font-family: config('fonts.sans');
-  font-weight: config('fontWeights.thin');
-}
-
-a {
-  color: config('colors.white');
-  text-decoration: none;
-}
-
-a:hover,
-a:focus,
-a:active {
-  color: config('colors.link');
-}
-
-button > a:hover,
-button > a:focus,
-button > a:active {
-  color: config('colors.link');
-}
-
-input,
-textarea {
-  color: config('colors.text');
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: config('colors.grey-dark');
-}
-
-.text-shadow {
-  text-shadow: 0 0px 4px rgba(0, 0, 0, 0.5);
-}
-
-::-webkit-scrollbar {
-  width: 0px; /* remove scrollbar space */
-  background: transparent; /* optional: just make scrollbar invisible */
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight);
+  margin: 0;
+  padding: 0;
 }
 
 .current-stroke path,
@@ -52,75 +27,11 @@ textarea::placeholder {
   stroke: currentColor !important;
 }
 
-.current-fill path {
-  fill: currentColor !important;
-}
-
-.grid {
-  display: grid;
-  grid-column-gap: 1.5rem;
-  grid-row-gap: 1.5rem;
-}
-
-.pin-center {
+.absolute-center {
   left: 50%;
+  position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-}
-
-.pin-modal {
-  bottom: 0rem;
-  left: 0rem;
-  right: 0rem;
-  top: 0rem;
-}
-
-.pin-close {
-  right: 1rem;
-  top: 1rem;
-}
-
-.pin-b-center {
-  bottom: 0rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.blink-1 {
-  animation: blink 2s step-start 0s infinite;
-}
-
-@keyframes blink {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
-.hot-h {
-  background: linear-gradient(0.1turn, config('colors.hot-light'), config('colors.hot-dark'));
-}
-
-.neutral-h {
-  background: linear-gradient(0.1turn, config('colors.neutral-light'), config('colors.neutral-dark'));
-}
-
-.cold-h {
-  background: linear-gradient(0.1turn, config('colors.cold-light'), config('colors.cold-dark'));
-}
-
-.progress {
-  background-color: config('colors.progress');
-  height: 2px;
-}
-
-.progress-now-playing {
-  top: -2px;
 }
 
 .double-border-bottom::before,
@@ -133,12 +44,12 @@ textarea::placeholder {
 }
 
 .double-border-bottom::before {
-  background-color: config('colors.overlay-dark');
+  background-color: var(--overlay-dark);
   bottom: 0px;
 }
 
 .double-border-bottom::after {
-  background-color: config('colors.overlay-light');
+  background-color: var(--overlay-light);
   bottom: -1px;
 }
 
@@ -153,168 +64,33 @@ textarea::placeholder {
 }
 
 .double-border-right::before {
-  background-color: config('colors.overlay-dark');
+  background-color: var(--overlay-dark);
   right: 0px;
 }
 
 .double-border-right::after {
-  background-color: config('colors.overlay-light');
+  background-color: var(--overlay-light);
   right: -1px;
+}
+
+.justify-self-end {
+  justify-self: end;
+}
+
+.pin-center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pin-close {
+  right: 1rem;
 }
 
 .rotate-45deg {
   transform: rotate(45deg);
 }
 
-.full {
-  height: 100%;
-  padding: 1.5rem;
-  width: 100%;
-}
-
-/* React big calendar */
-.rbc-calendar {
-  width: 100%;
-}
-
-.rbc-calendar .rbc-header {
-  border-color: config('colors.overlay-dark') !important;
-  font-weight: config('fontWeights.thin') !important;
-  padding: 0.5rem 0;
-}
-
-.rbc-calendar .rbc-month-view,
-.rbc-calendar .rbc-agenda-view table.rbc-agenda-table tbody > tr + tr,
-.rbc-calendar .rbc-month-row + .rbc-month-row,
-.rbc-calendar .rbc-day-bg + .rbc-day-bg,
-.rbc-calendar .rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td,
-.rbc-calendar .rbc-agenda-table,
-.rbc-calendar .rbc-agenda-view table.rbc-agenda-table,
-.rbc-calendar .rbc-header + .rbc-header,
-.rbc-calendar .rbc-time-content > * + * > *,
-.rbc-calendar .rbc-day-slot .rbc-time-slot,
-.rbc-calendar .rbc-time-header-content,
-.rbc-calendar .rbc-time-view {
-  border-color: config('colors.overlay-dark');
-}
-
-.rbc-calendar .rbc-time-content {
-  border-top: none;
-}
-
-.rbc-calendar .rbc-timeslot-group {
-  border-color: transparent;
-}
-
-.rbc-calendar .rbc-agenda-table .rbc-header {
-  padding: 0.5rem 1rem !important;
-}
-
-.rbc-calendar .rbc-agenda-event-cell {
-  padding: 0.5rem 1rem !important;
-}
-
-.rbc-calendar .rbc-toolbar button {
-  border-color: transparent;
-  border-radius: 9999px;
-  color: config('colors.text');
-}
-
-.rbc-calendar .rbc-btn-group > button:first-child:not(:last-child) {
-  border-top-right-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-}
-
-.rbc-calendar .rbc-btn-group > button:last-child:not(:first-child) {
-  border-top-left-radius: 9999px;
-  border-bottom-left-radius: 9999px;
-}
-
-.rbc-calendar .rbc-btn-group > button:not(:first-child):not(:last-child) {
-  border-radius: 9999px;
-}
-
-.rbc-calendar .rbc-day-bg {
-  background-color: transarent;
-}
-
-.rbc-calendar .rbc-toolbar button.rbc-active,
-.rbc-calendar .rbc-toolbar button:hover {
-  border-color: transparent;
-  background-color: config('colors.blue');
-}
-
-.rbc-calendar .rbc-toolbar button:hover {
-  color: config('colors.text');
-}
-
-.rbc-calendar .rbc-event {
-  background-color: config('colors.panel');
-  border-radius: 0;
-  border-left: 2px solid config('colors.purple-dark');
-}
-
-.rbc-calendar .rbc-toolbar button:active:hover,
-.rbc-calendar .rbc-toolbar button.rbc-active:hover,
-.rbc-calendar .rbc-toolbar button:active:focus,
-.rbc-calendar .rbc-toolbar button.rbc-active:focus {
-  background-color: config('colors.blue');
-  color: config('colors.text');
-  outline: none;
-}
-
-.rbc-calendar .rbc-today {
-  background-color: config('colors.purple-darker');
-}
-
-.rbc-calendar .rbc-now {
-  color: config('colors.text');
-}
-
-.rbc-calendar .rbc-now > a {
-  font-weight: config('fontWeights.thin');
-}
-
-.rbc-calendar .rbc-off-range {
-  color: config('colors.grey');
-}
-
-.rbc-calendar .rbc-off-range-bg {
-  background-color: config('colors.overlay-dark');
-}
-
-.rbc-calendar .rbc-event-content,
-.rbc-calendar .rbc-label,
-.rbc-calendar .rbc-header,
-.rbc-calendar .rbc-agenda-event-cell,
-.rbc-calendar .rbc-agenda-date-cell,
-.rbc-calendar .rbc-agenda-time-cell {
-  color: config('colors.grey-dark');
-  font-size: config('textSizes.sm');
-  text-transform: uppercase;
-}
-
-.rbc-calendar .rbc-time-view .rbc-row {
-  min-height: auto;
-}
-
-.rbc-calendar .rbc-agenda-empty {
-  background-color: config('colors.panel');
-  border-radius: 0.25rem;
-  left: 50%;
-  padding: 1rem;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: config('colors.grey-dark');
-  font-size: config('textSizes.sm');
-  text-transform: uppercase;
-}
-
-.calendar-hero {
-  border-top-right-radius: 0.25rem;
-  border-top-left-radius: 0.25rem;
-  margin-bottom: 1rem;
-  width: 100%;
-  height: 180px;
+.react-grid-placeholder {
+  background-color: '#03b3ed' !important;
 }

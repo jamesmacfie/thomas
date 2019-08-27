@@ -1,31 +1,21 @@
 import React from 'react';
 import App, { Container } from 'next/app';
-import { initializeStore } from '../store';
-import { initializeSpotifyStore } from '../spotifyStore';
-import { initializeGoogleStore } from '../googleStore';
-import sentry from '../utils/sentry';
+import { useStaticRendering } from 'mobx-react-lite';
 import '../styles/index.css';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
 
-const { captureException } = sentry();
+useStaticRendering(typeof window === 'undefined');
 
-class Thomas extends App {
-  constructor(props: any) {
-    super(props);
-    const isServer = typeof window === 'undefined';
-    if (!isServer) {
-      initializeStore();
-      initializeSpotifyStore();
-      initializeGoogleStore();
+class Boiler extends App {
+  static async getInitialProps({ Component, ctx }: any) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
     }
-  }
 
-  componentDidCatch(error: any, errorInfo: any) {
-    console.log(error, errorInfo);
-    const errorEventId = captureException(error, { errorInfo });
-
-    // Store the event id at this point as we don't have access to it within
-    // `getDerivedStateFromError`.
-    this.setState({ errorEventId });
+    return { pageProps };
   }
 
   render() {
@@ -38,4 +28,4 @@ class Thomas extends App {
   }
 }
 
-export default Thomas;
+export default Boiler;

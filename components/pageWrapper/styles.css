@@ -1,9 +1,0 @@
-.content {
-  /* Height minus header */
-  height: calc(100vh - 4rem);
-}
-
-.content-drawer {
-  /* Height minus headerand drawer */
-  height: calc(100vh - 10rem);
-}

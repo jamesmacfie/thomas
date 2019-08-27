@@ -10,9 +10,9 @@ export const H2 = ({ className, ...props }: HTMLProps<HTMLHeadingElement>) => (
 );
 
 export const H3 = ({ className, ...props }: HTMLProps<HTMLHeadingElement>) => (
-  <h3 {...props} className={cn('uppercase text-sm font-normal mb-3', className)} />
+  <h3 {...props} className={cn('uppercase text-xs text-grey font-normal mb-3', className)} />
 );
 
 export const H4 = ({ className, ...props }: HTMLProps<HTMLHeadingElement>) => (
-  <h4 {...props} className={cn('text-xs font-normal mb-2', className)} />
+  <h4 {...props} className={cn('uppercase text-s text-grey font-normal mb-3', className)} />
 );

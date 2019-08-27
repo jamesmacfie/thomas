@@ -3,7 +3,8 @@ import cn from 'classnames';
 
 interface Props {
   children: ReactNode;
-  onClick?: (e: Event) => void;
+  disabled?: boolean;
+  onClick?(event: React.MouseEvent<HTMLElement>): void;
   className?: string;
   padding?: Boolean;
   type: 'primary' | 'secondary' | 'danger';
@@ -11,18 +12,21 @@ interface Props {
 
 const typeClasses = {
   primary: 'bg-blue border-blue-dark hover:bg-blue-dark hover:border-blue',
-  secondary: 'bg-white',
+  secondary: 'bg-transparent border-white hover:text-blue hover:border-blue',
   danger: 'bg-red'
 };
 
-const Button = ({ children, type, className, padding = true }: Props) => {
+const Button = ({ children, type, className, padding = true, disabled = false, onClick }: Props) => {
   const classes = cn(
-    'text-xs uppercase font-bold rounded-full leading-normal border text-white',
-    { 'px-6 py-2': padding },
-    typeClasses[type],
+    'text-xs uppercase font-bold rounded leading-normal border text-white',
+    { 'px-12 py-3': padding, [typeClasses[type]]: !disabled, 'bg-grey': disabled },
     className
   );
-  return <button className={classes}>{children}</button>;
+  return (
+    <button disabled={disabled} className={classes} onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 export default Button;

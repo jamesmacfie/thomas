@@ -1,6 +1,6 @@
 {
-  "short_name": "House",
-  "name": "Macfie house",
+  "short_name": "Boiler",
+  "name": "NextJS Express Boilerplate",
   "start_url": "/",
   "display": "standalone",
   "orientation": "landscape"

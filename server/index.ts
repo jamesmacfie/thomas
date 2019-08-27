@@ -1,41 +1,49 @@
 import express from 'express';
 import cors from 'cors';
-import proxy from 'express-http-proxy';
+import bodyParser from 'body-parser';
 import next from 'next';
-import WebSocket from 'ws';
-import { createLogger } from './logger';
-import { init as initGoogle } from './api/google';
-import { init as initSpotify } from './api/spotify';
-import { init as initHomeAssistant } from './api/homeassistant';
+import { loadIntegrations } from './integration';
+import db from './db';
+import api from './api';
+import logger from './logger';
 
 const port = 3000;
-const wsPort = 3001;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const { HOME_ASSISTANT_URL } = process.env;
-const logger = createLogger({ name: 'App', color: 'red' });
 
-app.prepare().then(() => {
+app.prepare().then(async () => {
+  let integrations: (SystemIntegration | null)[] = [];
+
   logger.info('👩‍🍳 Preparing app');
   const server = express();
   server.use(cors());
+  server.use(bodyParser.json());
+  try {
+    logger.info('👩‍🍳 Loading integrations');
+    integrations = await loadIntegrations(server);
+    logger.info('👩‍🍳 Intergrations loaded successfully');
+  } catch (err) {
+    logger.error(`Error loading integrations: ${err.message}`);
+  }
 
-  logger.info(`🛠 Creating websocket`);
-  const ws = new WebSocket.Server({ port: wsPort });
+  try {
+    logger.info('🤞 Inititaling database');
+    await db;
+  } catch (err) {
+    logger.error(`🤞 Error inititaling database: ${err.message}`);
+  }
 
-  initGoogle(server);
-  initHomeAssistant(server);
-  initSpotify(server, ws);
+  try {
+    logger.info('☔️ Inititaling API');
+    await api(server);
+  } catch (err) {
+    logger.error(`☔️ Error inititaling api: ${err.message}`);
+  }
 
-  server.use(
-    '/api/history/period',
-    proxy(HOME_ASSISTANT_URL as string, {
-      proxyReqPathResolver: (req: express.Request) => {
-        return req.originalUrl;
-      }
-    })
-  );
+  server.get('/system/integrations', (_req: express.Request, res: express.Response) => {
+    return res.json(integrations.filter(i => i !== null));
+  });
 
   server.get('*', (req: express.Request, res: express.Response) => {
     return handle(req, res);
@@ -43,6 +51,6 @@ app.prepare().then(() => {
 
   server.listen(port, (err: Error) => {
     if (err) throw err;
-    logger.info(`🚀 Ready on http://localhost:${port}`);
+    logger.info(`🚀 Ready on port ${port}`);
   });
 });

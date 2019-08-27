@@ -1,21 +1,24 @@
 import { createLogger as create, format, transports } from 'winston';
 import chalk from 'chalk';
 
-interface LoggerInitConfig {
-  name: string;
-  color: 'red' | 'blue' | 'green' | 'yellow';
-}
+type Color = 'red' | 'blue' | 'green' | 'yellow' | 'magenta';
 
-export const createLogger = ({ name, color }: LoggerInitConfig) => {
+const errorStackTracerFormat = format((info: any) => {
+  if (info.meta && info.meta instanceof Error) {
+    info.message = `${info.message} ${info.meta.stack}`;
+  }
+  return info;
+});
+
+export const createLogger = (color: Color) => {
   const logger = create({
     level: 'info',
     format: format.combine(
-      format.errors({ stack: true }),
       format.splat(),
       format.json(),
+      errorStackTracerFormat(),
       format.printf(info => {
-        const prefix = `${(chalk[color] as any)(`${name} - `)}`;
-        return `${prefix}${info.message}`;
+        return (chalk[color] as any)(info.message);
       })
     ),
 
@@ -24,3 +27,6 @@ export const createLogger = ({ name, color }: LoggerInitConfig) => {
 
   return logger;
 };
+
+const logger = createLogger('magenta');
+export default logger;

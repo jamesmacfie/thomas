@@ -1,6 +1,3 @@
-declare module 'react-spotify-login';
-declare module 'isomorphic-unfetch';
-declare module 'spotify-web-api-node';
 declare module '*.css' {
   const content: any;
   export default content;
@@ -11,69 +8,96 @@ declare module '*.svg' {
   export default content;
 }
 
-declare interface Entity {
-  attributes: {
-    attribution?: string;
-    friendly_name?: string;
-    battery_level?: number;
-    icon?: string;
-    unit_of_measurement: string;
-  };
-  context: {
-    id: string;
-    user_id?: string;
-  };
-  entity_id: string;
-  last_changed: Date;
-  last_updated: Date;
-  state: number | string;
-  [key: string]: string;
-}
-
-declare interface SpotifyTrack {
+declare interface Integration {
   id: string;
-  href: string;
-  album: SpotifyAlbum;
+  archived: boolean;
+  slug: string;
+  config: any;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+declare interface ServerIntegration {
+  init: (server: express.Express) => string[];
+}
+
+declare interface SystemIntegration {
   name: string;
-  artists: SpotifyArtist[];
-  duration_ms: number;
+  slug: string;
 }
 
-declare interface SpotifyPlaylistTracks {
-  items: {
-    track: SpotifyTrack;
-  }[];
+interface View {
+  id: number;
+  archived: boolean;
+  name: string;
+  icon: string;
+  createdBy: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-declare interface SpotifyImage {
-  height: number;
-  width: number;
+interface DeviceView {
+  id: string;
+  archived: boolean;
+  order: number;
+  icon: string;
+  name: string;
+  viewId: number;
+  deviceId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Page {
+  id: string;
   url: string;
+  name: string;
+  components: IntegrationComponent[];
 }
 
-declare interface SpotifyArtist {
+interface ServerIntegration {
   id: string;
-  name: string;
-}
-declare interface SpotifyAlbum {
-  id: string;
-  name: string;
-  artists: SpotifyArtist[];
-  images: SpotifyImage[];
+  slug: string;
+  config: object;
 }
 
-declare interface SpotifyCurrentlyPlaying {
-  currently_playing_type: string;
-  is_playing: boolean;
-  progress_ms: number;
-  item: SpotifyTrack;
-  context: {
-    type: string;
-    href: string;
+interface IntegrationComponent {
+  id: string;
+  archived: boolean;
+  componentSlug: string;
+  integrationSlug: string;
+  integrationId: number;
+  config: any;
+  viewId: number;
+  createdBy: number;
+  createdAt: Date;
+  updatedAt: Date;
+  integration: {
+    id: number;
+    name: string;
+    config: any;
   };
 }
 
-declare interface WSMessage {
-  type: string;
-  data: object | null;
+interface ComponentConfig {
+  h: number;
+  w: number;
+  x: number;
+  y: number;
+  [key: string]: any;
+}
+
+interface IntegrationComponentProps {
+  componentId: number;
+  componentConfig: ComponentConfig;
+  integrationId: number;
+  integrationConfig: {
+    [key: string]: any;
+  };
+}
+
+type DarkSkyUnits = 'ca' | 'us' | 'si';
+
+interface ReactGridLayoutConfig extends ComponentConfig {
+  i: any;
 }

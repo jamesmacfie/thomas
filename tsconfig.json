@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "*": ["types/*"] },
+    "paths": {
+      "*": ["types/*", "*"],
+      "thomas/*": [".thomas/*"]
+    },
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
@@ -17,7 +20,24 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
-  "include": ["pages", "components", "utils", "hooks", "types"]
+  "include": [
+    ".thomas",
+    "pages",
+    "containers",
+    "components",
+    "types",
+    "stores",
+    "integrations",
+    "server",
+    "svg",
+    "hooks"
+  ],
+  "exclude": ["node_modules"]
 }
