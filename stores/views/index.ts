@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { keyBy } from 'lodash';
+import { keyBy, isEqual } from 'lodash';
 import { observable } from 'mobx';
 import fetch from 'isomorphic-unfetch';
 
@@ -28,26 +28,22 @@ export default class Store {
     this.views[viewId].components = this.views[viewId].components.concat(component);
   };
 
-  updateViewComponents = async (_viewId: number, _updates: ViewComponentUpdate[]) => {
-    // if (!this.viewComponents || !Object.keys(this.viewComponents).length) {
-    //   return null;
-    // }
-    // // TODO try/catch
-    // await Promise.all(
-    //   updates.map(u => {
-    //     const old = this.viewComponents[viewId].find((c: any) => c.id === u.componentId);
-    //     if (!old || isEqual(old.config, u.config)) {
-    //       return Promise.resolve();
-    //     }
-    //     fetch(`http://localhost:3000/component/${u.componentId}`, {
-    //       method: 'PATCH',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify({ config: u.config })
-    //     });
-    //   })
-    // );
-    // TODO - should we update this.viewComponents here? Prob only if/when I bring in caching
-    // into each page's requests
+  updateViewComponents = async (viewId: number, updates: ViewComponentUpdate[]) => {
+    await Promise.all(
+      updates.map(async u => {
+        const old = this.views[viewId].components.find((c: any) => c.id === u.componentId);
+        if (!old || isEqual(old.config, u.config)) {
+          return Promise.resolve();
+        }
+        await fetch(`http://localhost:3000/component/${u.componentId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ config: u.config })
+        });
+
+        // TODO - need to update the cached UI components inside this.views here
+      })
+    );
   };
 }
 

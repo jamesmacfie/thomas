@@ -22,7 +22,11 @@ const ViewComponents = observer(({ viewId }: Props) => {
         w: l.w
       }
     }));
-    await viewStore.updateViewComponents(viewId, updates);
+    try {
+      await viewStore.updateViewComponents(viewId, updates);
+    } catch (err) {
+      console.error(`Error updating view components for ${viewId}`, err);
+    }
   };
 
   if (!viewStore.views[viewId].components) {

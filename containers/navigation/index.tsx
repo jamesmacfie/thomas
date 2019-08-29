@@ -53,14 +53,16 @@ const NavigationItems = observer(({ items }: Props) => {
       }))
       .filter(l => l.deviceViewId !== 'settings');
 
-    console.log('Sending updates', updates);
-
-    await deviceViewStore.updateDeviceViews(updates);
+    try {
+      await deviceViewStore.updateDeviceViews(updates);
+    } catch (err) {
+      console.error('Error updating nav layout', err);
+    }
   };
 
   const layout: ReactGridLayoutConfig[] = items.map((i, idx) => {
     return {
-      i: i.id,
+      i: i.id.toString(),
       w: 1,
       h: 1,
       x: 0,
