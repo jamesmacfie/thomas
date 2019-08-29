@@ -1,18 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const { writeTemplateToFile } = require('./template');
+const { getDirs, getNamedFilesOrFolderIndex } = require('./dirs');
 
 const getIntegrationComponentTemplate = () => {
   const source = path.join(__dirname, `integrationComponentTemplate.handlebars`);
   return fs.readFileSync(source, 'utf8');
-};
-
-const getIntegrationDirs = () => {
-  const source = path.join(__dirname, `../../integrations`);
-  return fs
-    .readdirSync(source)
-    .map(f => path.join(source, f))
-    .filter(p => fs.statSync(p).isDirectory());
 };
 
 const getIntegrationComponents = integrationDir => {
@@ -21,25 +14,33 @@ const getIntegrationComponents = integrationDir => {
     return null;
   }
 
-  return fs
-    .readdirSync(source)
-    .map(f => path.join(source, f))
-    .filter(p => fs.statSync(p).isFile())
-    .filter(p => p.indexOf('index') === -1)
-    .map(p => {
-      const integrationSlug = path.basename(integrationDir);
-      const componentSlug = path.parse(p).name;
-      return {
-        integrationSlug,
-        componentSlug,
-        componentImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${componentSlug}`
-      };
-    })
-    .reduce((acc, val) => acc.concat(val), []);
+  const integrationSlug = path.basename(integrationDir);
+  const { files, folders } = getNamedFilesOrFolderIndex(source);
+  const fileComponents = files.map(f => {
+    const componentSlug = path.parse(f).name;
+    return {
+      integrationSlug,
+      componentSlug,
+      componentImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${componentSlug}`
+    };
+  });
+
+  const folderComponents = folders.map(f => {
+    const folderParts = f.split('/');
+    const componentSlug = folderParts[folderParts.length - 2];
+    return {
+      integrationSlug,
+      componentSlug,
+      componentImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${componentSlug}`
+    };
+  });
+
+  return fileComponents.concat(folderComponents);
 };
 
 const getComponents = () => {
-  const integrations = getIntegrationDirs();
+  const source = path.join(__dirname, '../../integrations');
+  const integrations = getDirs(source);
   const components = integrations
     .map(getIntegrationComponents)
     .filter(i => i !== null)
