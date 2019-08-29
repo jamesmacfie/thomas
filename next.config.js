@@ -2,9 +2,9 @@ const { parsed: localEnv } = require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 const withCSS = require('@zeit/next-css');
-const withIntegrationComponents = require('./build/withIntegrationComponents');
+const withIntegrations = require('./build/withIntegrations');
 
-module.exports = withIntegrationComponents(
+module.exports = withIntegrations(
   withCSS({
     webpack(config) {
       ['components', 'integrations', 'stores', 'svg', 'hooks', 'containers'].forEach(
