@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const handlebars = require('handlebars');
+const { writeTemplateToFile } = require('./template');
 
 const getIntegrationComponentTemplate = () => {
   const source = path.join(__dirname, `integrationComponentTemplate.handlebars`);
@@ -38,28 +38,15 @@ const getIntegrationComponents = integrationDir => {
     .reduce((acc, val) => acc.concat(val), []);
 };
 
-const writeThomasConfig = components => {
-  const source = path.join(__dirname, `../../.thomas`);
-  const componentFile = path.join(source, 'integrationComponents.tsx');
-  if (!fs.existsSync(source)) {
-    fs.mkdirSync(source);
-  }
-
-  const template = getIntegrationComponentTemplate();
-  const compiledTemplate = handlebars.compile(template);
-  const templateResult = compiledTemplate({ components });
-  fs.writeFileSync(componentFile, templateResult);
-
-  console.log('written with', JSON.stringify({ components }));
-};
-
 const getComponents = () => {
   const integrations = getIntegrationDirs();
   const components = integrations
     .map(getIntegrationComponents)
     .filter(i => i !== null)
     .reduce((acc, val) => acc.concat(val), []);
-  writeThomasConfig(components);
+
+  const template = getIntegrationComponentTemplate();
+  writeTemplateToFile(template, { components }, 'integrationComponents.tsx');
 };
 
 module.exports = {
