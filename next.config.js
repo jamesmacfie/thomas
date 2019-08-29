@@ -14,7 +14,6 @@ module.exports = withIntegrationComponents(
       config.resolve.alias['thomas'] = path.join(__dirname, '.thomas');
 
       config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
-      config.plugins.push(new webpack.IgnorePlugin(/.thomas/));
 
       return config;
     }
