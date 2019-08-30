@@ -10,8 +10,7 @@ interface Props {
 const IntegrationsWrapper = observer(({ children }: Props) => {
   const store = useContext(StoreContext) as IntegrationStore;
 
-  // Wait until we have at least got an empty list of integrations
-  if (store.integrations === null) {
+  if (!store.loaded) {
     return <Loader fullPage />;
   }
 

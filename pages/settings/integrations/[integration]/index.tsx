@@ -8,7 +8,7 @@ import Loader from 'components/loader';
 
 const IntegrationSettings = observer(() => {
   const store = useContext(StoreContext) as IntegrationsStore;
-  if (!store.integrations || !store.systemIntegrations) {
+  if (!store.loaded) {
     return <Loader fullPage />;
   }
   const { query } = useRouter();

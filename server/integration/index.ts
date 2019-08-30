@@ -1,5 +1,4 @@
 /// <reference path="../../types/typings.d.ts" /> #
-
 import fs from 'fs';
 import path from 'path';
 import express from 'express';
@@ -16,11 +15,14 @@ const getDirectories: () => string[] = () => {
 const load = async (dir: string, server: express.Express) => {
   try {
     logger.error(`🐔 Loading integration from dir ${dir}`);
-    const config: SystemIntegration = require(`${dir}/config`).default;
+    const config: any = require(`${dir}/config.json`);
     const integration: ServerIntegration = require(`${dir}/server`);
     logger.error(`🐔 Imported integration ${config.name}. Initialising.`);
     integration.init(server);
-    return config;
+    return {
+      slug: path.basename(dir),
+      ...config
+    };
   } catch (e) {
     logger.error(`🐔 Error with integration ${dir}: ${e}`);
     return null;

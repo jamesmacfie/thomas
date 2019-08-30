@@ -1,6 +1,4 @@
 /// <reference path="../../types/typings.d.ts" /> #
-// ^ How do I get rid of that?
-
 import { createContext } from 'react';
 import { observable } from 'mobx';
 import { keyBy } from 'lodash';
@@ -8,6 +6,7 @@ import fetch from 'isomorphic-unfetch';
 import { store as deviceStore } from 'stores/device';
 
 export default class Store {
+  @observable loaded: boolean = false;
   @observable integrations: any | null = null;
   @observable systemIntegrations: any | null = null;
 
@@ -15,7 +14,9 @@ export default class Store {
     return fetch('http://localhost:3000/system/integrations')
       .then(res => res.json())
       .then((json: SystemIntegration[]) => {
+        console.log(json);
         this.systemIntegrations = keyBy(json, 'slug');
+        this.setLoadedIfReady();
       });
   };
 
@@ -24,7 +25,12 @@ export default class Store {
       .then(res => res.json())
       .then((json: Integration[]) => {
         this.integrations = keyBy(json, 'id');
+        this.setLoadedIfReady();
       });
+  };
+
+  setLoadedIfReady = () => {
+    this.loaded = !!this.systemIntegrations && !!this.integrations;
   };
 
   saveNewIntegration = (slug: string, config: any) => {

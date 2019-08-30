@@ -3,15 +3,19 @@ import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import PageWrapper from 'containers/pageWrapper';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
+import { toJS } from 'mobx';
 import Loader from 'components/loader';
 import PanelIcon from 'components/panelIcon';
 import { H2 } from 'components/text';
 
 const Integrations = observer(() => {
   const store = useContext(StoreContext) as IntegrationsStore;
-  if (!store.integrations || !store.systemIntegrations) {
+  if (!store.systemIntegrations) {
     return <Loader fullPage />;
   }
+
+  console.log('int', toJS(store.systemIntegrations));
+
   return (
     <PageWrapper title="Settings - Integrations">
       <H2 className="mt-0">

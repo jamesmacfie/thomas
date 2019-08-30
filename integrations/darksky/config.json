@@ -1,0 +1,10 @@
+{
+  "name": "Dark Sky Weather",
+  "settings": [
+    {
+      "type": "text",
+      "label": "API Key",
+      "description": "The API Key"
+    }
+  ]
+}

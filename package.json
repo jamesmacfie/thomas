@@ -30,6 +30,7 @@
     "@types/react-dom": "^16.8.4",
     "@types/react-grid-layout": "^0.16.7",
     "@types/winston": "^2.4.4",
+    "@types/yup": "^0.26.23",
     "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^9.6.0",
     "babel-plugin-inline-react-svg": "^1.1.0",
@@ -60,6 +61,7 @@
     "tailwindcss": "^1.0.4",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "yup": "^0.27.0"
   }
 }
