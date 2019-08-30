@@ -15,7 +15,6 @@ const IntegrationSettingsChild = observer(() => {
   const integrationSlug = Array.isArray(query.integration) ? query.integration[0] : query.integration;
   const childSlug = Array.isArray(query.child) ? query.child[0] : query.child;
   const slug = `${integrationSlug}_${childSlug}`;
-  // TODO - what if there is no such integrationSlug or childSlug?
 
   const Cmp = integrationSettings(slug);
   return <Cmp />;

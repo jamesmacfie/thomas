@@ -101,3 +101,10 @@ type DarkSkyUnits = 'ca' | 'us' | 'si';
 interface ReactGridLayoutConfig extends ComponentConfig {
   i: any;
 }
+
+interface FormConfig {
+  key: string;
+  type: 'text' | 'number';
+  label: string;
+  description?: string;
+}

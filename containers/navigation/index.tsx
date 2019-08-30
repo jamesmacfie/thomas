@@ -3,7 +3,6 @@ import cn from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
-import { toJS } from 'mobx';
 import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import Icon from 'components/icon';
@@ -45,7 +44,6 @@ const NavigationItems = observer(({ items }: Props) => {
   };
   const { asPath } = useRouter();
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
-    console.log('layout', layout);
     const updates = layout
       .map(l => ({
         deviceViewId: l.i,
@@ -122,7 +120,6 @@ const Navigation = observer(() => {
     );
   }
 
-  console.log(toJS(Object.values(store.deviceViews)));
   const deviceViewsAsItems: Item[] = Object.values(store.deviceViews)
     .sort((a: any, b: any) => a.order - b.order)
     .map(({ id, viewId, icon, name }: DeviceView) => ({

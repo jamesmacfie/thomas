@@ -1,10 +1,22 @@
 {
   "name": "Dark Sky Weather",
+  "singular": true,
   "settings": [
     {
+      "key": "apiKey",
       "type": "text",
       "label": "API Key",
       "description": "The API Key"
+    },
+    {
+      "key": "longitude",
+      "type": "number",
+      "label": "Longitude"
+    },
+    {
+      "key": "latitude",
+      "type": "number",
+      "label": "Latitude"
     }
   ]
 }

@@ -28,7 +28,6 @@ export default class Store {
           if (!old || old.order === u.order) {
             // Either we don't have this device view (shouldnt happen?) or the order is the same.
             // In both cases, do nothing.
-            console.log('Order the same for ', u.deviceViewId);
             return Promise.resolve();
           }
 

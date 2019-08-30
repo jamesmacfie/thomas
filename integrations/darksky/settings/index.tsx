@@ -118,7 +118,6 @@ const List = observer(() => {
 });
 
 const Settings = () => {
-  console.log('settings');
   return (
     <DarkSkyIntegrationsWrapper>
       <H2 className="mt-0">
