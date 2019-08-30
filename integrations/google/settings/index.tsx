@@ -1,4 +1,4 @@
-import React, { ElementType, useContext } from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
 import GoogleStore, { StoreContext } from '../store';
@@ -40,7 +40,7 @@ const List = observer(() => {
   );
 });
 
-const Inner = () => {
+const Settings = () => {
   return (
     <GoogleIntegrationsWrapper>
       <H2 className="mt-0">
@@ -58,8 +58,4 @@ const Inner = () => {
   );
 };
 
-const cmp = (): ElementType => {
-  return Inner;
-};
-
-export default cmp;
+export default Settings;

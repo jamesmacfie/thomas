@@ -12,13 +12,20 @@ const getDirs = source => {
     .filter(p => fs.statSync(p).isDirectory());
 };
 
-const getNamedFilesOrFolderIndex = source => {
+const getNamedFilesOrFolderIndex = (source, includeIndex = false) => {
   if (!fs.existsSync(source)) {
     throw new Error(`Folder ${folder} does not exist`);
   }
 
   const fileFolders = fs.readdirSync(source).map(f => path.join(source, f));
-  const files = fileFolders.filter(p => fs.statSync(p).isFile()).filter(p => p.indexOf('index') === -1);
+  const files = fileFolders
+    .filter(p => fs.statSync(p).isFile())
+    .filter(p => {
+      if (includeIndex) {
+        return true;
+      }
+      return p.indexOf('index') === -1;
+    });
   const folders = fileFolders
     .filter(p => fs.statSync(p).isDirectory())
     .map(d => {

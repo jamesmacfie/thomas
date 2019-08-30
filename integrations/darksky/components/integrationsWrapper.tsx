@@ -15,6 +15,7 @@ const DarkSkyIntegrationsWrapper = observer(({ children }: Props) => {
     return <Loader fullPage />;
   }
 
+  console.log('returning children');
   return <>{children}</>;
 });
 

@@ -1,4 +1,4 @@
-import React, { ElementType, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
 import DarkSkyStore, { StoreContext } from '../store';
@@ -117,7 +117,8 @@ const List = observer(() => {
   );
 });
 
-const Inner = () => {
+const Settings = () => {
+  console.log('settings');
   return (
     <DarkSkyIntegrationsWrapper>
       <H2 className="mt-0">
@@ -135,8 +136,4 @@ const Inner = () => {
   );
 };
 
-const cmp = (): ElementType => {
-  return Inner;
-};
-
-export default cmp;
+export default Settings;

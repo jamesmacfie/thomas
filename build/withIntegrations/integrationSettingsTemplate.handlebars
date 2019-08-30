@@ -1,0 +1,29 @@
+import { ElementType } from 'react';
+import NotFound from 'components/notFound';
+{{#each settings }}
+import {{componentImportName}} from 'integrations/{{integrationSlug}}/settings'
+{{#if hasChildren}}
+{{#each children }}
+import {{componentImportName}} from 'integrations/{{integrationSlug}}/settings/{{settingsPageSlug}}'
+{{/each}}
+{{/if}}
+{{/each}}
+
+const cmp = (slug: string): ElementType => {
+  switch (slug) {
+    {{#each settings }}
+    case '{{integrationSlug}}':
+      return {{componentImportName}}
+    {{#if hasChildren}}
+    {{#each children }}
+    case '{{integrationSlug}}_{{settingsPageSlug}}':
+      return {{componentImportName}}
+    {{/each}}
+    {{/if}}
+    {{/each}}
+
+  } 
+  return NotFound;
+};
+
+export default cmp;

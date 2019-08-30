@@ -1,4 +1,5 @@
 const { getComponents } = require('./components');
+const { getSettings } = require('./settings');
 
 class IntegrationComponentsPlugin {
   apply(compiler) {
@@ -9,6 +10,7 @@ class IntegrationComponentsPlugin {
 
     compiler.hooks.entryOption.tap('IntegrationComponents', () => {
       getComponents();
+      getSettings();
     });
 
     compiler.test = this;

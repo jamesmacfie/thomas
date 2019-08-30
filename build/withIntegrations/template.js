@@ -12,8 +12,6 @@ const writeTemplateToFile = (template, data, filename) => {
   const compiledTemplate = handlebars.compile(template);
   const templateResult = compiledTemplate(data);
   fs.writeFileSync(outputFile, templateResult);
-
-  console.log('written with', JSON.stringify(data));
 };
 
 module.exports = {
