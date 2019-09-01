@@ -7,7 +7,7 @@ import 'react-resizable/css/styles.css';
 
 useStaticRendering(typeof window === 'undefined');
 
-class Boiler extends App {
+class Thomas extends App {
   static async getInitialProps({ Component, ctx }: any) {
     let pageProps = {};
 
@@ -28,4 +28,4 @@ class Boiler extends App {
   }
 }
 
-export default Boiler;
+export default Thomas;

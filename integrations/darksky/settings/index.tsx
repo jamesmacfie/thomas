@@ -26,7 +26,7 @@ interface FormProps {
 const CreateUpdate = ({ integrationCount, onClick, submitting }: CreateUpdateProps) => {
   const text = integrationCount > 0 ? 'Update' : 'Set';
   return (
-    <Button type="primary" padding={false} onClick={onClick} disabled={submitting}>
+    <Button color="primary" padding={false} onClick={onClick} disabled={submitting}>
       <span className="px-6 py-2 inline-block">{text}</span>
     </Button>
   );

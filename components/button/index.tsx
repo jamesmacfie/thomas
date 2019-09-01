@@ -1,29 +1,29 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, ButtonHTMLAttributes } from 'react';
 import cn from 'classnames';
 
-interface Props {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   disabled?: boolean;
   onClick?(event: React.MouseEvent<HTMLElement>): void;
   className?: string;
   padding?: Boolean;
-  type: 'primary' | 'secondary' | 'danger';
+  color: 'primary' | 'secondary' | 'danger';
 }
 
-const typeClasses = {
+const colorClasses = {
   primary: 'bg-blue border-blue-dark hover:bg-blue-dark hover:border-blue',
   secondary: 'bg-transparent border-white hover:text-blue hover:border-blue',
   danger: 'bg-red'
 };
 
-const Button = ({ children, type, className, padding = true, disabled = false, onClick }: Props) => {
+const Button = ({ children, color, className, padding = true, disabled = false, onClick, ...props }: Props) => {
   const classes = cn(
     'text-xs uppercase font-bold rounded leading-normal border text-white',
-    { 'px-12 py-3': padding, [typeClasses[type]]: !disabled, 'bg-grey': disabled },
+    { 'px-12 py-3': padding, [colorClasses[color]]: !disabled, 'bg-grey': disabled },
     className
   );
   return (
-    <button disabled={disabled} className={classes} onClick={onClick}>
+    <button disabled={disabled} className={classes} onClick={onClick} {...props}>
       {children}
     </button>
   );

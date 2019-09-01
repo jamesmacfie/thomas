@@ -21,7 +21,7 @@ const Drawer = observer(() => {
         onClick={toggleDrawer}
       />
       <div className="w-full h-full overflow-hidden p-4">
-        <Button className="mx-auto block" type="secondary" onClick={toggleEditMode}>
+        <Button className="mx-auto block" color="secondary" onClick={toggleEditMode}>
           {buttonText}
         </Button>
       </div>

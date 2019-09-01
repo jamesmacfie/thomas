@@ -6,7 +6,7 @@ import { store as deviceViewStore } from 'stores/deviceViews';
 const isServer = typeof window === 'undefined';
 
 export default class Store {
-  device_key: string = 'boiler_device';
+  device_key: string = 'thomas_device';
   @observable hasDeviceId: boolean = false;
   @observable device: any | null = null;
 

@@ -15,7 +15,7 @@ const Create = () => {
   }
 
   return (
-    <Button type="primary" padding={false}>
+    <Button color="primary" padding={false}>
       <Link href={data.url}>
         <a className="px-6 py-2 inline-block">Link Google account</a>
       </Link>

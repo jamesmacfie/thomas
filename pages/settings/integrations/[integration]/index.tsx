@@ -5,7 +5,7 @@ import integrationSettings from 'thomas/integrationSettings';
 import PageWrapper from 'containers/pageWrapper';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
 import Loader from 'components/loader';
-import ConfigForm from 'containers/configForm';
+import IntegrationSettingsCmp from 'containers/integrationSettings';
 
 const IntegrationSettings = observer(() => {
   const store = useContext(StoreContext) as IntegrationsStore;
@@ -18,15 +18,8 @@ const IntegrationSettings = observer(() => {
 
   const systemIntegration = store.systemIntegrations[integrationSlug];
   if (systemIntegration.settings) {
-    // TODO - fix this all up here
-    let initialValues = {};
-    if (systemIntegration.singular) {
-      const integration: any = Object.values(store.integrations).find((i: any) => i.slug === integrationSlug);
-      console.log(integration);
-      initialValues = integration.config;
-    }
-
-    return <ConfigForm config={systemIntegration.settings} initialValues={initialValues} />;
+    const integrations: any = Object.values(store.integrations).filter((i: any) => i.slug === integrationSlug);
+    return <IntegrationSettingsCmp integrations={integrations} systemIntegration={systemIntegration} />;
   }
 
   const Cmp = integrationSettings(integrationSlug);

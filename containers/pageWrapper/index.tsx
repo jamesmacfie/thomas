@@ -14,7 +14,7 @@ const PageWrapper = ({ title, children }: Props) => {
   return (
     <>
       <Head>
-        <title>Boiler{title.length ? ` - ${title}` : ''}</title>
+        <title>Thomas{title.length ? ` - ${title}` : ''}</title>
       </Head>
       <ApplicationWrapper>
         <DeviceWrapper>

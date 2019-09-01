@@ -68,7 +68,7 @@ const NewComponent = observer(() => {
               setComponentSlug(e.target.value);
             }}
           />
-          <Button type="primary" onClick={create}>
+          <Button color="primary" onClick={create}>
             Create
           </Button>
         </Modal>
