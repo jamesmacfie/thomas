@@ -52,6 +52,44 @@ const init = (server: express.Express) => {
       });
       return res.json(deviceViews);
     } catch (err) {
+      logger.error(`📲 Error creating view for device ${deviceId}: ${err.message}`);
+      return res.status(500).send(err.message);
+    }
+  });
+
+  server.post('/device/:device_id/view', async (req: express.Request, res: express.Response) => {
+    const deviceId = req.params.device_id;
+    const { name, icon, createNewView } = req.body;
+    try {
+      logger.info(`📲 Creating view for device ${deviceId}`);
+      let viewId;
+      if (createNewView) {
+        logger.info(`📲 Creating new view first`);
+        const view = await db.View.create({
+          name,
+          icon
+        });
+        viewId = view.id;
+      } else {
+        viewId = req.body.viewId;
+        logger.info(`📲 Associating new device view with view ${viewId}`);
+      }
+
+      const highestDeviceView = await db.DeviceView.findAll({
+        where: {
+          deviceId
+        }
+      }).reduce((highest: number, curr: DeviceView) => (highest > curr.order ? highest : curr.order));
+
+      const deviceView = await db.DeviceView.create({
+        order: highestDeviceView + 1,
+        name,
+        icon,
+        viewId,
+        deviceId
+      });
+      return res.json(deviceView);
+    } catch (err) {
       logger.error(`📲 Error getting device for id ${deviceId}: ${err.message}`);
       return res.status(500).send(err.message);
     }

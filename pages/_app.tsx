@@ -19,6 +19,14 @@ class Thomas extends App {
   }
 
   render() {
+    // try {
+    //   if (getComputedStyle !== undefined) {
+    //     console.log(parseFloat(getComputedStyle(document!.documentElement!).fontSize!));
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
+
     const { Component, pageProps } = this.props;
     return (
       <Container>

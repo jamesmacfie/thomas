@@ -1,55 +1,47 @@
-import React, { useContext, ReactNode } from 'react';
-import cn from 'classnames';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import React, { useContext, ReactNode, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
 import { StoreContext as UIStoreContext } from 'stores/ui';
-import Icon from 'components/icon';
 import ReactGridLayout from 'components/reactGridLayout';
-import useLongPress from 'hooks/useLongPress';
+import AddNewDeviceViewModal from 'containers/addNewDeviceViewModal';
+import NavigationItem, { Props as ItemProps } from './item';
 
 const settings = {
   id: 'settings',
   href: '/settings',
   icon: 'cog',
-  text: 'Settings'
+  text: 'Settings',
+  hidePencil: true
 };
 
-type Item = {
-  id: string;
-  icon: string;
-  href: string;
-  text: string;
+const newDeviceView = {
+  id: 'new',
+  icon: 'addCircle',
+  text: 'Add new',
+  addNewClick: true,
+  hidePencil: true
 };
+
 interface Props {
-  items: Item[];
+  items: ItemProps[];
+  onAddNewClick: () => void;
 }
 
-const Container = ({ children }: { children: ReactNode }) => {
+const Container = ({ children }: { children?: ReactNode }) => {
   return <div>{children}</div>;
 };
 
-const NavigationItems = observer(({ items }: Props) => {
+const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   const deviceViewStore = useContext(DeviceViewsStoreContext);
-  const uiStore = useContext(UIStoreContext);
-  const longPress = useLongPress(() => {
-    uiStore.startEditMode();
-  }, 500);
-  const onLinkClick = (event: any) => {
-    if (uiStore.editMode) {
-      // We have a long press registered or we are in edit more. Don't follow the anchor
-      event.preventDefault();
-    }
-  };
-  const { asPath } = useRouter();
+
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
     const updates = layout
       .map(l => ({
         deviceViewId: l.i,
-        order: l.y
+        order: l.y,
+        static: l.static
       }))
-      .filter(l => l.deviceViewId !== 'settings');
+      .filter(l => !l.static);
 
     try {
       await deviceViewStore.updateDeviceViews(updates);
@@ -65,7 +57,7 @@ const NavigationItems = observer(({ items }: Props) => {
       h: 1,
       x: 0,
       y: idx,
-      static: i.id === 'settings'
+      static: !!i.hidePencil
     };
   });
 
@@ -80,29 +72,9 @@ const NavigationItems = observer(({ items }: Props) => {
           layout={layout}
           isResizable={false}
         >
-          {items.map(({ id, href, icon }: Item) => {
-            const isActive = asPath === href;
-            const anchorClasses = cn('current-stroke w-16 h-16 flex items-center justify-center', {
-              'text-white': isActive,
-              'text-grey-darker hover:text-white': !isActive
-            });
-            const showPencil = uiStore.editMode && id !== 'settings';
-            return (
-              <li key={id} {...longPress} className="relative w-full">
-                {showPencil && (
-                  <Icon
-                    icon="pencil"
-                    className="w-5 h-5 absolute right-0 top-0 text-green current-stroke border border-green rounded-full p-1"
-                  />
-                )}
-                <Link href={href}>
-                  <a className={anchorClasses} onClick={onLinkClick}>
-                    <Icon icon={icon} className="w-8 h-8" />
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
+          {items.map(i => (
+            <NavigationItem key={i.id} onAddNewClick={onAddNewClick} {...i} />
+          ))}
         </ReactGridLayout>
       </ul>
     </nav>
@@ -110,17 +82,15 @@ const NavigationItems = observer(({ items }: Props) => {
 });
 
 const Navigation = observer(() => {
-  const store = useContext(DeviceViewsStoreContext);
+  const deiviceViewsStore = useContext(DeviceViewsStoreContext);
+  const UIStore = useContext(UIStoreContext);
+  const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
 
-  if (!store.loaded) {
-    return (
-      <Container>
-        <></>
-      </Container>
-    );
+  if (!deiviceViewsStore.loaded) {
+    return <Container />;
   }
 
-  const deviceViewsAsItems: Item[] = Object.values(store.deviceViews)
+  let deviceViewsAsItems: ItemProps[] = Object.values(deiviceViewsStore.deviceViews)
     .sort((a: any, b: any) => a.order - b.order)
     .map(({ id, viewId, icon, name }: DeviceView) => ({
       id,
@@ -129,9 +99,15 @@ const Navigation = observer(() => {
       text: name
     }));
 
+  if (UIStore.editMode) {
+    deviceViewsAsItems = deviceViewsAsItems.concat(newDeviceView);
+  }
+  deviceViewsAsItems = deviceViewsAsItems.concat(settings);
+
   return (
     <Container>
-      <NavigationItems items={deviceViewsAsItems.concat(settings)} />
+      <NavigationItems items={deviceViewsAsItems} onAddNewClick={() => setAddModalVisible(true)} />
+      {addModalVisible && <AddNewDeviceViewModal onClose={() => setAddModalVisible(false)} />}
     </Container>
   );
 });

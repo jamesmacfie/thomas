@@ -35,7 +35,7 @@ db.View = view(sequelizeconnection);
 
 Object.keys(db).forEach(modelName => {
   if ((db as any)[modelName].associate) {
-    logger.info(`🗣Associations for model ${modelName}`);
+    logger.info(`🗣 Associations for model ${modelName}`);
     (db as any)[modelName].associate(db);
   }
 });
