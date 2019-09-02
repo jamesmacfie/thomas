@@ -6,17 +6,46 @@
       "key": "apiKey",
       "type": "text",
       "label": "API Key",
-      "description": "The API Key"
+      "description": "The API Key",
+      "validationType": "string",
+      "validations": [
+        {
+          "type": "required",
+          "params": ["Please enter your API key"]
+        }
+      ]
     },
     {
       "key": "longitude",
       "type": "number",
-      "label": "Longitude"
+      "label": "Longitude",
+      "validationType": "number",
+      "validations": [
+        {
+          "type": "min",
+          "params": [-180, "Please enter a valid longitude"]
+        },
+        {
+          "type": "max",
+          "params": [180, "Please enter a valid longitude"]
+        }
+      ]
     },
     {
       "key": "latitude",
       "type": "number",
-      "label": "Latitude"
+      "label": "Latitude",
+      "validationType": "number",
+      "validations": [
+        {
+          "type": "min",
+          "params": [-90, "Please enter a valid latitude"]
+        },
+        {
+          "type": "max",
+          "params": [90, "Please enter a valid latitude"]
+        }
+      ]
     }
   ]
 }

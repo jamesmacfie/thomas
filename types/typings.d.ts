@@ -107,4 +107,23 @@ interface FormConfig {
   type: 'text' | 'number';
   label: string;
   description?: string;
+  // TODO - how can I make this type be better? Needs better optional details etc
+  validationType?: 'mixed' | 'string' | 'number' | 'boolean';
+  validations?: {
+    type:
+      | 'required'
+      | 'length'
+      | 'min'
+      | 'max'
+      | 'matches'
+      | 'email'
+      | 'url'
+      | 'lowercase'
+      | 'uppercase'
+      | 'lessThan'
+      | 'moreThan'
+      | 'positive'
+      | 'negative';
+    params: any[];
+  }[];
 }

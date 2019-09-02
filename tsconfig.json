@@ -37,7 +37,8 @@
     "integrations",
     "server",
     "svg",
-    "hooks"
+    "hooks",
+    "utils"
   ],
   "exclude": ["node_modules"]
 }

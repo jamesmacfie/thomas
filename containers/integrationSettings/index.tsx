@@ -1,5 +1,5 @@
 import React from 'react';
-import ConfigForm from '../configForm';
+import IntegrationConfigForm from '../integrationConfigForm';
 
 interface Props {
   systemIntegration: any;
@@ -8,9 +8,19 @@ interface Props {
 
 const IntegrationSettings = ({ systemIntegration, integrations }: Props) => {
   if (systemIntegration.singular) {
-    return <ConfigForm integration={integrations[0]} config={systemIntegration.settings} />;
+    let integration = {};
+    if (integrations[0]) {
+      integration = integrations[0];
+    }
+    return (
+      <IntegrationConfigForm
+        integration={integration}
+        allIntegrations={integrations}
+        config={systemIntegration.settings}
+      />
+    );
   }
-  return <p>More than one integration.</p>;
+  return <p>More than one integration. Todo</p>;
 };
 
 export default IntegrationSettings;

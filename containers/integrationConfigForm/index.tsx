@@ -1,22 +1,19 @@
 import React from 'react';
 import { Formik } from 'formik';
-import Label from 'components/label';
-import Input from 'components/input';
+import { object } from 'yup';
 import Button from 'components/button';
+import FormikInput from 'components/formikInput';
+import { createSchema } from 'utils/yupSchemaFromJson';
 
 interface SaveProps {
   onClick: () => void;
   submitting: boolean;
 }
 
-interface InputProps {
-  config: FormConfig;
-  value?: string;
-}
-
 interface Props {
   config: FormConfig[];
   integration: any;
+  allIntegrations: any[];
   initialValues?: any;
 }
 
@@ -28,29 +25,30 @@ const Save = ({ submitting }: SaveProps) => {
   );
 };
 
-const FormInput = ({ config, value }: InputProps) => {
-  return (
-    <div className="mb-4">
-      <Label>{config.label}</Label>
-      <Input className="block mb-4 w-96" value={value} />
-    </div>
-  );
-};
+const IntegrationConfigForm = ({ config, integration, allIntegrations }: Props) => {
+  const validationSchema = config.reduce(createSchema, {});
+  const validateAgainst = object().shape(validationSchema);
 
-const ConfigForm = ({ config, integration }: Props) => {
   return (
     <Formik
       initialValues={integration.config}
-      onSubmit={({ values }, { setSubmitting }) => {
-        console.log('VALUES');
-        console.log(values);
+      validationSchema={validateAgainst}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={(details, { setSubmitting }) => {
+        if (allIntegrations.length) {
+          console.log('UPDATE');
+        } else {
+          console.log('NEW!');
+        }
+        console.log('values', details);
         setSubmitting(false);
       }}
     >
       {({ values, isSubmitting, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           {config.map(c => (
-            <FormInput value={values[c.key]} config={c} />
+            <FormikInput name={c.key} value={values[c.key]} label={c.label} />
           ))}
           <Save submitting={isSubmitting} onClick={() => {}} />
         </form>
@@ -59,4 +57,4 @@ const ConfigForm = ({ config, integration }: Props) => {
   );
 };
 
-export default ConfigForm;
+export default IntegrationConfigForm;
