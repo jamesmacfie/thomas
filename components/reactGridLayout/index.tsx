@@ -21,6 +21,8 @@ const Layout = observer(({ isResizable, layout, width, onLayoutChange, cols, row
   return (
     <ReactGridLayout
       width={width}
+      measureBeforeMount
+      useCSSTransforms={false}
       onLayoutChange={onLayoutChange}
       layout={layout}
       rowHeight={rowHeight}

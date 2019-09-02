@@ -1,3 +1,4 @@
+import path from 'path';
 import Sequelize from 'sequelize';
 import logger from '../logger';
 import component, { ComponentStatic } from './models/component';
@@ -5,7 +6,6 @@ import device, { DeviceStatic } from './models/device';
 import deviceView, { DeviceViewStatic } from './models/deviceView';
 import integration, { IntegrationStatic } from './models/integration';
 import view, { ViewStatic } from './models/view';
-import config from './config';
 
 interface DB {
   sequelize: Sequelize.Sequelize;
@@ -18,8 +18,13 @@ interface DB {
 
 logger.info('🗣 Setting up sequelize');
 let db: any = {};
-const env = process.env.NODE_ENV || 'development';
-const sequelizeconnection = new Sequelize.Sequelize((config as any)[env]);
+const sequelizeconnection = new Sequelize.Sequelize({
+  dialect: 'sqlite',
+  storage: path.join(__dirname, '../../thomas.db'),
+  define: {
+    timestamps: true
+  }
+});
 
 logger.info('🗣 Setting up sequelize models');
 db.Component = component(sequelizeconnection);

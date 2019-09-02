@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import Panel from 'components/panel';
 import IntegrationsWrapper from './integrationsWrapper';
-import Store, { StoreContext } from '../store';
+import { StoreContext } from '../store';
 import { TempUnits } from './units';
 
 const CurrentTemp = observer(({ integrationId, componentConfig, integrationConfig }: IntegrationComponentProps) => {
-  const store = useContext(StoreContext) as Store;
+  const store = useContext(StoreContext);
   const forecast = store.forecasts[integrationId];
 
   if (!forecast) {

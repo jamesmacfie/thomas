@@ -5,7 +5,6 @@ import logger from '../logger';
 const init = (server: express.Express) => {
   server.post('/view', async (req: express.Request, res: express.Response) => {
     try {
-      console.log((db.Device as any).DeviceViews);
       let view;
       const { deviceId, name, icon } = req.body;
       await db.sequelize.transaction(async transaction => {

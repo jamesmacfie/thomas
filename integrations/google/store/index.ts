@@ -1,9 +1,5 @@
 import { createContext } from 'react';
 import { observable } from 'mobx';
-import { useStaticRendering } from 'mobx-react-lite';
-
-const isServer = typeof window === 'undefined';
-useStaticRendering(isServer);
 
 export default class Store {
   @observable integrations: Integration[] | null = null;
@@ -25,15 +21,5 @@ export default class Store {
   };
 }
 
-let store: Store | null = null;
-export function initializeStore() {
-  if (isServer) {
-    return new Store();
-  }
-  if (store === null) {
-    store = new Store();
-  }
-  return store;
-}
-
-export const StoreContext = createContext(initializeStore());
+export let store = new Store();
+export const StoreContext = createContext(store);

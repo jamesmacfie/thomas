@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik } from 'formik';
+import { observer } from 'mobx-react-lite';
 import { object } from 'yup';
+import IntegrationsStore, { StoreContext as IntegrationStoreContext } from 'stores/integrations';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import { createSchema } from 'utils/yupSchemaFromJson';
@@ -25,7 +27,8 @@ const Save = ({ submitting }: SaveProps) => {
   );
 };
 
-const IntegrationConfigForm = ({ config, integration, allIntegrations }: Props) => {
+const IntegrationConfigForm = observer(({ config, integration, allIntegrations }: Props) => {
+  const integrationstore = useContext(IntegrationStoreContext) as IntegrationsStore;
   const validationSchema = config.reduce(createSchema, {});
   const validateAgainst = object().shape(validationSchema);
 
@@ -35,26 +38,27 @@ const IntegrationConfigForm = ({ config, integration, allIntegrations }: Props) 
       validationSchema={validateAgainst}
       validateOnChange={false}
       validateOnBlur={false}
-      onSubmit={(details, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
+        setSubmitting(true);
         if (allIntegrations.length) {
-          console.log('UPDATE');
+          await integrationstore.updateExistingIntegration(integration.id, values);
         } else {
-          console.log('NEW!');
+          await integrationstore.saveNewIntegration('darksky', values);
         }
-        console.log('values', details);
+        await integrationstore.getIntegrations();
         setSubmitting(false);
       }}
     >
       {({ values, isSubmitting, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           {config.map(c => (
-            <FormikInput name={c.key} value={values[c.key]} label={c.label} />
+            <FormikInput key={c.key} name={c.key} value={values[c.key]} label={c.label} />
           ))}
           <Save submitting={isSubmitting} onClick={() => {}} />
         </form>
       )}
     </Formik>
   );
-};
+});
 
 export default IntegrationConfigForm;

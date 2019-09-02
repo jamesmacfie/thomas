@@ -112,10 +112,10 @@ const NavigationItems = observer(({ items }: Props) => {
 const Navigation = observer(() => {
   const store = useContext(DeviceViewsStoreContext);
 
-  if (store.deviceViews === null) {
+  if (!store.loaded) {
     return (
       <Container>
-        <NavigationItems items={[settings]} />
+        <></>
       </Container>
     );
   }

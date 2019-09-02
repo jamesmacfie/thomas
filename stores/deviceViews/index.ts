@@ -9,15 +9,17 @@ interface DeviceViewComponentUpdate {
 }
 
 export default class Store {
-  @observable deviceViews: { [key: string]: DeviceView } | null = null;
+  @observable loaded: boolean = false;
+  @observable deviceViews: { [key: string]: DeviceView } = {};
 
   getDeviceViews = async ({ deviceId }: { deviceId: string }) => {
     const deviceViews = await fetch(`http://localhost:3000/device/${deviceId}/views`).then(res => res.json());
     this.deviceViews = keyBy(deviceViews, 'id');
+    this.loaded = true;
   };
 
   updateDeviceViews = async (updates: DeviceViewComponentUpdate[]) => {
-    if (!this.deviceViews) {
+    if (!Object.values(this.deviceViews).length) {
       return Promise.resolve();
     }
 

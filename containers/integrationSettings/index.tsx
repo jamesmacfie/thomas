@@ -1,5 +1,7 @@
 import React from 'react';
+import Link from 'next/link';
 import IntegrationConfigForm from '../integrationConfigForm';
+import { H2 } from 'components/text';
 
 interface Props {
   systemIntegration: any;
@@ -13,11 +15,24 @@ const IntegrationSettings = ({ systemIntegration, integrations }: Props) => {
       integration = integrations[0];
     }
     return (
-      <IntegrationConfigForm
-        integration={integration}
-        allIntegrations={integrations}
-        config={systemIntegration.settings}
-      />
+      <>
+        <H2 className="mt-0">
+          <Link href="/settings">
+            <a>Settings</a>
+          </Link>
+          {' > '}
+          <Link href="/settings/integrations">
+            <a>Integrations</a>
+          </Link>
+          {' > '}
+          {systemIntegration.name}
+        </H2>
+        <IntegrationConfigForm
+          integration={integration}
+          allIntegrations={integrations}
+          config={systemIntegration.settings}
+        />
+      </>
     );
   }
   return <p>More than one integration. Todo</p>;
