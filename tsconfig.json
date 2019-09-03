@@ -38,7 +38,8 @@
     "server",
     "svg",
     "hooks",
-    "utils"
+    "utils",
+    "validations"
   ],
   "exclude": ["node_modules"]
 }

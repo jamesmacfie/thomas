@@ -18,6 +18,10 @@ export default class Store {
     this.loaded = true;
   };
 
+  addDeviceView = (deviceView: DeviceView) => {
+    this.deviceViews[deviceView.id] = deviceView;
+  };
+
   updateDeviceViews = async (updates: DeviceViewComponentUpdate[]) => {
     if (!Object.values(this.deviceViews).length) {
       return Promise.resolve();

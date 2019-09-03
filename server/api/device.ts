@@ -67,7 +67,8 @@ const init = (server: express.Express) => {
         logger.info(`📲 Creating new view first`);
         const view = await db.View.create({
           name,
-          icon
+          icon,
+          createdBy: deviceId
         });
         viewId = view.id;
       } else {

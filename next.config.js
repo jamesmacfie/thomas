@@ -7,7 +7,7 @@ const withIntegrations = require('./build/withIntegrations');
 module.exports = withIntegrations(
   withCSS({
     webpack(config) {
-      ['components', 'integrations', 'stores', 'svg', 'hooks', 'containers', 'utils'].forEach(
+      ['components', 'integrations', 'stores', 'svg', 'hooks', 'containers', 'utils', 'validations'].forEach(
         n => (config.resolve.alias[n] = path.join(__dirname, n))
       );
 
