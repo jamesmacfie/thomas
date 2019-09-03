@@ -29,7 +29,9 @@ const IconPill = ({ pills, onSelect }: Props) => {
               )}
             >
               <Icon icon={icon} className="w-16 h-16 current-stroke" />
-              <H4 className="pt-4 mb-0 text-inherit">{name}</H4>
+              <H4 margin={false} className="pt-4 mb-0 text-inherit">
+                {name}
+              </H4>
             </div>
           );
         })}

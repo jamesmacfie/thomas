@@ -51,6 +51,7 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   };
 
   const layout: ReactGridLayoutConfig[] = items.map((i, idx) => {
+    console.log(i);
     return {
       i: i.id.toString(),
       w: 1,
