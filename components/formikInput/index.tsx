@@ -29,7 +29,7 @@ const FormikInput = ({ label, name, formik, ...props }: Props) => {
         return (
           <>
             {label && <Label className="mb-2">{label}</Label>}
-            <Input className="block mb-4 w-96" {...field} {...props} />
+            <Input className="block mb-4 w-full" {...field} {...props} />
             {errors && errors[name] && <FieldError>{errors[name]}</FieldError>}
           </>
         );

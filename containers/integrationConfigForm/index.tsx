@@ -50,7 +50,7 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
       }}
     >
       {({ values, isSubmitting, handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="pr-4">
           {config.map(c => (
             <FormikInput key={c.key} name={c.key} value={values[c.key]} label={c.label} />
           ))}
