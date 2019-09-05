@@ -11,6 +11,7 @@ interface DeviceViewComponentUpdate {
 export default class Store {
   @observable loaded: boolean = false;
   @observable deviceViews: { [key: string]: DeviceView } = {};
+  pendingDeviceViewUpdates: { [key: string]: DeviceView } = {};
 
   getDeviceViews = async ({ deviceId }: { deviceId: string }) => {
     const deviceViews = await fetch(`http://localhost:3000/device/${deviceId}/views`).then(res => res.json());
@@ -31,7 +32,7 @@ export default class Store {
       await Promise.all(
         updates.map(u => {
           const old = this.deviceViews![u.deviceViewId];
-          if (!old || old.order === u.order) {
+          if (!old || old.order == u.order) {
             // Either we don't have this device view (shouldnt happen?) or the order is the same.
             // In both cases, do nothing.
             return Promise.resolve();
@@ -50,8 +51,27 @@ export default class Store {
     }
 
     updates.forEach(u => {
-      this.deviceViews![u.deviceViewId].order = u.order;
+      this.pendingDeviceViewUpdates[u.deviceViewId] = {
+        ...this.deviceViews[u.deviceViewId],
+        order: u.order
+      };
     });
+  };
+
+  commitPendingDeviceViewUpdates = () => {
+    Object.keys(this.pendingDeviceViewUpdates).forEach(id => {
+      const existing = this.deviceViews[id];
+      if (!existing) {
+        return;
+      }
+
+      this.deviceViews[id] = {
+        ...existing,
+        ...this.pendingDeviceViewUpdates[id]
+      };
+    });
+
+    this.pendingDeviceViewUpdates = {};
   };
 }
 

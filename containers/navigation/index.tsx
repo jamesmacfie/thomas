@@ -1,4 +1,4 @@
-import React, { useContext, ReactNode, useState } from 'react';
+import React, { useContext, ReactNode, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
 import { StoreContext as UIStoreContext } from 'stores/ui';
@@ -35,13 +35,10 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   const deviceViewStore = useContext(DeviceViewsStoreContext);
 
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
-    const updates = layout
-      .map(l => ({
-        deviceViewId: l.i,
-        order: l.y,
-        static: l.static
-      }))
-      .filter(l => !l.static);
+    const updates = layout.map(l => ({
+      deviceViewId: l.i,
+      order: l.y
+    }));
 
     try {
       await deviceViewStore.updateDeviceViews(updates);
@@ -51,14 +48,12 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   };
 
   const layout: ReactGridLayoutConfig[] = items.map((i, idx) => {
-    console.log(i);
     return {
       i: i.id.toString(),
       w: 1,
       h: 1,
       x: 0,
-      y: idx,
-      static: !!i.hidePencil
+      y: idx
     };
   });
 
@@ -74,7 +69,9 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
           isResizable={false}
         >
           {items.map(i => (
-            <NavigationItem key={i.id} onAddNewClick={onAddNewClick} {...i} />
+            <li key={i.id} className="relative w-full">
+              <NavigationItem onAddNewClick={onAddNewClick} {...i} />
+            </li>
           ))}
         </ReactGridLayout>
       </ul>
@@ -86,6 +83,14 @@ const Navigation = observer(() => {
   const deiviceViewsStore = useContext(DeviceViewsStoreContext);
   const UIStore = useContext(UIStoreContext);
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Only save the changed layout to the store once editMode changes back to false.
+    // Fixes an issue with infinite rerenders and PATCH calls
+    if (!UIStore.editMode && deiviceViewsStore.loaded) {
+      deiviceViewsStore.commitPendingDeviceViewUpdates();
+    }
+  }, [UIStore.editMode, deiviceViewsStore.loaded]);
 
   if (!deiviceViewsStore.loaded) {
     return <Container />;
@@ -100,10 +105,11 @@ const Navigation = observer(() => {
       text: name
     }));
 
-  if (UIStore.editMode) {
+  if (!UIStore.editMode) {
+    deviceViewsAsItems = deviceViewsAsItems.concat(settings);
+  } else {
     deviceViewsAsItems = deviceViewsAsItems.concat(newDeviceView);
   }
-  deviceViewsAsItems = deviceViewsAsItems.concat(settings);
 
   return (
     <Container>

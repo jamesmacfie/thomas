@@ -17,7 +17,7 @@ export type Props = {
   onAddNewClick?: () => void;
 };
 
-const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
+const NavigationItem = observer(({ href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
   const { asPath } = useRouter();
   const uiStore = useContext(UIStoreContext);
   const longPress = useLongPress(() => {
@@ -38,7 +38,7 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
   const showPencil = uiStore.editMode && !hidePencil;
   const iconCmp = <Icon icon={icon} className="w-8 h-8" />;
   return (
-    <li key={id} {...longPress} className="relative w-full">
+    <span {...longPress}>
       {showPencil && (
         <Icon
           icon="pencil"
@@ -56,7 +56,7 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
           {iconCmp}
         </div>
       )}
-    </li>
+    </span>
   );
 });
 
