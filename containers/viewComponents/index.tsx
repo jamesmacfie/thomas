@@ -54,7 +54,7 @@ const ViewComponents = observer(({ viewId }: Props) => {
   }));
 
   return (
-    <ReactGridLayout onLayoutChange={onLayoutChange} layout={layout} cols={20} rowHeight={50}>
+    <ReactGridLayout onLayoutChange={onLayoutChange} layout={layout} cols={20} rowHeight={60}>
       {componentsForThisView.map((i: IntegrationComponent) => {
         const Cmp = integrationComponent(i);
         return (

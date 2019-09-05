@@ -6,6 +6,7 @@ export interface DeviceModel extends Model {
   readonly archived: boolean;
   readonly name: string;
   readonly icon: string;
+  readonly config: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
 }
@@ -26,6 +27,17 @@ const device = (sequelize: Sequelize.Sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    config: {
+      type: DataTypes.STRING,
+      defaultValue: {},
+      allowNull: false,
+      get(this: DeviceModel) {
+        return JSON.parse(this.getDataValue('config'));
+      },
+      set(this: DeviceModel, config) {
+        this.setDataValue('config', JSON.stringify(config));
+      }
     },
     icon: {
       type: DataTypes.STRING
