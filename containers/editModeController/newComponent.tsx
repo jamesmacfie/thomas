@@ -6,7 +6,6 @@ import DeviceStore, { StoreContext } from 'stores/device';
 // import DeviceViewStore, { StoreContext as DeviceViewStoreContext } from 'stores/deviceViews';
 // import ViewStore, { StoreContext as ViewStoreContext } from 'stores/views';
 import Button from 'components/button';
-import Icon from 'components/icon';
 import Modal from 'components/modal';
 import Label from 'components/label';
 import Input from 'components/input';
@@ -74,7 +73,9 @@ const NewComponent = observer(() => {
           </Button>
         </Modal>
       )}
-      <Icon onClick={() => setModalVisible(true)} icon="addCircle" className="w-8 h-8 white current-stroke" />
+      <Button color="secondary-alt" className="w-full mb-4" onClick={() => setModalVisible(true)}>
+        Add new component
+      </Button>
     </>
   );
 });

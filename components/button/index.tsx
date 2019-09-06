@@ -7,18 +7,19 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?(event: React.MouseEvent<HTMLElement>): void;
   className?: string;
   padding?: Boolean;
-  color: 'primary' | 'secondary' | 'danger';
+  color: 'primary' | 'secondary' | 'secondary-alt' | 'danger';
 }
 
 const colorClasses = {
-  primary: 'bg-blue border-blue-dark hover:bg-blue-dark hover:border-blue',
-  secondary: 'bg-transparent border-white hover:text-blue hover:border-blue',
-  danger: 'bg-red'
+  primary: 'bg-blue border-blue-dark hover:bg-blue-dark hover:border-blue text-white',
+  secondary: 'bg-transparent border-white hover:text-blue hover:border-blue text-white',
+  'secondary-alt': 'bg-transparent border-grey-darker text-grey-darker hover:text-blue hover:border-blue',
+  danger: 'bg-red text-white'
 };
 
 const Button = ({ children, color, className, padding = true, disabled = false, onClick, ...props }: Props) => {
   const classes = cn(
-    'text-xs uppercase font-bold rounded leading-normal border text-white',
+    'text-xs uppercase font-bold rounded leading-normal border',
     { 'px-12 py-3': padding, [colorClasses[color]]: !disabled, 'bg-grey': disabled },
     className
   );

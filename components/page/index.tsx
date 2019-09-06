@@ -12,7 +12,7 @@ interface Props {
 
 const Page = observer(({ children }: Props) => {
   const deviceStore = useContext(DeviceStoreContext);
-  const fontSize = `${deviceStore.device!.config.zoom + 12}px`;
+  const fontSize = `${deviceStore.device!.config.zoom + 15}px`;
   useEffect(() => {
     document.documentElement.style.fontSize = fontSize;
   }, [fontSize]);
