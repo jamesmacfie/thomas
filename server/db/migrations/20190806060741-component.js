@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false
       },
       config: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING(2048),
         allowNull: false
       },
       createdBy: {
@@ -45,7 +45,7 @@ module.exports = {
         autoIncrement: true
       },
       config: {
-        type: Sequelize.DataTypes.STRING,
+        type: Sequelize.DataTypes.STRING(2048),
         allowNull: false
       },
       componentSlug: {

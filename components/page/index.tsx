@@ -1,5 +1,7 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 import Header from 'components/header';
+import { observer } from 'mobx-react-lite';
+import { StoreContext as DeviceStoreContext } from 'stores/device';
 import Navigation from 'containers/navigation';
 import EditModeController from 'containers/editModeController';
 import Drawer from 'components/drawer';
@@ -8,7 +10,13 @@ interface Props {
   children: ReactNode;
 }
 
-const Page = ({ children }: Props) => {
+const Page = observer(({ children }: Props) => {
+  const deviceStore = useContext(DeviceStoreContext);
+  const fontSize = `${deviceStore.device!.config.zoom + 12}px`;
+  useEffect(() => {
+    document.documentElement.style.fontSize = fontSize;
+  }, [fontSize]);
+
   return (
     <div className="flex">
       <div className="flex-grow">
@@ -28,6 +36,6 @@ const Page = ({ children }: Props) => {
       <Drawer />
     </div>
   );
-};
+});
 
 export default Page;

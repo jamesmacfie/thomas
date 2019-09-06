@@ -8,7 +8,7 @@ const isServer = typeof window === 'undefined';
 export default class Store {
   device_key: string = 'thomas_device';
   @observable hasDeviceId: boolean = false;
-  @observable device: any | null = null;
+  @observable device: Device | null = null;
 
   constructor() {
     if (isServer) {

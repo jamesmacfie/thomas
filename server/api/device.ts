@@ -32,7 +32,12 @@ const init = (server: express.Express) => {
       const { name, icon } = req.body;
       const device = await db.Device.create({
         name,
-        icon
+        icon,
+        config: {
+          zoom: 1,
+          columns: 20,
+          rowHeight: 50
+        }
       });
       return res.json(device);
     } catch (err) {

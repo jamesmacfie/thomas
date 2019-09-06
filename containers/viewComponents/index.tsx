@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import { StoreContext as DeviceStoreContext } from 'stores/device';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
 import integrationComponent from './integrationComponents';
@@ -10,8 +11,14 @@ interface Props {
 }
 
 const ViewComponents = observer(({ viewId }: Props) => {
+  const deviceStore = useContext(DeviceStoreContext);
   const viewStore = useContext(ViewStoreContext);
   const integrationStore = useContext(IntegrationStoreContext);
+
+  if (!deviceStore.device) {
+    console.error('Should not get here. Trying to load view components without a device');
+    return null;
+  }
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
     const updates = layout.map(l => ({
       componentId: parseInt(l.i),
@@ -43,6 +50,8 @@ const ViewComponents = observer(({ viewId }: Props) => {
     return <p>Need to add</p>;
   }
 
+  const deviceConfig = deviceStore.device.config;
+  console.log(deviceConfig);
   const layout: ReactGridLayoutConfig[] = componentsForThisView.map(({ id, config }: IntegrationComponent) => ({
     i: id.toString(),
     w: config.w,
@@ -54,7 +63,12 @@ const ViewComponents = observer(({ viewId }: Props) => {
   }));
 
   return (
-    <ReactGridLayout onLayoutChange={onLayoutChange} layout={layout} cols={20} rowHeight={60}>
+    <ReactGridLayout
+      onLayoutChange={onLayoutChange}
+      layout={layout}
+      cols={deviceConfig.columns}
+      rowHeight={deviceConfig.rowHeight}
+    >
       {componentsForThisView.map((i: IntegrationComponent) => {
         const Cmp = integrationComponent(i);
         return (

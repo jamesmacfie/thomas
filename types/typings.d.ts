@@ -8,6 +8,18 @@ declare module '*.svg' {
   export default content;
 }
 
+declare interface Device {
+  name: string;
+  icon: string;
+  config: {
+    zoom: number;
+    columns: number;
+    rowHeight: number;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 declare interface Integration {
   id: string;
   archived: boolean;
