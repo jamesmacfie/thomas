@@ -8,14 +8,16 @@ declare module '*.svg' {
   export default content;
 }
 
+declare interface DeviceConfig {
+  zoom: number;
+  columns: number;
+  rowHeight: number;
+}
+
 declare interface Device {
   name: string;
   icon: string;
-  config: {
-    zoom: number;
-    columns: number;
-    rowHeight: number;
-  };
+  config: DeviceConfig;
   createdAt: Date;
   updatedAt: Date;
 }

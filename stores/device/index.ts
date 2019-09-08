@@ -22,6 +22,20 @@ export default class Store {
     }
   }
 
+  commitConfig = async () => {
+    const deviceId = this.getDeviceId();
+    if (!deviceId) {
+      console.warn('cannot get device details, no deviceId set');
+      return;
+    }
+
+    await fetch(`http://localhost:3000/device/${deviceId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(this.device)
+    });
+  };
+
   getDeviceId = () => {
     return localStorage.getItem(this.device_key);
   };

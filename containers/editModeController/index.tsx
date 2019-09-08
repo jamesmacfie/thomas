@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import Label from 'components/label';
 import Button from 'components/button';
@@ -7,9 +7,16 @@ import { StoreContext as DeviceStoreContext } from 'stores/device';
 import NewComponent from './newComponent';
 
 const EditStoreController = observer(() => {
-  const uiStore = useContext(UIStoreContext);
+  const UIStore = useContext(UIStoreContext);
   const deviceStore = useContext(DeviceStoreContext);
-  if (!uiStore.editMode) {
+  useEffect(() => {
+    // Commit the config changes after updating
+    if (!UIStore.editMode && deviceStore) {
+      deviceStore.commitConfig();
+    }
+  }, [UIStore.editMode, deviceStore.device]);
+
+  if (!UIStore.editMode) {
     return null;
   }
 
@@ -54,7 +61,7 @@ const EditStoreController = observer(() => {
         <Label color="alt">Zoom level</Label>
         <input className="w-full" type="range" min="1" max="10" onChange={onZoomChange} value={config.zoom} />
       </div>
-      <Button className="w-full mt-4" color="secondary-alt" onClick={uiStore.stopEditMode}>
+      <Button className="w-full mt-4" color="secondary-alt" onClick={UIStore.stopEditMode}>
         Finish
       </Button>
     </div>

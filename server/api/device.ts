@@ -26,6 +26,28 @@ const init = (server: express.Express) => {
     }
   });
 
+  server.patch('/device/:device_id', async (req: express.Request, res: express.Response) => {
+    const deviceId = req.params.device_id;
+    try {
+      const { name, icon, config } = req.body;
+      console.log(name, icon, config);
+      logger.info(`📲 Updating device ${deviceId}`);
+      const device = await db.Device.update(
+        { name, icon, config },
+        {
+          where: {
+            id: deviceId
+          }
+        }
+      );
+      return res.json(device);
+    } catch (err) {
+      console.log(err);
+      logger.error(`📲 Error updating device ${deviceId}: ${err.message}`);
+      return res.status(500).send(err.message);
+    }
+  });
+
   server.post('/device', async (req: express.Request, res: express.Response) => {
     try {
       logger.info(`📲 Creating device`);
