@@ -18,6 +18,11 @@ const getIntegrationComponents = integrationDir => {
   const { files, folders } = getNamedFilesOrFolderIndex(source);
   const fileComponents = files.map(f => {
     const componentSlug = path.parse(f).name;
+    // Ignore files that start with an underscore
+    if (componentSlug.indexOf('_') === 0) {
+      return null;
+    }
+
     return {
       integrationSlug,
       componentSlug,
@@ -28,6 +33,12 @@ const getIntegrationComponents = integrationDir => {
   const folderComponents = folders.map(f => {
     const folderParts = f.split('/');
     const componentSlug = folderParts[folderParts.length - 2];
+
+    // Ignore folders that start with an underscore
+    if (componentSlug.indexOf('_') === 0) {
+      return null;
+    }
+
     return {
       integrationSlug,
       componentSlug,
@@ -35,7 +46,8 @@ const getIntegrationComponents = integrationDir => {
     };
   });
 
-  return fileComponents.concat(folderComponents);
+  // TODO - some of this filter/null stuff can be cleaned up a bit
+  return fileComponents.filter(i => i !== null).concat(folderComponents.filter(i => i !== null));
 };
 
 const getComponents = () => {

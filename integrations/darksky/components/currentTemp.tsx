@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import Panel from 'components/panel';
 import IntegrationsWrapper from './integrationsWrapper';
 import { StoreContext } from '../store';
-import { TempUnits } from './units';
+import { TempUnits } from './_units';
 
 const CurrentTemp = observer(({ integrationId, componentConfig, integrationConfig }: IntegrationComponentProps) => {
   const store = useContext(StoreContext);
