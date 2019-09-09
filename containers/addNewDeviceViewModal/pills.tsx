@@ -9,7 +9,7 @@ const Pills = ({ onSelect }: Props) => {
   const pills = [
     {
       key: 'existing',
-      icon: 'tablet',
+      icon: 'clone',
       name: 'Existing'
     },
     {
