@@ -31,19 +31,18 @@ const NavigationItem = observer(({ href, icon, hidePencil, addNewClick, onAddNew
   };
 
   const isActive = asPath === href;
-  const anchorClasses = cn('cursor-pointer current-stroke w-16 h-16 flex items-center justify-center', {
+  const anchorClasses = cn('cursor-pointer current-stroke flex items-center justify-center', {
     'text-white': isActive || uiStore.editMode,
     'text-grey-darker hover:text-white': !isActive
   });
   const showPencil = uiStore.editMode && !hidePencil;
-  const iconCmp = <Icon icon={icon} className="w-8 h-8" />;
+  const iconCmp = <Icon icon={icon as any} className="text-3xl" />;
   return (
     <span {...longPress}>
       {showPencil && (
-        <Icon
-          icon="pencil"
-          className="w-5 h-5 absolute right-0 top-0 text-green current-stroke border border-green rounded-full p-1"
-        />
+        <div className="cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue pin-edit border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center">
+          <Icon icon="pen" className="text-xs current-stroke" />
+        </div>
       )}
       {!!href ? (
         <Link href={href}>

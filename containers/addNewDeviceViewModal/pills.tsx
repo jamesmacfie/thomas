@@ -9,12 +9,12 @@ const Pills = ({ onSelect }: Props) => {
   const pills = [
     {
       key: 'existing',
-      icon: 'floppy',
+      icon: 'tablet',
       name: 'Existing'
     },
     {
       key: 'new',
-      icon: 'armchair',
+      icon: 'plus-circle',
       name: 'New'
     }
   ];

@@ -16,7 +16,7 @@ const settings = {
 
 const newDeviceView = {
   id: 'new',
-  icon: 'addCircle',
+  icon: 'plus-circle',
   text: 'Add new',
   addNewClick: true,
   hidePencil: true

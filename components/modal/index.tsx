@@ -48,8 +48,8 @@ const Modal = ({ title, children, className, size, onClose, style, padding = tru
             <H4 className="text-2">{title}</H4>
             <Icon
               onClick={onClose}
-              icon="addCircle"
-              className="cursor-pointer z-20 absolute pin-close w-8 h-8 margin text-white current-stroke rotate-45deg"
+              icon="plus-circle"
+              className="cursor-pointer z-20 absolute pin-close text-2xl margin text-white current-stroke rotate-45deg"
             />
           </div>
 

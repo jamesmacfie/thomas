@@ -16,7 +16,7 @@ const Drawer = observer(() => {
   return (
     <div className={classes}>
       <Icon
-        className="drawerIcon absolute cursor-pointer ml-4 w-4 h-4 white current-stroke"
+        className="drawerIcon absolute cursor-pointer ml-4 text-xl white current-stroke"
         icon="cog"
         onClick={toggleDrawer}
       />

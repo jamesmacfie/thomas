@@ -31,13 +31,13 @@ const Wrapper = ({ href, children, onClick }: WrapperProps) => {
 };
 
 const Image = ({ imgSrc, icon, title, imageClassName }: Props) => {
-  const baseClasses = 'w-12 h-12 m-auto mt-3"';
+  const baseClasses = 'm-auto mt-3';
   if (imgSrc) {
-    return <img alt={title} src={imgSrc} className={cn(baseClasses, imageClassName)} />;
+    return <img alt={title} src={imgSrc} className={cn(baseClasses, 'h-12 w-12', imageClassName)} />;
   }
 
   if (icon) {
-    return <Icon icon="dashboard" className={cn('current-stroke', baseClasses, imageClassName)} />;
+    return <Icon icon="project-diagram" className={cn('text-4xl current-stroke', baseClasses, imageClassName)} />;
   }
 
   return <div className={cn(baseClasses, imageClassName)} />;

@@ -28,7 +28,7 @@ const IconPill = ({ pills, onSelect }: Props) => {
                 className
               )}
             >
-              <Icon icon={icon} className="w-16 h-16 current-stroke" />
+              <Icon icon={icon as any} className="text-5xl current-stroke" />
               <H4 margin={false} className="pt-4 mb-0 text-inherit">
                 {name}
               </H4>

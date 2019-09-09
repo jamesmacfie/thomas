@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "*": ["types/*", "*"],
-      "thomas/*": [".thomas/*"]
+      "thomas/*": [".thomas/*"],
+      "@fortawesome/fontawesome-common-types": ["./node_modules/@fortawesome/fontawesome-common-types/index"]
     },
     "allowJs": true,
     "allowSyntheticDefaultImports": true,

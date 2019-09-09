@@ -88,6 +88,11 @@ body {
   top: 1rem;
 }
 
+.pin-edit {
+  right: -1rem;
+  top: -1rem;
+}
+
 .rotate-45deg {
   transform: rotate(45deg);
 }
