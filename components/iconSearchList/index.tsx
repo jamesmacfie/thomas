@@ -23,8 +23,6 @@ const defaultIcons = [
   'faLaptop',
   'faKeyboard',
   'faTv',
-  'faXbox',
-  'faPlaystation',
   'faBuilding,',
   'faWarehouse,',
   'faWarehouse',

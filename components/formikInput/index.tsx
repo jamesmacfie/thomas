@@ -27,10 +27,10 @@ const FormikInput = ({ label, name, formik, type, ...props }: Props) => {
   return (
     <Field
       name={name}
-      render={({ field }: FieldProps) => {
+      render={({ field, form }: FieldProps) => {
         let input;
         if (type === 'icon') {
-          input = <Icon {...field} {...props} />;
+          input = <Icon form={form} {...field} {...props} />;
         } else {
           input = <Input className="block mb-4 w-full" {...field} {...props} />;
         }
