@@ -1,6 +1,6 @@
 .iconSearchList {
   display: grid;
-  grid-template-columns: 6rem 6rem 6rem 6rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   overflow-y: auto;
 }
 
