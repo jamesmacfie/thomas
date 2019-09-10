@@ -51,7 +51,6 @@ const ViewComponents = observer(({ viewId }: Props) => {
   }
 
   const deviceConfig = deviceStore.device.config;
-  console.log(deviceConfig);
   const layout: ReactGridLayoutConfig[] = componentsForThisView.map(({ id, config }: IntegrationComponent) => ({
     i: id.toString(),
     w: config.w,

@@ -3,7 +3,6 @@ import { observable } from 'mobx';
 import { store as integrationsStore } from '../integrations';
 import { store as devicesStore } from '../devices';
 import { store as viewsStore } from '../views';
-import { toJS } from 'mobx';
 
 const isServer = typeof window === 'undefined';
 
@@ -22,7 +21,6 @@ export default class Store {
       viewsStore.getViews()
     ])
       .then(() => {
-        console.log(toJS(viewsStore.views));
         this.loaded = true;
       })
       .catch(err => {

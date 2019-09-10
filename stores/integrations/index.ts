@@ -14,7 +14,6 @@ export default class Store {
     return fetch('http://localhost:3000/system/integrations')
       .then(res => res.json())
       .then((json: SystemIntegration[]) => {
-        console.log(json);
         this.systemIntegrations = keyBy(json, 'slug');
         this.setLoadedIfReady();
       });
