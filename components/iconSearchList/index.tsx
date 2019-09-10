@@ -82,7 +82,11 @@ const IconList = ({ className, iconListClassName, showLabel = true, onSelect }: 
     <div className={className}>
       {showLabel && <Label>Search</Label>}
       <div className="flex w-full">
-        <Input className="mb-4 w-full flex-grow" onChange={(e: any) => debouncedOnSearchChange(e.target.value)} />
+        <Input
+          placeholder="Search"
+          className="mb-4 w-full flex-grow"
+          onChange={(e: any) => debouncedOnSearchChange(e.target.value)}
+        />
         {selectedIcon && (
           <span className="mt-3 ml-4 text-sm flex">
             <Label className="mr-4 ">Selected:</Label>
