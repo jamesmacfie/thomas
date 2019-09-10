@@ -43,19 +43,17 @@ export default class Store {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ order: u.order })
           });
+
+          this.pendingDeviceViewUpdates[u.deviceViewId] = {
+            ...this.deviceViews[u.deviceViewId],
+            order: u.order
+          };
         })
       );
     } catch (err) {
       console.error('Error updating devies views');
       throw err;
     }
-
-    updates.forEach(u => {
-      this.pendingDeviceViewUpdates[u.deviceViewId] = {
-        ...this.deviceViews[u.deviceViewId],
-        order: u.order
-      };
-    });
   };
 
   commitPendingDeviceViewUpdates = () => {
