@@ -1,0 +1,27 @@
+.modal-open {
+  animation-name: modalOpen;
+  animation-duration: 250ms;
+}
+
+.modal-close {
+  animation-name: modalClose;
+  animation-duration: 250ms;
+}
+
+@keyframes modalOpen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalClose {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

@@ -1,8 +1,9 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { ReactNode, CSSProperties, useState } from 'react';
 import cn from 'classnames';
 import Panel from 'components/panel';
 import Icon from 'components/icon';
 import { H4 } from 'components/text';
+import './styles.css';
 
 interface Props {
   className?: string;
@@ -21,20 +22,29 @@ const classes: { [key: string]: string } = {
 };
 
 const Modal = ({ title, children, className, size, onClose, style, padding = true }: Props) => {
+  const [willClose, setWillClose] = useState<boolean>(false);
   const panelClasses = cn(
     classes[size],
     'z-10 absolute pin-center cursor-default',
     {
-      'p-6': padding
+      'p-6': padding,
+      'modal-open': !willClose,
+      'modal-close': willClose
     },
     className
   );
+  const close = () => {
+    setWillClose(true);
+    setTimeout(() => {
+      onClose();
+    }, 250);
+  };
   const onOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.currentTarget !== event.target) {
       return;
     }
     event.stopPropagation();
-    onClose();
+    close();
   };
 
   return (
@@ -47,7 +57,7 @@ const Modal = ({ title, children, className, size, onClose, style, padding = tru
           <div>
             <H4 className="text-2">{title}</H4>
             <Icon
-              onClick={onClose}
+              onClick={close}
               icon="plus-circle"
               className="cursor-pointer z-20 absolute pin-close text-2xl margin text-white current-stroke rotate-45deg"
             />

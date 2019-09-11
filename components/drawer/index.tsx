@@ -8,6 +8,11 @@ import './styles.css';
 
 const Drawer = observer(() => {
   const { toggleEditMode, toggleDrawer, editMode, drawerOpen } = useContext(StoreContext) as UIStore;
+  const onEditButtonClick = () => {
+    toggleEditMode();
+    toggleDrawer();
+  };
+
   const buttonText = editMode ? 'Finish editing' : 'Edit view';
   const classes = cn('bg-panel h-screen fixed right-0 top-0 bottom-0', {
     'w-64': drawerOpen,
@@ -21,7 +26,7 @@ const Drawer = observer(() => {
         onClick={toggleDrawer}
       />
       <div className="w-full h-full overflow-hidden p-4">
-        <Button className="mx-auto block" color="secondary" onClick={toggleEditMode}>
+        <Button className="mx-auto block" color="secondary" onClick={onEditButtonClick}>
           {buttonText}
         </Button>
       </div>
