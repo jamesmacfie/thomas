@@ -17,7 +17,7 @@ export type Props = {
   onAddNewClick?: () => void;
 };
 
-const NavigationItem = observer(({ href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
+const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
   const { asPath } = useRouter();
   const uiStore = useContext(UIStoreContext);
   const longPress = useLongPress(() => {
@@ -30,18 +30,25 @@ const NavigationItem = observer(({ href, icon, hidePencil, addNewClick, onAddNew
     }
   };
 
+  const onPencilClick = () => {
+    alert(`This will edit ${id}`);
+  };
+
   const isActive = asPath === href;
   const anchorClasses = cn('cursor-pointer current-stroke flex items-center justify-center', {
     'text-white': isActive || uiStore.editMode,
     'text-grey-darker hover:text-white': !isActive
   });
-  const showPencil = uiStore.editMode && !hidePencil;
+  const showEditControls = uiStore.editMode && !hidePencil;
   const iconCmp = <Icon icon={icon as any} className="text-3xl" />;
   return (
     <span {...longPress}>
-      {showPencil && (
-        <div className="cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue pin-edit border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center">
-          <Icon icon="pen" className="text-xs current-stroke" />
+      {showEditControls && (
+        <div
+          onClick={onPencilClick}
+          className="cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue pin-edit border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center"
+        >
+          <Icon icon="pen" containerClassName="flex" className="text-xs current-stroke" />
         </div>
       )}
       {!!href ? (

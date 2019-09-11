@@ -5,11 +5,12 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core';
 interface Props {
   icon: IconProp;
   className?: string;
+  containerClassName?: string;
   onClick?: () => void;
 }
 
-const FAIcon = ({ icon, className, onClick }: Props) => (
-  <span onClick={onClick}>
+const FAIcon = ({ icon, className, containerClassName, onClick }: Props) => (
+  <span className={containerClassName} onClick={onClick}>
     <FontAwesomeIcon icon={icon} className={className} />
   </span>
 );
