@@ -1,7 +1,9 @@
 // TODO - what's with all the commented out code here. Also create should be in the store
 import React, { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import DeviceStore, { StoreContext } from 'stores/device';
+import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as ViewsStoreContext } from 'stores/views';
+import { useRouter } from 'next/router';
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Label from 'components/label';
@@ -12,22 +14,22 @@ interface Props {
 }
 
 const NewComponent = observer(({ onClose }: Props) => {
-  const store = useContext(StoreContext) as DeviceStore;
+  const deviceStore = useContext(DeviceStoreContext);
+  const viewsStore = useContext(ViewsStoreContext);
   const [integrationSlug, setIntegrationSlug] = useState<string>('');
   const [componentSlug, setComponentSlug] = useState<string>('');
+  const { query } = useRouter();
 
   const create = async () => {
     // TODO - move to correct store
-    // const deviceViewId = Array.isArray(query.id) ? query.id[0] : query.id;
-    // TODO - This is incorrect
-    const viewId = `;`; // deviceViewStore.getViewIdFromDeviceViewId(deviceViewId);
-    await fetch(`/component`, {
+    const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
+    const component = await fetch(`/component`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        deviceId: store.getDeviceId(),
+        deviceId: deviceStore.getDeviceId(),
         integrationId: 10,
         integrationSlug,
         componentSlug,
@@ -35,7 +37,8 @@ const NewComponent = observer(({ onClose }: Props) => {
         config: { x: 0, y: Infinity, h: 2, w: 2 } // Default. React grid layout will adjust
       })
     }).then(res => res.json());
-    // viewStore.addViewComponent(viewId, component);
+
+    viewsStore.addComponent(viewId, component);
 
     // And tidy up
     setIntegrationSlug('');

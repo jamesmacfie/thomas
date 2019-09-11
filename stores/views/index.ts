@@ -16,12 +16,12 @@ export default class Store {
     this.views = keyBy(views, 'id');
   };
 
-  addComponent = (viewId: number | null, component: any) => {
+  addComponent = (viewId: string, component: any) => {
     if (!viewId) {
       console.log('No viewId provided to add component to');
       return;
     }
-    if (!this.views || this.views[viewId]) {
+    if (!this.views || !this.views[viewId]) {
       console.log(`No view for id ${viewId}`);
       return;
     }
