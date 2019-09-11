@@ -9,6 +9,7 @@ export default class Store {
   device_key: string = 'thomas_device';
   @observable hasDeviceId: boolean = false;
   @observable device: Device | null = null;
+  @observable otherDevices: Device[] | null = null;
 
   constructor() {
     if (isServer) {
@@ -57,6 +58,11 @@ export default class Store {
     if (deviceViewStore) {
       await deviceViewStore.getDeviceViews({ deviceId });
     }
+  };
+
+  getOtherDevices = async () => {
+    const devices = await fetch('http://localhost:3000/devices').then(res => res.json());
+    this.otherDevices = devices;
   };
 }
 

@@ -15,6 +15,7 @@ declare interface DeviceConfig {
 }
 
 declare interface Device {
+  id: string;
   name: string;
   icon: string;
   config: DeviceConfig;

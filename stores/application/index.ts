@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import { observable } from 'mobx';
 import { store as integrationsStore } from '../integrations';
-import { store as devicesStore } from '../devices';
+import { store as deviceStore } from '../device';
 import { store as viewsStore } from '../views';
 
 const isServer = typeof window === 'undefined';
@@ -17,7 +17,7 @@ export default class Store {
     Promise.all([
       integrationsStore.getIntegrations(),
       integrationsStore.getSystemIntegrations(),
-      devicesStore.getDevices(),
+      deviceStore.getOtherDevices(),
       viewsStore.getViews()
     ])
       .then(() => {
