@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import PageWrapper from 'containers/wrappers/pageWrapper';
+import PageWrapper from 'containers/wrappers/page';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
 import Loader from 'components/loader';
 import PanelIcon from 'components/panelIcon';
