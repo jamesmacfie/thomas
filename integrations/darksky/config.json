@@ -6,17 +6,19 @@
       "slug": "currentHumidity",
       "name": " Current Humidity",
       "description": "Something in here. Optional?",
-      "defaults": {
-        "w": 4,
-        "h": 4
+      "layout": {
+        "initialW": 4,
+        "initialH": 4,
+        "minW": 4,
+        "minH": 4
       }
     },
     {
       "slug": "currentTemp",
       "name": " Current Temperature",
-      "defaults": {
-        "w": 4,
-        "h": 4
+      "layout": {
+        "initialW": 4,
+        "initialH": 4
       }
     }
   ],

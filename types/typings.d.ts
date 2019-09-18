@@ -40,9 +40,11 @@ declare interface SystemIntegrationComponent {
   name: string;
   slug: string;
   description?: string;
-  defaults: {
-    h: number;
-    w: number;
+  layout: {
+    initialH: number;
+    initialW: number;
+    minH?: number;
+    minW?: number;
   };
 }
 

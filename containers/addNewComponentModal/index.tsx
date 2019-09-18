@@ -53,8 +53,10 @@ const NewComponent = observer(({ onClose }: Props) => {
         config: {
           x: 0,
           y: 0,
-          h: systemIntegrationComponent.defaults.h,
-          w: systemIntegrationComponent.defaults.w
+          h: systemIntegrationComponent.layout.initialH,
+          w: systemIntegrationComponent.layout.initialW,
+          minH: systemIntegrationComponent.layout.minH || null,
+          minW: systemIntegrationComponent.layout.minW || null
         }
       })
     }).then(res => res.json());

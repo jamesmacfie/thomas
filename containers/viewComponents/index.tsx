@@ -57,8 +57,8 @@ const ViewComponents = observer(({ viewId }: Props) => {
     h: config.h,
     x: config.x,
     y: config.y,
-    minX: 2,
-    minY: 2
+    minW: config.minW || 2,
+    minH: config.minH || 2
   }));
 
   return (

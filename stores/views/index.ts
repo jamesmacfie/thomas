@@ -39,12 +39,20 @@ export default class Store {
         await fetch(`http://localhost:3000/component/${update.componentId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ config: update.config })
+          body: JSON.stringify({
+            config: {
+              ...cmp.config,
+              ...update.config
+            }
+          })
         });
 
         return {
           ...cmp,
-          config: update.config
+          config: {
+            ...cmp.config,
+            ...update.config
+          }
         };
       })
     );
