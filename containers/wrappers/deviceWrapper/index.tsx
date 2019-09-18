@@ -1,6 +1,6 @@
 import React, { useContext, ReactNode } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Loader from 'components/loader';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const DeviceWrapper = observer(({ children }: Props) => {
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
 
   // Wait until we have at least got an empty list of devices
   if (deviceStore.otherDevices === null) {

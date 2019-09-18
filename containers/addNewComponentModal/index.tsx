@@ -1,7 +1,7 @@
 // TODO - what's with all the commented out code here. Also create should be in the store
 import React, { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
 import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
 import { useRouter } from 'next/router';
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const NewComponent = observer(({ onClose }: Props) => {
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
   const viewsStore = useContext(ViewsStoreContext);
   const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationSlug, setIntegrationSlug] = useState<string>('');

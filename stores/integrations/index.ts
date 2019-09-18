@@ -3,7 +3,7 @@ import { createContext } from 'react';
 import { observable } from 'mobx';
 import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
-import { store as deviceStore } from 'stores/device';
+import { store as deviceStore } from 'stores/devices';
 
 export default class Store {
   @observable loaded: boolean = false;

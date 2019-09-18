@@ -3,12 +3,12 @@ import { observer } from 'mobx-react-lite';
 import Label from 'components/label';
 import Button from 'components/button';
 import { StoreContext as UIStoreContext } from 'stores/ui';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import AddNewComponentModal from 'containers/addNewComponentModal';
 
 const EditStoreController = observer(() => {
   const UIStore = useContext(UIStoreContext);
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
   const [addNewModalVisible, setAddNewModalVisble] = useState<boolean>(false);
   const toggleAddNewModalVisible = () => setAddNewModalVisble(!addNewModalVisible);
   useEffect(() => {

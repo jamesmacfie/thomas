@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
 import Header from 'components/header';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Navigation from 'containers/navigation';
 import EditModeController from 'containers/editModeController';
 import Drawer from 'components/drawer';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const Page = observer(({ children }: Props) => {
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
   // Define base font Size. If we have a device set, use their config
   let fontSize = '15px';
   if (deviceStore.device) {

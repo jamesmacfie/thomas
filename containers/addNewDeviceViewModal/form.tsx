@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as DeviceViewStoreContest } from 'stores/deviceViews';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const CreateDeviceViewForm = observer(({ onClose }: Props) => {
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
   const deviceViewStore = useContext(DeviceViewStoreContest);
   return (
     <Formik

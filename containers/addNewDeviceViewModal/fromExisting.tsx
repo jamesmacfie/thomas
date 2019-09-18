@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as DeviceViewStoreContext } from 'stores/deviceViews';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import ViewPillList from 'containers/viewPillList';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const NewDeviceViewFromExisting = observer(({ onClose }: Props) => {
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
   const deviceViewStore = useContext(DeviceViewStoreContext);
   const viewStore = useContext(ViewStoreContext);
 

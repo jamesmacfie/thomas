@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceStoreContext } from 'stores/device';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
 import integrationComponent from './integrationComponents';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ViewComponents = observer(({ viewId }: Props) => {
-  const deviceStore = useContext(DeviceStoreContext);
+  const deviceStore = useContext(DevicesStoreContext);
   const viewStore = useContext(ViewStoreContext);
   const integrationStore = useContext(IntegrationStoreContext);
 
