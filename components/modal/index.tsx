@@ -1,4 +1,4 @@
-import React, { ReactNode, CSSProperties, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import cn from 'classnames';
 import Panel from 'components/panel';
 import Icon from 'components/icon';
@@ -11,7 +11,6 @@ interface Props {
   size: 'sm' | 'md' | 'lg';
   onClose: () => void;
   children: ReactNode;
-  style?: CSSProperties;
   padding?: boolean;
 }
 
@@ -21,7 +20,7 @@ const classes: { [key: string]: string } = {
   lg: 'w-256 h-192'
 };
 
-const Modal = ({ title, children, className, size, onClose, style, padding = true }: Props) => {
+const Modal = ({ title, children, className, size, onClose, padding = true }: Props) => {
   const [willClose, setWillClose] = useState<boolean>(false);
   const panelClasses = cn(
     classes[size],
@@ -53,7 +52,7 @@ const Modal = ({ title, children, className, size, onClose, style, padding = tru
         onClick={onOverlayClick}
         className="cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-10"
       >
-        <Panel style={style} fit={false} className={panelClasses} padding={padding}>
+        <Panel fit={false} className={panelClasses} padding={padding}>
           <div>
             <H4 className="text-2">{title}</H4>
             <Icon

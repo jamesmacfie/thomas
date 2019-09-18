@@ -7,20 +7,10 @@ export interface Props {
   fit?: Boolean;
   padding?: Boolean;
   overflow?: Boolean;
-  style?: any;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
-const Panel = ({
-  style,
-  className,
-  children,
-  fit = true,
-  padding = true,
-  overflow = true,
-  onClick,
-  ...props
-}: Props) => {
+const Panel = ({ className, children, fit = true, padding = true, overflow = true, onClick, ...props }: Props) => {
   const classes = cn(className, 'bg-panel rounded', {
     'w-full': fit,
     'h-full': fit,
@@ -28,7 +18,7 @@ const Panel = ({
     'overflow-hidden': !overflow
   });
   return (
-    <div style={style} onClick={onClick} className={classes} {...props}>
+    <div onClick={onClick} className={classes} {...props}>
       {children}
     </div>
   );
