@@ -16,7 +16,7 @@ const IntegrationSettings = observer(() => {
   const { query } = useRouter();
   const integrationSlug = Array.isArray(query.integration) ? query.integration[0] : query.integration;
 
-  const systemIntegration = store.systemIntegrations[integrationSlug];
+  const systemIntegration = store.systemIntegrations![integrationSlug];
   if (systemIntegration.settings) {
     const integrations: any = Object.values(store.integrations).filter((i: any) => i.slug === integrationSlug);
     return <IntegrationSettingsCmp integrations={integrations} systemIntegration={systemIntegration} />;

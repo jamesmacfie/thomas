@@ -3,11 +3,13 @@ import React, { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DeviceStoreContext } from 'stores/device';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
+import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
 import { useRouter } from 'next/router';
+import SystemIntegrationSelect from 'containers/systemIntegrationSelect';
+import SystemIntegrationComponentSelect from 'containers/systemIntegrationComponentSelect';
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Label from 'components/label';
-import Input from 'components/input';
 
 interface Props {
   onClose: () => void;
@@ -16,6 +18,7 @@ interface Props {
 const NewComponent = observer(({ onClose }: Props) => {
   const deviceStore = useContext(DeviceStoreContext);
   const viewsStore = useContext(ViewsStoreContext);
+  const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationSlug, setIntegrationSlug] = useState<string>('');
   const [componentSlug, setComponentSlug] = useState<string>('');
   const { query } = useRouter();
@@ -34,7 +37,7 @@ const NewComponent = observer(({ onClose }: Props) => {
         integrationSlug,
         componentSlug,
         viewId,
-        config: { x: 0, y: Infinity, h: 2, w: 2 } // Default. React grid layout will adjust
+        config: { x: 0, y: 0, h: 2, w: 2 } // Default. React grid layout will adjust
       })
     }).then(res => res.json());
 
@@ -46,24 +49,22 @@ const NewComponent = observer(({ onClose }: Props) => {
     onClose();
   };
 
+  const componentCmp = !integrationsStore.systemIntegrations![integrationSlug] ? null : (
+    <>
+      <Label>Component</Label>
+      <SystemIntegrationComponentSelect
+        integrationSlug={integrationSlug}
+        className="mb-4 w-96"
+        onChange={setComponentSlug}
+      />
+    </>
+  );
+
   return (
     <Modal title="Create new component" size="sm" onClose={onClose}>
       <Label>Integration</Label>
-      <Input
-        className="block mb-4 w-96"
-        value={integrationSlug}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setIntegrationSlug(e.target.value);
-        }}
-      />
-      <Label>Compoent</Label>
-      <Input
-        className="block mb-4 w-96"
-        value={componentSlug}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setComponentSlug(e.target.value);
-        }}
-      />
+      <SystemIntegrationSelect className="mb-4 w-96" onChange={setIntegrationSlug} />
+      {componentCmp}
       <Button color="primary" onClick={create}>
         Create
       </Button>

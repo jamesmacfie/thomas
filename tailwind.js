@@ -37,7 +37,6 @@ const tailwind = {
 
       'grey-darkest': '#3e464f',
       'grey-darker': '#6b6d6e',
-      "color: theme('colors.text');": '#8797aa',
       grey: '#d1d5da',
       'grey-light': '#dae1e7',
       'grey-lighter': '#f1f4f8',
@@ -508,6 +507,7 @@ const tailwind = {
 
     minWidth: {
       '0': '0',
+      '32': '8rem',
       full: '100%'
     },
 

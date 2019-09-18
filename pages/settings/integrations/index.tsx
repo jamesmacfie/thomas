@@ -22,7 +22,7 @@ const Integrations = observer(() => {
         {' > '}Integrations
       </H2>
       <div className="flex">
-        {Object.values(store.systemIntegrations).map((i: any) => (
+        {Object.values(store.systemIntegrations!).map((i: any) => (
           <PanelIcon
             title={i.name}
             href={`/settings/integrations/${i.slug}`}

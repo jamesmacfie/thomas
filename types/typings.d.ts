@@ -36,9 +36,17 @@ declare interface ServerIntegration {
   init: (server: express.Express) => string[];
 }
 
+declare interface SystemIntegrationComponent {
+  name: string;
+  slug: string;
+  description?: string;
+}
+
 declare interface SystemIntegration {
   name: string;
   slug: string;
+  components: SystemIntegrationComponent[];
+  settings?: any[];
 }
 
 interface View {

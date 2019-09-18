@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 import Icon from 'components/icon';
 import { H4 } from 'components/text';
-import './styles.css';
 
 interface Props {
   onSelect: (key: string) => void;
@@ -24,7 +23,7 @@ const IconPill = ({ pills, onSelect }: Props) => {
               onClick={() => onSelect(key)}
               key={name}
               className={cn(
-                'cursor-pointer text-white hover:text-blue flex flex-col justify-center items-center iconPill w-40 h-40',
+                'cursor-pointer text-white hover:text-blue flex flex-col justify-center items-center border-list w-40 h-40',
                 className
               )}
             >

@@ -1,6 +1,13 @@
 {
   "name": "Dark Sky Weather",
   "singular": true,
+  "components": [
+    {
+      "slug": "currentHumidity",
+      "name": " Current Humidity",
+      "description": "Something in here. Optional?"
+    }
+  ],
   "settings": [
     {
       "key": "apiKey",
