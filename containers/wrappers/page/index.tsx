@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
-import DeviceWrapper from 'containers/wrappers/deviceWrapper';
+import DeviceWrapper from 'containers/wrappers/devices';
 
-import ApplicationWrapper from 'containers/wrappers/applicationWrapper';
+import ApplicationWrapper from 'containers/wrappers/application';
 import Page from 'components/page';
 
 interface Props {
