@@ -18,7 +18,9 @@
       "name": " Current Temperature",
       "layout": {
         "initialW": 4,
-        "initialH": 4
+        "initialH": 4,
+        "minW": 4,
+        "minH": 4
       }
     }
   ],
