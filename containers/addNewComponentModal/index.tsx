@@ -22,10 +22,23 @@ const NewComponent = observer(({ onClose }: Props) => {
   const [integrationSlug, setIntegrationSlug] = useState<string>('');
   const [componentSlug, setComponentSlug] = useState<string>('');
   const { query } = useRouter();
+  const systemIntegration: SystemIntegration | null = integrationSlug.length
+    ? integrationsStore.systemIntegrations![integrationSlug]
+    : null;
 
   const create = async () => {
     // TODO - move to correct store
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
+    if (!systemIntegration) {
+      // TODO - error message?
+      return;
+    }
+    const systemIntegrationComponent = systemIntegration.components.find(c => c.slug === componentSlug);
+    if (!systemIntegrationComponent) {
+      // TODO - error message?
+      return;
+    }
+
     const component = await fetch(`/component`, {
       method: 'POST',
       headers: {
@@ -37,7 +50,12 @@ const NewComponent = observer(({ onClose }: Props) => {
         integrationSlug,
         componentSlug,
         viewId,
-        config: { x: 0, y: 0, h: 2, w: 2 } // Default. React grid layout will adjust
+        config: {
+          x: 0,
+          y: 0,
+          h: systemIntegrationComponent.defaults.h,
+          w: systemIntegrationComponent.defaults.w
+        }
       })
     }).then(res => res.json());
 
@@ -49,7 +67,7 @@ const NewComponent = observer(({ onClose }: Props) => {
     onClose();
   };
 
-  const componentCmp = !integrationsStore.systemIntegrations![integrationSlug] ? null : (
+  const componentCmp = !systemIntegration ? null : (
     <>
       <Label>Component</Label>
       <SystemIntegrationComponentSelect
@@ -65,7 +83,7 @@ const NewComponent = observer(({ onClose }: Props) => {
       <Label>Integration</Label>
       <SystemIntegrationSelect className="mb-4 w-96" onChange={setIntegrationSlug} />
       {componentCmp}
-      <Button color="primary" onClick={create}>
+      <Button disabled={!integrationSlug || !componentSlug} color="primary" onClick={create}>
         Create
       </Button>
     </Modal>

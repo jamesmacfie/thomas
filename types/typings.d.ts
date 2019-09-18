@@ -40,6 +40,10 @@ declare interface SystemIntegrationComponent {
   name: string;
   slug: string;
   description?: string;
+  defaults: {
+    h: number;
+    w: number;
+  };
 }
 
 declare interface SystemIntegration {
@@ -120,6 +124,27 @@ interface IntegrationComponentProps {
 }
 
 type DarkSkyUnits = 'ca' | 'us' | 'si';
+type DarkSkyIcons =
+  | 'clear-day'
+  | 'clear-night'
+  | 'rain'
+  | 'snow'
+  | 'sleet'
+  | 'wind'
+  | 'fog'
+  | 'cloudy'
+  | 'partly-cloudy-day'
+  | 'partly-cloudy-night';
+
+interface DarkSkyForecast {
+  currently: {
+    cloudCover: number;
+    dewPoint: number;
+    humidity: number;
+    temperature: number;
+    icon: DarkSkyIcons;
+  };
+}
 
 interface ReactGridLayoutConfig extends ComponentConfig {
   i: any;

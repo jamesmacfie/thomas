@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 // TODO - this can be cleaned up now
 export default class Store {
   @observable integrations: Integration[] | null = null;
-  @observable forecasts: any = {};
+  @observable forecasts: { [key: string]: DarkSkyForecast } = {};
 
   getIntegrations = async () => {
     const integrations = await fetch(`http://localhost:3000/integrations/darksky`).then(res => res.json());

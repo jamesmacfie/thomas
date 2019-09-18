@@ -29,21 +29,27 @@ export default class Store {
   };
 
   updateViewComponents = async (viewId: number, updates: ViewComponentUpdate[]) => {
-    await Promise.all(
-      updates.map(async u => {
-        const old = this.views[viewId].components.find((c: any) => c.id === u.componentId);
-        if (!old || isEqual(old.config, u.config)) {
-          return Promise.resolve();
+    const updatedComponents = await Promise.all(
+      this.views[viewId].components.map(async (cmp: any) => {
+        const update = updates.find(u => u.componentId === cmp.id);
+        if (!update || isEqual(cmp.config, update.config)) {
+          return Promise.resolve(cmp);
         }
-        await fetch(`http://localhost:3000/component/${u.componentId}`, {
+
+        await fetch(`http://localhost:3000/component/${update.componentId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ config: u.config })
+          body: JSON.stringify({ config: update.config })
         });
 
-        // TODO - need to update the cached UI components inside this.views here
+        return {
+          ...cmp,
+          config: update.config
+        };
       })
     );
+
+    this.views[viewId].components = updatedComponents;
   };
 }
 

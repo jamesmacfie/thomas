@@ -5,7 +5,19 @@
     {
       "slug": "currentHumidity",
       "name": " Current Humidity",
-      "description": "Something in here. Optional?"
+      "description": "Something in here. Optional?",
+      "defaults": {
+        "w": 4,
+        "h": 4
+      }
+    },
+    {
+      "slug": "currentTemp",
+      "name": " Current Temperature",
+      "defaults": {
+        "w": 4,
+        "h": 4
+      }
     }
   ],
   "settings": [
