@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
-import PageWrapper from 'containers/pageWrapper';
+import PageWrapper from 'containers/wrappers/pageWrapper';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
 
 const Inner = observer(() => {

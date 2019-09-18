@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import integrationSettings from 'thomas/integrationSettings';
-import PageWrapper from 'containers/pageWrapper';
+import PageWrapper from 'containers/wrappers/pageWrapper';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
 import Loader from 'components/loader';
 import IntegrationSettingsCmp from 'containers/integrationSettings';

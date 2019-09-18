@@ -1,5 +1,5 @@
 import React from 'react';
-import PageWrapper from 'containers/pageWrapper';
+import PageWrapper from 'containers/wrappers/pageWrapper';
 import PanelIcon from 'components/panelIcon';
 import { H2 } from 'components/text';
 
