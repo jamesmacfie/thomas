@@ -2,6 +2,7 @@ import React, { useContext, ReactNode } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { observer } from 'mobx-react-lite';
 import UIStore, { StoreContext } from 'stores/ui';
+import './styles.css';
 
 const ReactGridLayout = WidthProvider(RGL);
 
