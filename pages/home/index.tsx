@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Router from 'next/router';
 import { observer } from 'mobx-react-lite';
-import PageWrapper from 'containers/wrappers/pageWrapper';
+import PageWrapper from 'containers/wrappers/page';
 import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
 
 const Inner = observer(() => {
