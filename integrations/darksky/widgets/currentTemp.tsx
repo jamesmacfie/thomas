@@ -6,17 +6,17 @@ import IntegrationsWrapper from './integrationsWrapper';
 import { StoreContext } from '../store';
 import { TempUnits } from './_units';
 
-const CurrentTemp = observer(({ integrationId, componentConfig, integrationConfig }: IntegrationComponentProps) => {
+const CurrentTemp = observer(({ integrationId, widgetConfig, integrationConfig }: IntegrationWidgetProps) => {
   const store = useContext(StoreContext);
   const forecast = store.forecasts[integrationId];
 
   if (!forecast) {
-    return <Panel {...componentConfig} label="Current temperature" />;
+    return <Panel {...widgetConfig} label="Current temperature" />;
   }
 
   return (
-    <Panel {...componentConfig} label="Current temperature">
-      <PanelMainText {...componentConfig}>
+    <Panel {...widgetConfig} label="Current temperature">
+      <PanelMainText {...widgetConfig}>
         {forecast.currently.temperature}
         <TempUnits unit={integrationConfig.unit} />
       </PanelMainText>

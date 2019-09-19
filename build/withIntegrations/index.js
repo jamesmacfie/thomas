@@ -1,15 +1,15 @@
-const { getComponents } = require('./components');
+const { getWidgets } = require('./widgets');
 const { getSettings } = require('./settings');
 
-class IntegrationComponentsPlugin {
+class IntegrationWidgetsPlugin {
   apply(compiler) {
     // Prevent adding multi instances to the same compiler
     if (compiler.test) {
       return;
     }
 
-    compiler.hooks.entryOption.tap('IntegrationComponents', () => {
-      getComponents();
+    compiler.hooks.entryOption.tap('IntegrationWidgets', () => {
+      getWidgets();
       getSettings();
     });
 
@@ -20,7 +20,7 @@ class IntegrationComponentsPlugin {
 module.exports = (nextConfig = {}) => {
   return Object.assign({}, nextConfig, {
     webpack(config, options) {
-      config.plugins.push(new IntegrationComponentsPlugin());
+      config.plugins.push(new IntegrationWidgetsPlugin());
 
       if (typeof nextConfig.webpack === 'function') {
         return nextConfig.webpack(config, options);

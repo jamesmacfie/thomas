@@ -64,7 +64,7 @@ const view = (sequelize: Sequelize.Sequelize) => {
       uniqueKey: 'deviceId'
     });
 
-    (View as any).Components = (View as ViewStatic).hasMany(models.Component, {
+    (View as any).Widget = (View as ViewStatic).hasMany(models.Widget, {
       foreignKey: 'viewId'
     });
   };

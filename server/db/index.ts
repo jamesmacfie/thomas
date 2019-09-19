@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import logger from '../logger';
-import component, { ComponentStatic } from './models/component';
+import widget, { WidgetStatic } from './models/widget';
 import device, { DeviceStatic } from './models/device';
 import deviceView, { DeviceViewStatic } from './models/deviceView';
 import integration, { IntegrationStatic } from './models/integration';
@@ -9,7 +9,7 @@ import config from './config';
 
 interface DB {
   sequelize: Sequelize.Sequelize;
-  Component: ComponentStatic;
+  Widget: WidgetStatic;
   Device: DeviceStatic;
   DeviceView: DeviceViewStatic;
   Integration: IntegrationStatic;
@@ -22,7 +22,7 @@ const env = process.env.NODE_ENV || 'development';
 const sequelizeconnection = new Sequelize.Sequelize((config as any)[env]);
 
 logger.info('🗣 Setting up sequelize models');
-db.Component = component(sequelizeconnection);
+db.Widget = widget(sequelizeconnection);
 db.Device = device(sequelizeconnection);
 db.DeviceView = deviceView(sequelizeconnection);
 db.Integration = integration(sequelizeconnection);

@@ -36,7 +36,7 @@ declare interface ServerIntegration {
   init: (server: express.Express) => string[];
 }
 
-declare interface SystemIntegrationComponent {
+declare interface SystemIntegrationWidget {
   name: string;
   slug: string;
   description?: string;
@@ -51,7 +51,7 @@ declare interface SystemIntegrationComponent {
 declare interface SystemIntegration {
   name: string;
   slug: string;
-  components: SystemIntegrationComponent[];
+  widgets: SystemIntegrationWidget[];
   settings?: any[];
 }
 
@@ -81,7 +81,7 @@ interface Page {
   id: string;
   url: string;
   name: string;
-  components: IntegrationComponent[];
+  widgets: IntegrationWidget[];
 }
 
 interface ServerIntegration {
@@ -90,10 +90,10 @@ interface ServerIntegration {
   config: object;
 }
 
-interface IntegrationComponent {
+interface IntegrationWidget {
   id: string;
   archived: boolean;
-  componentSlug: string;
+  widgetSlug: string;
   integrationSlug: string;
   integrationId: number;
   config: any;
@@ -108,7 +108,7 @@ interface IntegrationComponent {
   };
 }
 
-interface ComponentConfig {
+interface WidgetConfig {
   h: number;
   w: number;
   x: number;
@@ -116,9 +116,9 @@ interface ComponentConfig {
   [key: string]: any;
 }
 
-interface IntegrationComponentProps {
-  componentId: number;
-  componentConfig: ComponentConfig;
+interface IntegrationWidgetProps {
+  widgetId: number;
+  widgetConfig: WidgetConfig;
   integrationId: number;
   integrationConfig: {
     [key: string]: any;
@@ -148,7 +148,7 @@ interface DarkSkyForecast {
   };
 }
 
-interface ReactGridLayoutConfig extends ComponentConfig {
+interface ReactGridLayoutConfig extends WidgetConfig {
   i: any;
 }
 

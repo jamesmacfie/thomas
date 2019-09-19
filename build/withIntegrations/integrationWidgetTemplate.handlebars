@@ -1,0 +1,17 @@
+import { ElementType } from 'react';
+import NotFound from 'components/notFound';
+{{#each widgets }}
+import {{widgetImportName}} from 'integrations/{{integrationSlug}}/widgets/{{widgetSlug}}'
+{{/each}}
+
+const cmp = (slug: string): ElementType => {
+switch (slug) {
+{{#each widgets }}
+case '{{integrationSlug}}_{{widgetSlug}}':
+return {{widgetImportName}}
+{{/each}}
+}
+return NotFound;
+};
+
+export default cmp;

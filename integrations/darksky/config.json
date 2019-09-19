@@ -1,7 +1,7 @@
 {
   "name": "Dark Sky Weather",
   "singular": true,
-  "components": [
+  "widgets": [
     {
       "slug": "currentHumidity",
       "name": " Current Humidity",
@@ -21,6 +21,16 @@
         "initialH": 4,
         "minW": 4,
         "minH": 4
+      }
+    },
+    {
+      "slug": "fiveDayForecast",
+      "name": " Five Day Forecast",
+      "layout": {
+        "initialW": 8,
+        "initialH": 16,
+        "minW": 8,
+        "minH": 16
       }
     }
   ],

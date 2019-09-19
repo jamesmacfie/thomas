@@ -5,7 +5,7 @@ import Panel from 'components/panel';
 
 const Wrapper = ({ children }: { children?: ReactNode }) => <Panel fit={false}>{children}</Panel>;
 
-const FiveDay = observer(({ integrationId }: IntegrationComponentProps) => {
+const FiveDay = observer(({ integrationId }: IntegrationWidgetProps) => {
   const store = useContext(StoreContext);
   const forecast = store.forecasts[integrationId];
 

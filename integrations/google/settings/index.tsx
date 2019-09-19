@@ -5,7 +5,7 @@ import GoogleStore, { StoreContext } from '../store';
 import { useFetch } from 'hooks/useFetch';
 import Button from 'components/button';
 import { H2 } from 'components/text';
-import GoogleIntegrationsWrapper from '../components/integrationsWrapper';
+import GoogleIntegrationsWrapper from '../widgets/integrationsWrapper';
 
 const Create = () => {
   const [data, loading] = useFetch('/google/login_url');

@@ -4,7 +4,7 @@ import Label from 'components/label';
 import Button from 'components/button';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
-import AddNewComponentModal from 'containers/addNewComponentModal';
+import AddNewWidgetModal from 'containers/addNewWidgetModal';
 
 const EditStoreController = observer(() => {
   const UIStore = useContext(UIStoreContext);
@@ -49,9 +49,9 @@ const EditStoreController = observer(() => {
   return (
     <div className="absolute bottom-0 right-0 m-6 bg-grey-lighter p-4 2-48 rounded">
       <Button color="secondary-alt" className="w-full mb-4" onClick={toggleAddNewModalVisible}>
-        Add new component
+        Add new widget
       </Button>
-      {addNewModalVisible && <AddNewComponentModal onClose={toggleAddNewModalVisible} />}
+      {addNewModalVisible && <AddNewWidgetModal onClose={toggleAddNewModalVisible} />}
       <div>
         <Label color="alt">Column count</Label>
         <input className="w-full" type="range" min="10" max="30" onChange={onColumnChange} value={config.columns} />

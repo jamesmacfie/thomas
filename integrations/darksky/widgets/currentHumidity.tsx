@@ -5,17 +5,17 @@ import PanelMainText from 'components/panelMainText';
 import IntegrationsWrapper from './integrationsWrapper';
 import { StoreContext } from '../store';
 
-const CurrentHumidity = observer(({ integrationId, componentConfig }: IntegrationComponentProps) => {
+const CurrentHumidity = observer(({ integrationId, widgetConfig }: IntegrationWidgetProps) => {
   const store = useContext(StoreContext);
   const forecast = store.forecasts[integrationId];
 
   if (!forecast) {
-    return <Panel {...componentConfig} label="Current humidity" />;
+    return <Panel {...widgetConfig} label="Current humidity" />;
   }
 
   return (
-    <Panel {...componentConfig} className="flex flex-col" label="Current humidity">
-      <PanelMainText {...componentConfig}>{forecast.currently.humidity}%</PanelMainText>
+    <Panel {...widgetConfig} className="flex flex-col" label="Current humidity">
+      <PanelMainText {...widgetConfig}>{forecast.currently.humidity}%</PanelMainText>
     </Panel>
   );
 });

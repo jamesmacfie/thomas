@@ -3,7 +3,7 @@ import moment from 'moment';
 import { observer } from 'mobx-react-lite';
 import { useFetch } from 'hooks/useFetch';
 
-const TestOne = observer(({ integrationId }: IntegrationComponentProps) => {
+const TestOne = observer(({ integrationId }: IntegrationWidgetProps) => {
   const timeFrom = moment()
     .subtract(3, 'months')
     .toISOString();

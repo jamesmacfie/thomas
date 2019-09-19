@@ -45,7 +45,7 @@ const init = (server: express.Express) => {
         );
       });
 
-      // TODO - need to refetch from DB to get associated components. Or at least give an empty array
+      // TODO - need to refetch from DB to get associated widgets. Or at least give an empty array
 
       return res.json(view);
     } catch (err) {
@@ -59,7 +59,7 @@ const init = (server: express.Express) => {
     logger.info(`📺 Getting all views`);
     try {
       const views = await db.View.findAll({
-        include: [db.Component]
+        include: [db.Widget]
       });
       return res.json(views);
     } catch (err) {

@@ -59,7 +59,7 @@ const integration = (sequelize: Sequelize.Sequelize) => {
   });
 
   (Integration as any).associate = function(models: any) {
-    (Integration as any).Components = (Integration as IntegrationStatic).hasMany(models.Component, {
+    (Integration as any).Widgets = (Integration as IntegrationStatic).hasMany(models.Widget, {
       foreignKey: 'integrationId'
     });
   };

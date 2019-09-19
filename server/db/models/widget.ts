@@ -1,7 +1,7 @@
 import Sequelize, { DataTypes, Model, BuildOptions } from 'sequelize';
 import logger from '../../logger';
 
-export interface ComponentModel extends Model {
+export interface WidgetModel extends Model {
   readonly id: number;
   readonly archived: boolean;
   readonly integration_slug: string;
@@ -11,13 +11,13 @@ export interface ComponentModel extends Model {
   readonly updatedAt: Date;
 }
 
-export type ComponentStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): ComponentModel;
+export type WidgetStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): WidgetModel;
 };
 
-const component = (sequelize: Sequelize.Sequelize) => {
-  logger.info('🦷 Creating component model');
-  const Component = <ComponentStatic>sequelize.define('component', {
+const widget = (sequelize: Sequelize.Sequelize) => {
+  logger.info('🦷 Creating widget model');
+  const Widget = <WidgetStatic>sequelize.define('widget', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -27,14 +27,14 @@ const component = (sequelize: Sequelize.Sequelize) => {
     config: {
       type: DataTypes.STRING,
       allowNull: false,
-      get(this: ComponentModel) {
+      get(this: WidgetModel) {
         return JSON.parse(this.getDataValue('config'));
       },
-      set(this: ComponentModel, config) {
+      set(this: WidgetModel, config) {
         this.setDataValue('config', JSON.stringify(config));
       }
     },
-    componentSlug: {
+    widgetSlug: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -78,12 +78,12 @@ const component = (sequelize: Sequelize.Sequelize) => {
     }
   });
 
-  (Component as any).associate = function(models: any) {
-    (Component as any).Integration = (Component as ComponentStatic).belongsTo(models.Integration);
-    (Component as any).View = (Component as ComponentStatic).belongsTo(models.View);
+  (Widget as any).associate = function(models: any) {
+    (Widget as any).Integration = (Widget as WidgetStatic).belongsTo(models.Integration);
+    (Widget as any).View = (Widget as WidgetStatic).belongsTo(models.View);
   };
 
-  return Component;
+  return Widget;
 };
 
-export default component;
+export default widget;

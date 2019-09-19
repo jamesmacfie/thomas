@@ -33,7 +33,7 @@ const getIntegrationSettings = integrationDir => {
     otherSettingsPages[settingsPageFile] = {
       integrationSlug,
       settingsPageSlug: settingsPageFile,
-      componentImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${settingsPageFile}`
+      widgetImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${settingsPageFile}`
     };
   });
 
@@ -43,7 +43,7 @@ const getIntegrationSettings = integrationDir => {
     otherSettingsPages[settingsPageFolder] = {
       integrationSlug,
       settingsPageSlug: settingsPageFolder,
-      componentImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${settingsPageFolder}`
+      widgetImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${settingsPageFolder}`
     };
   });
 
@@ -57,7 +57,7 @@ const integrationSettingsToArray = settings => {
     const setting = settings[key];
     const returnObj = {
       integrationSlug: key,
-      componentImportName: `${key.charAt(0).toUpperCase()}${key.slice(1)}_settings`
+      widgetImportName: `${key.charAt(0).toUpperCase()}${key.slice(1)}_settings`
     };
 
     if (Object.keys(setting).length) {

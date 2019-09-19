@@ -10,7 +10,7 @@ interface Props {
   onChange: (integrationSlug: string) => void;
 }
 
-const SystemIntegrationComponentSelect = observer(({ className, integrationSlug, onChange }: Props) => {
+const SystemIntegrationWidgetSelect = observer(({ className, integrationSlug, onChange }: Props) => {
   const store = useContext(StoreContext) as IntegrationsStore;
   const onChangeHandler = (option: any) => {
     onChange(option.value);
@@ -21,7 +21,7 @@ const SystemIntegrationComponentSelect = observer(({ className, integrationSlug,
     return <p>No integration for {integrationSlug}</p>;
   }
 
-  const options = integration.components.map((i: SystemIntegrationComponent) => ({
+  const options = integration.widgets.map((i: SystemIntegrationWidget) => ({
     value: i.slug,
     label: i.name
   }));
@@ -36,4 +36,4 @@ const SystemIntegrationComponentSelect = observer(({ className, integrationSlug,
   );
 });
 
-export default SystemIntegrationComponentSelect;
+export default SystemIntegrationWidgetSelect;

@@ -36,8 +36,8 @@ module.exports = {
       }
     });
 
-    console.log('Creating component table');
-    await queryInterface.createTable('components', {
+    console.log('Creating widget table');
+    await queryInterface.createTable('widgets', {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
@@ -48,7 +48,7 @@ module.exports = {
         type: Sequelize.DataTypes.STRING(2048),
         allowNull: false
       },
-      componentSlug: {
+      widgetSlug: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false
       },
@@ -93,7 +93,7 @@ module.exports = {
     });
   },
   down: async queryInterface => {
-    await queryInterface.dropTable('components');
+    await queryInterface.dropTable('widgets');
     await queryInterface.dropTable('integrations');
   }
 };

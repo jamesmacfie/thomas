@@ -139,7 +139,7 @@ const init = (server: express.Express) => {
       return res.json(deviceView);
     } catch (err) {
       console.log(err);
-      logger.error(`📦 Error updating component for id ${deviceViewId}: ${err.message}`);
+      logger.error(`📦 Error updating view for id ${deviceViewId}: ${err.message}`);
       return res.status(500).send(err.message);
     }
   });

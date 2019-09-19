@@ -3,25 +3,25 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
-import integrationComponent from './integrationComponents';
+import integrationWidget from './integrationWidgets';
 import ReactGridLayout from 'components/reactGridLayout';
 
 interface Props {
   viewId: number;
 }
 
-const ViewComponents = observer(({ viewId }: Props) => {
+const ViewWidgets = observer(({ viewId }: Props) => {
   const deviceStore = useContext(DevicesStoreContext);
   const viewStore = useContext(ViewStoreContext);
   const integrationStore = useContext(IntegrationStoreContext);
 
   if (!deviceStore.device) {
-    console.error('Should not get here. Trying to load view components without a device');
+    console.error('Should not get here. Trying to load view widget without a device');
     return null;
   }
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
     const updates = layout.map(l => ({
-      componentId: parseInt(l.i),
+      widgetId: parseInt(l.i),
       config: {
         x: l.x,
         y: l.y,
@@ -30,28 +30,28 @@ const ViewComponents = observer(({ viewId }: Props) => {
       }
     }));
     try {
-      await viewStore.updateViewComponents(viewId, updates);
+      await viewStore.updateViewWidgets(viewId, updates);
     } catch (err) {
-      console.error(`Error updating view components for ${viewId}`, err);
+      console.error(`Error updating view widgets for ${viewId}`, err);
     }
   };
 
-  if (!viewStore.views[viewId].components) {
-    return <p>You need to add a component. Todo</p>;
+  if (!viewStore.views[viewId].widgets) {
+    return <p>You need to add a widget. Todo</p>;
   }
 
-  const componentsForThisView = viewStore.views[viewId].components;
+  const widgetsForThisView = viewStore.views[viewId].widgets;
 
-  if (!componentsForThisView) {
+  if (!widgetsForThisView) {
     return <p>No view found</p>;
   }
 
-  if (!componentsForThisView.length) {
+  if (!widgetsForThisView.length) {
     return <p>Need to add</p>;
   }
 
   const deviceConfig = deviceStore.device.config;
-  const layout: ReactGridLayoutConfig[] = componentsForThisView.map(({ id, config }: IntegrationComponent) => ({
+  const layout: ReactGridLayoutConfig[] = widgetsForThisView.map(({ id, config }: IntegrationWidget) => ({
     i: id.toString(),
     w: config.w,
     h: config.h,
@@ -68,15 +68,15 @@ const ViewComponents = observer(({ viewId }: Props) => {
       cols={deviceConfig.columns}
       rowHeight={deviceConfig.rowHeight}
     >
-      {componentsForThisView.map((i: IntegrationComponent) => {
-        const Cmp = integrationComponent(i);
+      {widgetsForThisView.map((i: IntegrationWidget) => {
+        const Cmp = integrationWidget(i);
         return (
           <div key={i.id}>
             <Cmp
               key={i.id}
-              componentId={i.id}
+              widgetId={i.id}
               integrationId={i.integrationId}
-              componentConfig={i.config}
+              widgetConfig={i.config}
               integrationConfig={integrationStore.integrations[i.integrationId].config}
             />
           </div>
@@ -86,4 +86,4 @@ const ViewComponents = observer(({ viewId }: Props) => {
   );
 });
 
-export default ViewComponents;
+export default ViewWidgets;

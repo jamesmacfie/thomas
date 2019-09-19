@@ -1,5 +1,5 @@
 import express from 'express';
-import initComponent from './component';
+import initWidget from './widget';
 import initDevice from './device';
 import initIntegration from './integration';
 import initView from './view';
@@ -8,7 +8,7 @@ import initView from './view';
 import initStatic from './static';
 
 const init = (server: express.Express) => {
-  initComponent(server);
+  initWidget(server);
   initDevice(server);
   initIntegration(server);
   initView(server);
