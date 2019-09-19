@@ -3,7 +3,7 @@ import { observable } from 'mobx';
 import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
 
-interface DeviceViewComponentUpdate {
+interface DeviceViewWidgetUpdate {
   deviceViewId: number;
   order: number;
 }
@@ -23,7 +23,7 @@ export default class Store {
     this.deviceViews[deviceView.id] = deviceView;
   };
 
-  updateDeviceViews = async (updates: DeviceViewComponentUpdate[]) => {
+  updateDeviceViews = async (updates: DeviceViewWidgetUpdate[]) => {
     if (!Object.values(this.deviceViews).length) {
       return Promise.resolve();
     }
