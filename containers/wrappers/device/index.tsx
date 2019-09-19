@@ -1,7 +1,7 @@
-import React, { useContext, ReactNode } from "react";
-import { observer } from "mobx-react-lite";
-import { StoreContext as DevicesStoreContext } from "stores/devices";
-import Loader from "components/loader";
+import React, { useContext, ReactNode } from 'react';
+import { observer } from 'mobx-react-lite';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
+import Loader from 'components/loader';
 
 interface Props {
   children: ReactNode;
