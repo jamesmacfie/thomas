@@ -2,6 +2,7 @@ import React, { useContext, ReactNode } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Loader from 'components/loader';
+import AddFirstDevice from 'containers/addFirstDevice';
 
 interface Props {
   children: ReactNode;
@@ -16,7 +17,7 @@ const DevicesWrapper = observer(({ children }: Props) => {
   }
 
   if (!deviceStore.hasDeviceId && !deviceStore.otherDevices.length) {
-    return <p>No devices. Create one!</p>;
+    return <AddFirstDevice />;
   }
 
   if (!deviceStore.hasDeviceId && deviceStore.otherDevices.length) {

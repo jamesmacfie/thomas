@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import fetch from 'isomorphic-unfetch';
 import { store as deviceViewStore } from 'stores/deviceViews';
 
@@ -41,12 +41,14 @@ export default class Store {
     return localStorage.getItem(this.device_key);
   };
 
+  @action
   setDeviceId = async (id: string) => {
     localStorage.setItem(this.device_key, id);
     this.hasDeviceId = true;
     await this.getDevice();
   };
 
+  @action
   getDevice = async () => {
     const deviceId = this.getDeviceId();
     if (!deviceId) {
@@ -60,6 +62,20 @@ export default class Store {
     }
   };
 
+  @action
+  addDevice = async (values: { name: string; icon: string }) => {
+    const device: Device = await fetch(`/device`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(res => res.json());
+    this.setDeviceId(device.id);
+    this.device = device;
+  };
+
+  @action
   getOtherDevices = async () => {
     const devices = await fetch('http://localhost:3000/devices').then(res => res.json());
     this.otherDevices = devices;
