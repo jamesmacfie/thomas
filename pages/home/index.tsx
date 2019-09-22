@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import Router from 'next/router';
 import { observer } from 'mobx-react-lite';
 import PageWrapper from 'containers/wrappers/page';
+import AddFirstView from 'containers/addFirstView';
 import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
 
 const Inner = observer(() => {
@@ -9,7 +10,7 @@ const Inner = observer(() => {
 
   const deviceArray = Object.values(deviceViewsStore.deviceViews);
   if (!deviceArray.length) {
-    return <p>Todo - need to create the first view</p>;
+    return <AddFirstView />;
   }
 
   const viewIdsByOrder = deviceArray.sort((a, b) => a.order - b.order);

@@ -8,7 +8,7 @@ import FormikInput from 'components/formikInput';
 import { createDeviceView } from 'validations/deviceView';
 
 interface Props {
-  onClose: () => void;
+  onClose: (deviceView: DeviceView) => void;
 }
 
 const CreateDeviceViewForm = observer(({ onClose }: Props) => {
@@ -37,7 +37,7 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
           .then(deviceView => {
             deviceViewStore.addDeviceView(deviceView);
             setSubmitting(false);
-            onClose();
+            onClose(deviceView);
           });
         setSubmitting(false);
       }}

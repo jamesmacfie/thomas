@@ -98,6 +98,7 @@ const init = (server: express.Express) => {
           createdBy: deviceId
         });
         viewId = view.id;
+        logger.info(`📲 Creating view with id ${viewId}`);
       } else {
         viewId = req.body.viewId;
         logger.info(`📲 Associating new device view with view ${viewId}`);
@@ -107,7 +108,7 @@ const init = (server: express.Express) => {
         where: {
           deviceId
         }
-      }).reduce((highest: number, curr: DeviceView) => (highest > curr.order ? highest : curr.order));
+      }).reduce((highest: number, curr: DeviceView) => (highest > curr.order ? highest : curr.order), 0);
 
       const deviceView = await db.DeviceView.create({
         order: highestDeviceView + 1,
@@ -118,7 +119,7 @@ const init = (server: express.Express) => {
       });
       return res.json(deviceView);
     } catch (err) {
-      logger.error(`📲 Error getting device for id ${deviceId}: ${err.message}`);
+      logger.error(`📲 Error creating view for device ${deviceId}: ${err}`);
       return res.status(500).send(err.message);
     }
   });
