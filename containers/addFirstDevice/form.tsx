@@ -37,12 +37,12 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
         }
       }}
     >
-      {({ isSubmitting, handleSubmit }) => (
+      {({ touched, isSubmitting, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <FormikInput name="name" label="Name" placeholder="Name" />
           <FormikInput type="icon" name="icon" label="Icon" />
-          <Button color="primary" type="submit" disabled={isSubmitting}>
-            Save
+          <Button color="primary" type="submit" disabled={isSubmitting || !touched}>
+            Create
           </Button>
         </form>
       )}
