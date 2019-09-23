@@ -1,0 +1,7 @@
+.scroll-top {
+  background-image: linear-gradient(#232d3b 5%, transparent);
+}
+
+.scroll-bottom {
+  background-image: linear-gradient(transparent 5%, #232d3b);
+}

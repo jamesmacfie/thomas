@@ -58,11 +58,11 @@ const Day = ({ forecast, daysSinceToday }: DayProps) => {
 const Week = ({ forecast }: Props) => {
   const nextWeek = forecast.daily.data.slice(1);
   return (
-    <>
+    <div>
       {nextWeek.map((forecast, i) => (
         <Day key={i} forecast={forecast} daysSinceToday={i + 1} />
       ))}
-    </>
+    </div>
   );
 };
 

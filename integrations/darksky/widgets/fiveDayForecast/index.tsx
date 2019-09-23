@@ -6,6 +6,7 @@ import { StoreContext } from '../../store';
 import IntegrationsWrapper from '../integrationsWrapper';
 import NextWeek from './_week';
 import Panel from 'components/panel';
+import Scroll from 'components/scroll';
 import ForcastImage from './_image';
 import TempUnits from '../_units';
 import { bearingToCompassDirection } from 'utils/bearing';
@@ -68,9 +69,9 @@ const FiveDayForecast = observer(({ integrationId, widgetConfig }: IntegrationWi
           </div>
         </div>
       </div>
-      <div className="flex-grow overflow-y-scroll">
+      <Scroll className="flex-grow overflow-hidden">
         <NextWeek forecast={forecast} />
-      </div>
+      </Scroll>
     </Panel>
   );
 });
