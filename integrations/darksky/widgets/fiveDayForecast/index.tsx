@@ -4,7 +4,7 @@ import numeral from 'numeral';
 import Panel from 'components/panel';
 // import { toJS } from 'mobx';
 // import { H4 } from 'components/text';
-// import ForcastImage from './_image';
+import ForcastImage from './_image';
 import getForecastGradient from './_gradient';
 import { StoreContext } from '../../store';
 import IntegrationsWrapper from '../integrationsWrapper';
@@ -20,12 +20,12 @@ const FiveDayForecast = observer(({ integrationId, widgetConfig }: IntegrationWi
     return <Panel {...widgetConfig} label="Five day forecast" />;
   }
 
-  const currentTemp = forecast.currently.temperature;
-  const highTemp = forecast.daily.data[0].temperatureHigh;
-  const lowTemp = forecast.daily.data[0].temperatureLow;
+  const currentTemp = forecast.currently.temperature.toFixed(1);
+  const highTemp = forecast.daily.data[0].temperatureHigh.toFixed(1);
+  const lowTemp = forecast.daily.data[0].temperatureLow.toFixed(1);
   const currentIcon = forecast.currently.icon;
   const currentSummary = forecast.currently.summary;
-  const feelsLikeTemp = forecast.currently.apparentTemperature;
+  const feelsLikeTemp = forecast.currently.apparentTemperature.toFixed(1);
   const windSpeed = forecast.currently.windSpeed;
   // const windSpeedState = entityToValue(windSpeed);
   const windDirection = forecast.currently.windBearing;
@@ -45,7 +45,7 @@ const FiveDayForecast = observer(({ integrationId, widgetConfig }: IntegrationWi
             </span>
           </p>
         </div>
-        {/* <ForcastImage icon={currentIcon} className="absolute h-16 w-16 forecast-icon" /> */}
+        <ForcastImage icon={currentIcon} className="absolute h-16 w-16 forecast-icon" />
         <div className="flex">
           <div className="flex-grow pr-4">
             <p className="text-xs text-shadow">
