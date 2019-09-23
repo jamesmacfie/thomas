@@ -5,6 +5,7 @@ import { StoreContext as ViewStoreContext } from 'stores/views';
 import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
 import integrationWidget from './integrationWidgets';
 import ReactGridLayout from 'components/reactGridLayout';
+import AddFirstViewWidget from 'containers/addFirstViewWidget';
 
 interface Props {
   viewId: number;
@@ -47,7 +48,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
   }
 
   if (!widgetsForThisView.length) {
-    return <p>Need to add</p>;
+    return <AddFirstViewWidget />;
   }
 
   const deviceConfig = deviceStore.device.config;
@@ -69,6 +70,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       rowHeight={deviceConfig.rowHeight}
     >
       {widgetsForThisView.map((i: IntegrationWidget) => {
+        // TODO - there's a case where integrationStore.integrations[i.integrationId].config could return undefined
         const Cmp = integrationWidget(i);
         return (
           <div key={i.id}>

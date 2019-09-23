@@ -5,11 +5,12 @@ import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
 import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
 import { useRouter } from 'next/router';
-import SystemIntegrationSelect from 'containers/systemIntegrationSelect';
+import IntegrationSelect from 'containers/integrationSelect';
 import SystemIntegrationWidgetSelect from 'containers/systemIntegrationWidgetSelect';
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Label from 'components/label';
+import { toJS } from 'mobx';
 
 interface Props {
   onClose: () => void;
@@ -19,17 +20,19 @@ const NewWidget = observer(({ onClose }: Props) => {
   const deviceStore = useContext(DevicesStoreContext);
   const viewsStore = useContext(ViewsStoreContext);
   const integrationsStore = useContext(IntegrationsStoreContext);
-  const [integrationSlug, setIntegrationSlug] = useState<string>('');
+  const [integrationId, setIntegrationId] = useState<number | null>(null);
   const [widgetSlug, setWidgetSlug] = useState<string>('');
   const { query } = useRouter();
-  const systemIntegration: SystemIntegration | null = integrationSlug.length
-    ? integrationsStore.systemIntegrations![integrationSlug]
+  const integration: Integration | null = integrationId
+    ? integrationsStore.integrations[integrationId.toString()]
     : null;
+  const systemIntegration: SystemIntegration | null =
+    integrationId && integration ? integrationsStore.systemIntegrations[integration.slug] : null;
 
   const create = async () => {
     // TODO - move to correct store
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
-    if (!systemIntegration) {
+    if (!systemIntegration || !integration) {
       // TODO - error message?
       return;
     }
@@ -38,7 +41,6 @@ const NewWidget = observer(({ onClose }: Props) => {
       // TODO - error message?
       return;
     }
-
     const widget = await fetch(`/widget`, {
       method: 'POST',
       headers: {
@@ -46,8 +48,8 @@ const NewWidget = observer(({ onClose }: Props) => {
       },
       body: JSON.stringify({
         deviceId: deviceStore.getDeviceId(),
-        integrationId: 10,
-        integrationSlug,
+        integrationId,
+        integrationSlug: integration.slug,
         widgetSlug,
         viewId,
         config: {
@@ -64,24 +66,30 @@ const NewWidget = observer(({ onClose }: Props) => {
     viewsStore.addWidget(viewId, widget);
 
     // And tidy up
-    setIntegrationSlug('');
+    setIntegrationId(null);
     setWidgetSlug('');
     onClose();
   };
 
-  const widgetCmp = !systemIntegration ? null : (
+  console.log('INTE', toJS(integration), integrationId, toJS(integrationsStore.integrations));
+
+  const widgetCmp = !integration ? null : (
     <>
       <Label>Widget</Label>
-      <SystemIntegrationWidgetSelect integrationSlug={integrationSlug} className="mb-4 w-96" onChange={setWidgetSlug} />
+      <SystemIntegrationWidgetSelect
+        integrationSlug={integration.slug}
+        className="mb-4 w-96"
+        onChange={setWidgetSlug}
+      />
     </>
   );
 
   return (
     <Modal title="Create new widget" size="sm" onClose={onClose}>
       <Label>Integration</Label>
-      <SystemIntegrationSelect className="mb-4 w-96" onChange={setIntegrationSlug} />
+      <IntegrationSelect className="mb-4 w-96" onChange={setIntegrationId} />
       {widgetCmp}
-      <Button disabled={!integrationSlug || !widgetSlug} color="primary" onClick={create}>
+      <Button disabled={!integrationId || !widgetSlug} color="primary" onClick={create}>
         Create
       </Button>
     </Modal>

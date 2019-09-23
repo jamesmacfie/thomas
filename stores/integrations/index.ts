@@ -7,8 +7,8 @@ import { store as deviceStore } from 'stores/devices';
 
 export default class Store {
   @observable loaded: boolean = false;
-  @observable integrations: any | null = null;
-  @observable systemIntegrations: { [key: string]: SystemIntegration } | null = null;
+  @observable integrations: { [key: string]: Integration } = {};
+  @observable systemIntegrations: { [key: string]: SystemIntegration } = {};
 
   getSystemIntegrations = () => {
     return fetch('http://localhost:3000/system/integrations')
