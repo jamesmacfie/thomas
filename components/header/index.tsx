@@ -17,7 +17,7 @@ const Header = () => {
 
   return (
     <div
-      className={`w-screen relative h-16 px-6 flex items-center double-border-bottom flex-no-shrink`}
+      className={`w-screen relative h-16 px-6 flex items-center double-border-bottom flex-shrink-0`}
       onClick={toggleFullscreen}
     >
       <span className="text-xl inline-block mr-6">

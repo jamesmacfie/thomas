@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import numeral from 'numeral';
-import Panel from 'components/panel';
-// import { toJS } from 'mobx';
-// import { H4 } from 'components/text';
-import ForcastImage from './_image';
 import getForecastGradient from './_gradient';
 import { StoreContext } from '../../store';
 import IntegrationsWrapper from '../integrationsWrapper';
-// import NextWeek from './week';
+import NextWeek from './_week';
+import Panel from 'components/panel';
+import ForcastImage from './_image';
 import TempUnits from '../_units';
+import { bearingToCompassDirection } from 'utils/bearing';
 import './styles.css';
 
 const FiveDayForecast = observer(({ integrationId, widgetConfig }: IntegrationWidgetProps) => {
@@ -27,15 +26,11 @@ const FiveDayForecast = observer(({ integrationId, widgetConfig }: IntegrationWi
   const currentSummary = forecast.currently.summary;
   const feelsLikeTemp = forecast.currently.apparentTemperature.toFixed(1);
   const windSpeed = forecast.currently.windSpeed;
-  // const windSpeedState = entityToValue(windSpeed);
-  const windDirection = forecast.currently.windBearing;
-  // const windDirectionState = entityToValue(windDirection);
-  // // const imageLocation = getForecastImage(currentIconState);
+  const windDirection = bearingToCompassDirection(forecast.currently.windBearing);
   const gradient = getForecastGradient(currentIcon);
-  console.log('Gradient', gradient);
 
   return (
-    <Panel {...widgetConfig} padding={false} className="relative">
+    <Panel {...widgetConfig} padding={false} className="flex flex-col relative" overflow={false}>
       <div className="p-4 forecast-image-inner rounded-tl rounded-tr" style={{ backgroundImage: `${gradient}` }}>
         <div className="flex items-center mb-4">
           <p className="flex-grow text-6xl whitespace-no-wrap text-shadow relative">
@@ -72,6 +67,9 @@ const FiveDayForecast = observer(({ integrationId, widgetConfig }: IntegrationWi
             </p>
           </div>
         </div>
+      </div>
+      <div className="flex-grow overflow-y-scroll">
+        <NextWeek forecast={forecast} />
       </div>
     </Panel>
   );
