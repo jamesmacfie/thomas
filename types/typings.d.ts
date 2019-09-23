@@ -137,6 +137,7 @@ type DarkSkyIcons =
   | 'cloudy'
   | 'partly-cloudy-day'
   | 'partly-cloudy-night';
+type DarkSkyPrecip = 'rain' | 'snow' | 'sleet';
 
 interface DarkSkyForecast {
   currently: {
@@ -146,6 +147,49 @@ interface DarkSkyForecast {
     temperature: number;
     icon: DarkSkyIcons;
   };
+  daily: [
+    {
+      apparentTemperatureHigh: number;
+      apparentTemperatureHighTime: float;
+      apparentTemperatureLow: number;
+      apparentTemperatureLowTime: number;
+      apparentTemperatureMax: number;
+      apparentTemperatureMaxTime: number;
+      apparentTemperatureMin: number;
+      apparentTemperatureMinTime: number;
+      cloudCover: number;
+      dewPoint: number;
+      humidity: number;
+      icon: DarkSkyIcons;
+      moonPhase: number;
+      ozone: number;
+      precipIntensity: number;
+      precipIntensityMax: number;
+      precipIntensityMaxTime: number;
+      precipProbability: number;
+      precipType: DarkSkyPrecip;
+      pressure: number;
+      summary: string;
+      sunriseTime: number;
+      sunsetTime: number;
+      temperatureHigh: number;
+      temperatureHighTime: number;
+      temperatureLow: number;
+      temperatureLowTime: number;
+      temperatureMax: number;
+      temperatureMaxTime: number;
+      temperatureMin: number;
+      temperatureMinTime: number;
+      time: number;
+      uvIndex: number;
+      uvIndexTime: number;
+      visibility: number;
+      windBearing: number;
+      windGust: number;
+      windGustTime: number;
+      windSpeed: number;
+    }
+  ];
 }
 
 interface ReactGridLayoutConfig extends WidgetConfig {

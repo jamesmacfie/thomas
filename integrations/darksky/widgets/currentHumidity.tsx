@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import Panel from 'components/panel';
 import PanelMainText from 'components/panelMainText';
-import IntegrationsWrapper from './integrationsWrapper';
 import { StoreContext } from '../store';
 
 const CurrentHumidity = observer(({ integrationId, widgetConfig }: IntegrationWidgetProps) => {
@@ -20,8 +19,4 @@ const CurrentHumidity = observer(({ integrationId, widgetConfig }: IntegrationWi
   );
 });
 
-export default (props: any) => (
-  <IntegrationsWrapper>
-    <CurrentHumidity {...props} />
-  </IntegrationsWrapper>
-);
+export default CurrentHumidity;

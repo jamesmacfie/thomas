@@ -1,6 +1,6 @@
 import React from 'react';
 interface Props {
-  unit: DarkSkyUnits;
+  unit?: DarkSkyUnits;
   className?: string;
 }
 

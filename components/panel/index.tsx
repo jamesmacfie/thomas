@@ -33,7 +33,7 @@ const Panel = ({
     <div className="flex flex-col h-full w-full">
       <div className="flex-grow flex justify-center items-center">{children}</div>
       <H3 className="mb-0" margin={false}>
-        Current humidity
+        {label}
       </H3>
     </div>
   ) : (
