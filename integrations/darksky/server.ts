@@ -14,10 +14,10 @@ export function init(server: express.Express) {
       logger.info(`🍪 No matching integration for id ${integrationId}`);
       return res.status(400).send(`No matching integration for id ${integrationId}`);
     }
-    const { apiKey, longitude, latitude, units } = integration.config;
-    const forecast = await fetch(
-      `https://api.darksky.net/forecast/${apiKey}/${latitude},${longitude}?units=${units}`
-    ).then((res: any) => res.json());
+    const { apiKey, longitude, latitude } = integration.config;
+    const url = `https://api.darksky.net/forecast/${apiKey}/${latitude},${longitude}?units=si`;
+    logger.info(`🍪 Getting forecast from ${url}`);
+    const forecast = await fetch(url).then((res: any) => res.json());
 
     logger.info(`🍪 Got forecast`);
     res.status(200).send(forecast);
