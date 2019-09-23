@@ -141,55 +141,71 @@ type DarkSkyPrecip = 'rain' | 'snow' | 'sleet';
 
 interface DarkSkyForecast {
   currently: {
-    cloudCover: number;
+    time: number;
+    summary: string;
+    icon: DarkSkyIcons;
+    nearestStormDistance: number;
+    precipIntensity: number;
+    precipProbability: number;
+    precipType: DarkSkyPrecip;
+    temperature: number;
+    apparentTemperature: number;
     dewPoint: number;
     humidity: number;
-    temperature: number;
-    icon: DarkSkyIcons;
+    pressure: number;
+    windSpeed: number;
+    windGust: number;
+    windBearing: number;
+    cloudCover: number;
+    uvIndex: number;
+    visibility: number;
+    ozone: number;
   };
-  daily: [
-    {
-      apparentTemperatureHigh: number;
-      apparentTemperatureHighTime: float;
-      apparentTemperatureLow: number;
-      apparentTemperatureLowTime: number;
-      apparentTemperatureMax: number;
-      apparentTemperatureMaxTime: number;
-      apparentTemperatureMin: number;
-      apparentTemperatureMinTime: number;
-      cloudCover: number;
-      dewPoint: number;
-      humidity: number;
-      icon: DarkSkyIcons;
-      moonPhase: number;
-      ozone: number;
-      precipIntensity: number;
-      precipIntensityMax: number;
-      precipIntensityMaxTime: number;
-      precipProbability: number;
-      precipType: DarkSkyPrecip;
-      pressure: number;
-      summary: string;
-      sunriseTime: number;
-      sunsetTime: number;
-      temperatureHigh: number;
-      temperatureHighTime: number;
-      temperatureLow: number;
-      temperatureLowTime: number;
-      temperatureMax: number;
-      temperatureMaxTime: number;
-      temperatureMin: number;
-      temperatureMinTime: number;
-      time: number;
-      uvIndex: number;
-      uvIndexTime: number;
-      visibility: number;
-      windBearing: number;
-      windGust: number;
-      windGustTime: number;
-      windSpeed: number;
-    }
-  ];
+  daily: {
+    data: [
+      {
+        apparentTemperatureHigh: number;
+        apparentTemperatureHighTime: float;
+        apparentTemperatureLow: number;
+        apparentTemperatureLowTime: number;
+        apparentTemperatureMax: number;
+        apparentTemperatureMaxTime: number;
+        apparentTemperatureMin: number;
+        apparentTemperatureMinTime: number;
+        cloudCover: number;
+        dewPoint: number;
+        humidity: number;
+        icon: DarkSkyIcons;
+        moonPhase: number;
+        ozone: number;
+        precipIntensity: number;
+        precipIntensityMax: number;
+        precipIntensityMaxTime: number;
+        precipProbability: number;
+        precipType: DarkSkyPrecip;
+        pressure: number;
+        summary: string;
+        sunriseTime: number;
+        sunsetTime: number;
+        temperatureHigh: number;
+        temperatureHighTime: number;
+        temperatureLow: number;
+        temperatureLowTime: number;
+        temperatureMax: number;
+        temperatureMaxTime: number;
+        temperatureMin: number;
+        temperatureMinTime: number;
+        time: number;
+        uvIndex: number;
+        uvIndexTime: number;
+        visibility: number;
+        windBearing: number;
+        windGust: number;
+        windGustTime: number;
+        windSpeed: number;
+      }
+    ];
+  };
 }
 
 interface ReactGridLayoutConfig extends WidgetConfig {
