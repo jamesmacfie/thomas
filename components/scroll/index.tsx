@@ -10,7 +10,6 @@ interface Props {
 
 const Scroll = ({ children, className }: Props) => {
   const [debouncedOnScroll] = useDebouncedCallback((target: any) => {
-    console.log(target);
     target.scrollTo({
       top: 0,
       left: 0,
