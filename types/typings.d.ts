@@ -219,6 +219,11 @@ interface FormConfig {
   type: 'text' | 'number';
   label: string;
   description?: string;
+  values?: {
+    value: string | number | boolean;
+    label: string;
+  }[];
+  defaultValue?: string;
   // TODO - how can I make this type be better? Needs better optional details etc
   validationType?: 'mixed' | 'string' | 'number' | 'boolean';
   validations?: {

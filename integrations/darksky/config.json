@@ -79,6 +79,29 @@
           "params": [90, "Please enter a valid latitude"]
         }
       ]
+    },
+    {
+      "key": "units",
+      "type": "select",
+      "label": "Units",
+      "validationType": "string",
+      "values": [
+        {
+          "value": "si",
+          "label": "Metric"
+        },
+        {
+          "value": "us",
+          "label": "Imperial"
+        }
+      ],
+      "defaultValue": "si",
+      "validations": [
+        {
+          "type": "required",
+          "params": ["Please enter which units you would like to use"]
+        }
+      ]
     }
   ]
 }

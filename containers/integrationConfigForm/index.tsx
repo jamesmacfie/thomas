@@ -32,9 +32,19 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
   const validationSchema = config.reduce(createSchema, {});
   const validateAgainst = object().shape(validationSchema);
 
+  const configInitialValues: { [key: string]: string | number } = {};
+  Object.values(config).forEach(c => {
+    if (c.defaultValue) {
+      configInitialValues[c.key] = c.defaultValue;
+    }
+  });
+
   return (
     <Formik
-      initialValues={integration.config}
+      initialValues={{
+        ...configInitialValues,
+        ...integration.config
+      }}
       validationSchema={validateAgainst}
       validateOnChange={false}
       validateOnBlur={false}
@@ -52,7 +62,15 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
       {({ values, isSubmitting, handleSubmit }) => (
         <form onSubmit={handleSubmit} className="pr-4">
           {config.map(c => (
-            <FormikInput key={c.key} name={c.key} value={values[c.key]} label={c.label} />
+            <FormikInput
+              key={c.key}
+              name={c.key}
+              values={c.values}
+              defaultValue={c.defaultValue}
+              value={values[c.key]}
+              label={c.label}
+              type={c.type}
+            />
           ))}
           <Save submitting={isSubmitting} onClick={() => {}} />
         </form>

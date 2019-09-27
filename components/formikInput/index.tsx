@@ -3,10 +3,13 @@ import { Field, FieldProps, connect } from 'formik';
 import Input from 'components/input';
 import Label from 'components/label';
 import Icon from './icon';
+import Select from './select';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   name: string;
+  value?: string | number;
+  values?: any;
   formik?: {
     errors: any;
     touched: boolean;
@@ -21,7 +24,7 @@ export const FieldError = ({ children }: FieldErrorProps) => {
   return <p className="mt-1 mb-3 text-xs text-red-light">{children}</p>;
 };
 
-const FormikInput = ({ label, name, formik, type, ...props }: Props) => {
+const FormikInput = ({ value, label, name, formik, type, className, ...props }: Props) => {
   const errors = formik!.errors;
 
   return (
@@ -31,6 +34,8 @@ const FormikInput = ({ label, name, formik, type, ...props }: Props) => {
         let input;
         if (type === 'icon') {
           input = <Icon form={form} {...field} {...props} />;
+        } else if (type === 'select') {
+          input = <Select value={value} name={name} form={form} {...props} />;
         } else {
           input = <Input className="block mb-4 w-full" {...field} {...props} />;
         }
