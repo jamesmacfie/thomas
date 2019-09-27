@@ -15,7 +15,7 @@ declare interface DeviceConfig {
 }
 
 declare interface Device {
-  id: string;
+  id: number;
   name: string;
   icon: string;
   config: DeviceConfig;
@@ -24,7 +24,7 @@ declare interface Device {
 }
 
 declare interface Integration {
-  id: string;
+  id: number;
   archived: boolean;
   slug: string;
   config: any;
@@ -66,7 +66,7 @@ interface View {
 }
 
 interface DeviceView {
-  id: string;
+  id: number;
   archived: boolean;
   order: number;
   icon: string;
@@ -78,20 +78,20 @@ interface DeviceView {
 }
 
 interface Page {
-  id: string;
+  id: number;
   url: string;
   name: string;
   widgets: IntegrationWidget[];
 }
 
 interface ServerIntegration {
-  id: string;
+  id: number;
   slug: string;
   config: object;
 }
 
 interface IntegrationWidget {
-  id: string;
+  id: number;
   archived: boolean;
   widgetSlug: string;
   integrationSlug: string;

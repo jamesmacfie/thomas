@@ -13,7 +13,7 @@ export default class Store {
   @observable deviceViews: { [key: string]: DeviceView } = {};
   pendingDeviceViewUpdates: { [key: string]: DeviceView } = {};
 
-  getDeviceViews = async ({ deviceId }: { deviceId: string }) => {
+  getDeviceViews = async ({ deviceId }: { deviceId: number | string }) => {
     const deviceViews = await fetch(`http://localhost:3000/device/${deviceId}/views`).then(res => res.json());
     this.deviceViews = keyBy(deviceViews, 'id');
     this.loaded = true;

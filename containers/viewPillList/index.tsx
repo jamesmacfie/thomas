@@ -6,7 +6,7 @@ import { H4 } from 'components/text';
 import './styles.css';
 
 interface Props {
-  onSelect: (viewId: string) => void;
+  onSelect: (viewId: number) => void;
 }
 
 const ViewPillList = observer(({ onSelect }: Props) => {
@@ -18,7 +18,7 @@ const ViewPillList = observer(({ onSelect }: Props) => {
         return (
           <li
             className="viewPillListPill cursor-pointer flex p-4 items-center text-white hover:text-blue"
-            onClick={() => onSelect(key)}
+            onClick={() => onSelect(parseInt(key))}
             key={key}
           >
             <Icon className="text-2xl mr-4 current-stroke" icon={view.icon} />

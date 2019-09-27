@@ -42,8 +42,8 @@ export default class Store {
   };
 
   @action
-  setDeviceId = async (id: string) => {
-    localStorage.setItem(this.device_key, id);
+  setDeviceId = async (id: number) => {
+    localStorage.setItem(this.device_key, id.toString());
     this.hasDeviceId = true;
     await this.getDevice();
   };

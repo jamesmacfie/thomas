@@ -5,7 +5,6 @@ import { StoreContext as DeviceViewStoreContext } from 'stores/deviceViews';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import ViewPillList from 'containers/viewPillList';
 import { H3 } from 'components/text';
-import { toJS } from 'mobx';
 
 interface Props {
   onClose: () => void;
@@ -16,8 +15,7 @@ const NewDeviceViewFromExisting = observer(({ onClose }: Props) => {
   const deviceViewStore = useContext(DeviceViewStoreContext);
   const viewStore = useContext(ViewStoreContext);
 
-  const add = async (viewId: string) => {
-    console.log('Adding', viewId, toJS(deviceViewStore.deviceViews));
+  const add = async (viewId: number) => {
     const view = viewStore.views[viewId];
     // TODO - this should live inside the device view store
     await fetch(`/device/${deviceStore.getDeviceId()}/view`, {

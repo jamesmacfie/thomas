@@ -56,7 +56,7 @@ export default class Store {
       });
   };
 
-  updateExistingIntegration = (id: string, config: any) => {
+  updateExistingIntegration = (id: number, config: any) => {
     if (!deviceStore.getDeviceId()) {
       return Promise.resolve(false);
     }

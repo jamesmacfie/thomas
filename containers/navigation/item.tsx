@@ -8,7 +8,7 @@ import Icon from 'components/icon';
 import useLongPress from 'hooks/useLongPress';
 
 export type Props = {
-  id: string;
+  id: number | string;
   icon: string;
   href?: string;
   addNewClick?: boolean;

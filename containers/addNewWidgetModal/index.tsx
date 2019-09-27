@@ -63,7 +63,7 @@ const NewWidget = observer(({ onClose }: Props) => {
       })
     }).then(res => res.json());
 
-    viewsStore.addWidget(viewId, widget);
+    viewsStore.addWidget(parseInt(viewId), widget);
 
     // And tidy up
     setIntegrationId(null);

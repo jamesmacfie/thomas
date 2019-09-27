@@ -16,7 +16,7 @@ export default class Store {
     this.views = keyBy(views, 'id');
   };
 
-  addWidget = (viewId: string, widget: any) => {
+  addWidget = (viewId: number, widget: any) => {
     if (!viewId) {
       console.log('No viewId provided to add widget to');
       return;
