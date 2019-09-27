@@ -60,6 +60,7 @@ interface View {
   archived: boolean;
   name: string;
   icon: string;
+  widgets: IntegrationWidget[];
   createdBy: number;
   createdAt: Date;
   updatedAt: Date;

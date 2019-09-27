@@ -21,7 +21,7 @@ const ViewPillList = observer(({ onSelect }: Props) => {
             onClick={() => onSelect(parseInt(key))}
             key={key}
           >
-            <Icon className="text-2xl mr-4 current-stroke" icon={view.icon} />
+            <Icon className="text-2xl mr-4 current-stroke" icon={view.icon as any} />
             <H4 margin={false} className="flex-grow text-inherit">
               {view.name}
             </H4>

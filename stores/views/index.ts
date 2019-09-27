@@ -9,7 +9,7 @@ interface ViewWidgetUpdate {
 }
 
 export default class Store {
-  @observable views: any = {}; // TODO - should have a proper type
+  @observable views: { [key: string]: View } = {}; // TODO - should have a proper type
 
   getViews = async () => {
     const views = await fetch(`http://localhost:3000/views`).then(res => res.json());
