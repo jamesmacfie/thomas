@@ -14,8 +14,8 @@ export function init(server: express.Express) {
       logger.info(`🍪 No matching integration for id ${integrationId}`);
       return res.status(400).send(`No matching integration for id ${integrationId}`);
     }
-    const { apiKey, longitude, latitude } = integration.config;
-    const url = `https://api.darksky.net/forecast/${apiKey}/${latitude},${longitude}?units=si`;
+    const { apiKey, longitude, latitude, units } = integration.config;
+    const url = `https://api.darksky.net/forecast/${apiKey}/${latitude},${longitude}?units=${units}`;
     logger.info(`🍪 Getting forecast from ${url}`);
     const forecast = await fetch(url).then((res: any) => res.json());
 

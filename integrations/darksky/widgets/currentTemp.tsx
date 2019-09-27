@@ -4,7 +4,7 @@ import Panel from 'components/panel';
 import PanelMainText from 'components/panelMainText';
 import IntegrationsWrapper from './integrationsWrapper';
 import { StoreContext } from '../store';
-import { TempUnits } from './_units';
+import TempUnits from './_tempUnits';
 
 const CurrentTemp = observer(({ integrationId, widgetConfig, integrationConfig }: IntegrationWidgetProps) => {
   const store = useContext(StoreContext);
@@ -18,7 +18,7 @@ const CurrentTemp = observer(({ integrationId, widgetConfig, integrationConfig }
     <Panel {...widgetConfig} label="Current temperature">
       <PanelMainText {...widgetConfig}>
         {forecast.currently.temperature}
-        <TempUnits unit={integrationConfig.unit} />
+        <TempUnits units={integrationConfig.units} />
       </PanelMainText>
     </Panel>
   );
