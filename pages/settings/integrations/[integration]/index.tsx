@@ -4,13 +4,12 @@ import { observer } from 'mobx-react-lite';
 import integrationSettings from 'thomas/integrationSettings';
 import PageWrapper from 'containers/wrappers/page';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
-import Loader from 'components/loader';
 import IntegrationSettingsCmp from 'containers/integrationSettings';
 
 const IntegrationSettings = observer(() => {
   const store = useContext(StoreContext) as IntegrationsStore;
   if (!store.loaded) {
-    return <Loader fullPage />;
+    return null;
   }
 
   const { query } = useRouter();

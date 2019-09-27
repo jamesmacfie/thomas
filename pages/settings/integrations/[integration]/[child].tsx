@@ -4,12 +4,11 @@ import { observer } from 'mobx-react-lite';
 import integrationSettings from 'thomas/integrationSettings';
 import PageWrapper from 'containers/wrappers/page';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
-import Loader from 'components/loader';
 
 const IntegrationSettingsChild = observer(() => {
   const store = useContext(StoreContext) as IntegrationsStore;
   if (!store.loaded) {
-    return <Loader fullPage />;
+    return null;
   }
   const { query } = useRouter();
   const integrationSlug = Array.isArray(query.integration) ? query.integration[0] : query.integration;

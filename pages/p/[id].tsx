@@ -4,13 +4,12 @@ import { observer } from 'mobx-react-lite';
 import PageWrapper from 'containers/wrappers/page';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import ViewWidgets from 'containers/viewWidgets';
-import Loader from 'components/loader';
 
 const Inner = observer(() => {
   const { query } = useRouter();
   const store = useContext(ViewStoreContext);
   if (!store.views) {
-    return <Loader fullPage />;
+    return null;
   }
 
   const viewId = Array.isArray(query.id) ? query.id[0] : query.id;

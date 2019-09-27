@@ -1,7 +1,6 @@
 import React, { useContext, ReactNode } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
-import Loader from 'components/loader';
 
 interface Props {
   children: ReactNode;
@@ -12,7 +11,7 @@ const DeviceWrapper = observer(({ children }: Props) => {
 
   // Wait until we have at least got an empty list of devices
   if (deviceStore.otherDevices === null) {
-    return <Loader fullPage />;
+    return null;
   }
 
   if (!deviceStore.hasDeviceId && !deviceStore.otherDevices.length) {
@@ -31,7 +30,7 @@ const DeviceWrapper = observer(({ children }: Props) => {
   }
 
   if (deviceStore.hasDeviceId && deviceStore.device === null) {
-    return <Loader fullPage />;
+    return null;
   }
 
   return <>{children}</>;
