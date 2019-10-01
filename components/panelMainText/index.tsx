@@ -22,8 +22,6 @@ const PanelMainText = ({ children, w, h }: Props) => {
     className = 'text-8xl';
   }
 
-  console.log(smallest, className);
-
   return <p className={className}>{children}</p>;
 };
 

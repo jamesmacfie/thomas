@@ -99,7 +99,7 @@ const IconList = ({ className, iconListClassName, showLabel = true, onSelect }: 
           const faIcon: any = (allIcons as any)[icon];
 
           return !faIcon ? null : (
-            <div className="h-24 border border-white iconSearchIcon p-2 flex items-center justify-center">
+            <div key={icon} className="h-24 border border-white iconSearchIcon p-2 flex items-center justify-center">
               <Icon
                 onClick={() => onIconClick(icon)}
                 key={icon}

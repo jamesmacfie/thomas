@@ -1,5 +1,6 @@
 import React, { ReactNode, MouseEvent } from 'react';
 import cn from 'classnames';
+import { pick } from 'lodash';
 import { H3 } from 'components/text';
 
 export interface Props {
@@ -11,6 +12,10 @@ export interface Props {
   label?: string;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
+
+// Would be nicer to get a better list of props that are explicitly allows on an
+// HTML element.
+const propsToRemove = ['x', 'y', 'h', 'w', 'minH', 'minW'];
 
 const Panel = ({
   className,
@@ -40,8 +45,9 @@ const Panel = ({
     children
   );
 
+  const allowedProps = pick(props, Object.keys(propsToRemove));
   return (
-    <div onClick={onClick} className={classes} {...props}>
+    <div onClick={onClick} className={classes} {...allowedProps}>
       {inner}
     </div>
   );

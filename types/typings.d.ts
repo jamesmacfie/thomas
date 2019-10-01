@@ -1,4 +1,9 @@
 /**
+ * Ignore
+ */
+declare module '@browser-bunyan/console-formatted-stream';
+
+/**
  * File types
  */
 declare module '*.css' {

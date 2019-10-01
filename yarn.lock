@@ -785,6 +785,28 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@browser-bunyan/console-formatted-stream@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/console-formatted-stream/-/console-formatted-stream-1.5.3.tgz#d0fc48f8d0dd982e373d8dc5485493f9b571c5fa"
+  dependencies:
+    "@browser-bunyan/levels" "^1.5.3"
+
+"@browser-bunyan/console-plain-stream@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/console-plain-stream/-/console-plain-stream-1.5.3.tgz#31c3de65eddd9a4bc80baae475c68289c7a06a29"
+  dependencies:
+    "@browser-bunyan/levels" "^1.5.3"
+
+"@browser-bunyan/console-raw-stream@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/console-raw-stream/-/console-raw-stream-1.5.3.tgz#c52c1e7f2c8b89927790272b58c0567b5fe9ab0c"
+  dependencies:
+    "@browser-bunyan/levels" "^1.5.3"
+
+"@browser-bunyan/levels@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@browser-bunyan/levels/-/levels-1.5.3.tgz#3bcc62544d5cae219a30c6b1ea455b5408a1b647"
+
 "@emotion/cache@^10.0.17", "@emotion/cache@^10.0.9":
   version "10.0.19"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.19.tgz#d258d94d9c707dcadaf1558def968b86bb87ad71"
@@ -984,6 +1006,19 @@
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
   dependencies:
     "@types/connect" "*"
+    "@types/node" "*"
+
+"@types/browser-bunyan@^0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@types/browser-bunyan/-/browser-bunyan-0.4.5.tgz#c78754b12746c164e6cd230c1c8f94d7c51b52d9"
+  dependencies:
+    "@types/bunyan" "*"
+    "@types/node" "*"
+
+"@types/bunyan@*":
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/@types/bunyan/-/bunyan-1.8.6.tgz#6527641cca30bedec5feb9ab527b7803b8000582"
+  dependencies:
     "@types/node" "*"
 
 "@types/classnames@^2.2.8":
@@ -1842,6 +1877,15 @@ braces@^2.3.1, braces@^2.3.2:
 brorand@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
+
+browser-bunyan@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/browser-bunyan/-/browser-bunyan-1.5.3.tgz#4a73772e7524359c51e6a3b9b5624287c48c5c6b"
+  dependencies:
+    "@browser-bunyan/console-formatted-stream" "^1.5.3"
+    "@browser-bunyan/console-plain-stream" "^1.5.3"
+    "@browser-bunyan/console-raw-stream" "^1.5.3"
+    "@browser-bunyan/levels" "^1.5.3"
 
 browserify-aes@^1.0.0, browserify-aes@^1.0.4:
   version "1.2.0"
