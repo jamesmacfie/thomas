@@ -1,5 +1,5 @@
 .next
-.thomas
+.thomas/*.tsx
 node_modules
 .env
 yarn-error.log

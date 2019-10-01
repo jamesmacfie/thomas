@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const source = path.join(__dirname, `../../.thomas`);
+const source = path.join(__dirname, `../..`);
 const handlebars = require('handlebars');
 
 const writeTemplateToFile = (template, data, filename) => {

@@ -51,7 +51,7 @@ const getIntegrationWidgets = integrationDir => {
 };
 
 const getWidgets = () => {
-  const source = path.join(__dirname, '../../integrations');
+  const source = path.join(__dirname, '../../../integrations');
   const integrations = getDirs(source);
   const widgets = integrations
     .map(getIntegrationWidgets)

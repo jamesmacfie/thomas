@@ -2,7 +2,7 @@ const { parsed: localEnv } = require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 const withCSS = require('@zeit/next-css');
-const withIntegrations = require('./build/withIntegrations');
+const withIntegrations = require('./.thomas/build/withIntegrations');
 
 module.exports = withIntegrations(
   withCSS({

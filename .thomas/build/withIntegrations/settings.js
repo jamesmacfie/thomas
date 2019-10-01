@@ -72,7 +72,7 @@ const integrationSettingsToArray = settings => {
 };
 
 const getSettings = () => {
-  const source = path.join(__dirname, '../../integrations');
+  const source = path.join(__dirname, '../../../integrations');
   const integrations = getDirs(source);
   const settings = integrations
     .map(getIntegrationSettings)
