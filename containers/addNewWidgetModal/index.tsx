@@ -1,7 +1,6 @@
 // TODO - what's with all the commented out code here. Also create should be in the store
 import React, { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
 import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
 import { useRouter } from 'next/router';
@@ -10,14 +9,12 @@ import SystemIntegrationWidgetSelect from 'containers/systemIntegrationWidgetSel
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Label from 'components/label';
-import { toJS } from 'mobx';
 
 interface Props {
   onClose: () => void;
 }
 
 const NewWidget = observer(({ onClose }: Props) => {
-  const deviceStore = useContext(DevicesStoreContext);
   const viewsStore = useContext(ViewsStoreContext);
   const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationId, setIntegrationId] = useState<number | null>(null);
@@ -41,17 +38,13 @@ const NewWidget = observer(({ onClose }: Props) => {
       // TODO - error message?
       return;
     }
-    const widget = await fetch(`/widget`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        deviceId: deviceStore.getDeviceId(),
-        integrationId,
+
+    try {
+      viewsStore.createViewWidget({
+        integrationId: integrationId!,
         integrationSlug: integration.slug,
         widgetSlug,
-        viewId,
+        viewId: parseInt(viewId),
         config: {
           x: 0,
           y: 0,
@@ -60,18 +53,16 @@ const NewWidget = observer(({ onClose }: Props) => {
           minH: systemIntegrationWidget.layout.minH || null,
           minW: systemIntegrationWidget.layout.minW || null
         }
-      })
-    }).then(res => res.json());
+      });
 
-    viewsStore.addWidget(parseInt(viewId), widget);
-
-    // And tidy up
-    setIntegrationId(null);
-    setWidgetSlug('');
-    onClose();
+      // And tidy up
+      setIntegrationId(null);
+      setWidgetSlug('');
+      onClose();
+    } catch (err) {
+      console.error(err);
+    }
   };
-
-  console.log('INTE', toJS(integration), integrationId, toJS(integrationsStore.integrations));
 
   const widgetCmp = !integration ? null : (
     <>
