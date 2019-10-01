@@ -1,3 +1,6 @@
+/**
+ * File types
+ */
 declare module '*.css' {
   const content: any;
   export default content;
@@ -7,6 +10,10 @@ declare module '*.svg' {
   const content: any;
   export default content;
 }
+
+/**
+ * Devices
+ */
 
 declare interface DeviceConfig {
   zoom: number;
@@ -22,6 +29,10 @@ declare interface Device {
   createdAt: Date;
   updatedAt: Date;
 }
+
+/**
+ * Integrations
+ */
 
 declare interface Integration {
   id: number;
@@ -53,36 +64,6 @@ declare interface SystemIntegration {
   slug: string;
   widgets: SystemIntegrationWidget[];
   settings?: any[];
-}
-
-interface View {
-  id: number;
-  archived: boolean;
-  name: string;
-  icon: string;
-  widgets: IntegrationWidget[];
-  createdBy: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-interface DeviceView {
-  id: number;
-  archived: boolean;
-  order: number;
-  icon: string;
-  name: string;
-  viewId: number;
-  deviceId: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-interface Page {
-  id: number;
-  url: string;
-  name: string;
-  widgets: IntegrationWidget[];
 }
 
 interface ServerIntegration {
@@ -126,9 +107,50 @@ interface IntegrationWidgetProps {
   };
 }
 
+/**
+ * Views / Device views
+ */
+
+interface View {
+  id: number;
+  archived: boolean;
+  name: string;
+  icon: string;
+  widgets: IntegrationWidget[];
+  createdBy: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface DeviceView {
+  id: number;
+  archived: boolean;
+  order: number;
+  icon: string;
+  name: string;
+  viewId: number;
+  deviceId: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * UI
+ */
+interface Page {
+  id: number;
+  url: string;
+  name: string;
+  widgets: IntegrationWidget[];
+}
+
 interface ReactGridLayoutConfig extends WidgetConfig {
   i: any;
 }
+
+/**
+ * Forms
+ */
 
 interface FormConfig {
   key: string;
