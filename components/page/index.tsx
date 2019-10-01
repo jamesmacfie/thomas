@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Navigation from 'containers/navigation';
 import EditModeController from 'containers/editModeController';
-import Drawer from 'components/drawer';
 
 interface Props {
   children: ReactNode;
@@ -37,7 +36,6 @@ const Page = observer(({ children }: Props) => {
           </div>
         </div>
       </div>
-      <Drawer />
     </div>
   );
 });

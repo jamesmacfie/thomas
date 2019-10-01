@@ -1,9 +1,10 @@
-import React, { useContext, ReactNode, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import ReactGridLayout from 'components/reactGridLayout';
 import AddNewDeviceViewModal from 'containers/addNewDeviceViewModal';
+import useLongPress from 'hooks/useLongPress';
 import NavigationItem, { Props as ItemProps } from './item';
 
 const settings = {
@@ -26,10 +27,6 @@ interface Props {
   items: ItemProps[];
   onAddNewClick: () => void;
 }
-
-const Container = ({ children }: { children?: ReactNode }) => {
-  return <div>{children}</div>;
-};
 
 const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   const deviceViewStore = useContext(DeviceViewsStoreContext);
@@ -81,19 +78,22 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
 
 const Navigation = observer(() => {
   const deiviceViewsStore = useContext(DeviceViewsStoreContext);
-  const UIStore = useContext(UIStoreContext);
+  const uiStore = useContext(UIStoreContext);
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
+  const longPress = useLongPress(() => {
+    uiStore.startEditMode();
+  }, 500);
 
   useEffect(() => {
     // Only save the changed layout to the store once editMode changes back to false.
     // Fixes an issue with infinite rerenders and PATCH calls
-    if (!UIStore.editMode && deiviceViewsStore.loaded) {
+    if (!uiStore.editMode && deiviceViewsStore.loaded) {
       deiviceViewsStore.commitPendingDeviceViewUpdates();
     }
-  }, [UIStore.editMode, deiviceViewsStore.loaded]);
+  }, [uiStore.editMode, deiviceViewsStore.loaded]);
 
   if (!deiviceViewsStore.loaded) {
-    return <Container />;
+    return <div />;
   }
 
   let deviceViewsAsItems: ItemProps[] = Object.values(deiviceViewsStore.deviceViews)
@@ -105,17 +105,17 @@ const Navigation = observer(() => {
       text: name
     }));
 
-  if (!UIStore.editMode) {
+  if (!uiStore.editMode) {
     deviceViewsAsItems = deviceViewsAsItems.concat(settings);
   } else {
     deviceViewsAsItems = deviceViewsAsItems.concat(newDeviceView);
   }
 
   return (
-    <Container>
+    <div className="h-full" {...longPress}>
       <NavigationItems items={deviceViewsAsItems} onAddNewClick={() => setAddModalVisible(true)} />
       {addModalVisible && <AddNewDeviceViewModal onClose={() => setAddModalVisible(false)} />}
-    </Container>
+    </div>
   );
 });
 

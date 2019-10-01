@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import Icon from 'components/icon';
-import useLongPress from 'hooks/useLongPress';
 
 export type Props = {
   id: number | string;
@@ -20,9 +19,7 @@ export type Props = {
 const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
   const { asPath } = useRouter();
   const uiStore = useContext(UIStoreContext);
-  const longPress = useLongPress(() => {
-    uiStore.startEditMode();
-  }, 500);
+
   const onLinkClick = (event: any) => {
     if (uiStore.editMode) {
       // We have a long press registered or we are in edit more. Don't follow the anchor
@@ -42,7 +39,7 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
   const showEditControls = uiStore.editMode && !hidePencil;
   const iconCmp = <Icon icon={icon as any} className="text-3xl" />;
   return (
-    <span {...longPress}>
+    <span>
       {showEditControls && (
         <div
           onClick={onPencilClick}
