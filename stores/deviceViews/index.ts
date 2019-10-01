@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { observable } from 'mobx';
 import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
+import { store as devicesStore } from 'stores/devices';
 
 interface DeviceViewWidgetUpdate {
   deviceViewId: number;
@@ -19,8 +20,34 @@ export default class Store {
     this.loaded = true;
   };
 
-  addDeviceView = (deviceView: DeviceView) => {
+  createDeviceView = async (values: { name: string; icon: string }) => {
+    const deviceView = await fetch(`/device/${devicesStore.getDeviceId()}/view`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...values,
+        createNewView: true
+      })
+    }).then(res => res.json());
     this.deviceViews[deviceView.id] = deviceView;
+    return deviceView;
+  };
+
+  createDeviceViewFromExisting = async (values: { viewId: number; name: string; icon: string }) => {
+    const deviceView = await fetch(`/device/${devicesStore.getDeviceId()}/view`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...values,
+        createNewView: false
+      })
+    }).then(res => res.json());
+    this.deviceViews[deviceView.id] = deviceView;
+    return deviceView;
   };
 
   updateDeviceViews = async (updates: DeviceViewWidgetUpdate[]) => {
