@@ -6,6 +6,7 @@ import IntegrationsStore, { StoreContext as IntegrationStoreContext } from 'stor
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import { createSchema } from 'utils/yupSchemaFromJson';
+import logger from 'utils/logger';
 
 interface SaveProps {
   onClick: () => void;
@@ -49,11 +50,14 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={async (values, { setSubmitting }) => {
+        logger.debug('Submitting <IntegrationConfigForm />', { values });
         setSubmitting(true);
         if (allIntegrations.length) {
+          logger.debug('Updating existing integration', { integration });
           await integrationstore.updateExistingIntegration(integration.id, values);
         } else {
-          await integrationstore.saveNewIntegration('darksky', values);
+          logger.debug('Creating new integration', { integration });
+          await integrationstore.saveNewIntegration(integration.slug, values);
         }
         await integrationstore.getIntegrations();
         setSubmitting(false);

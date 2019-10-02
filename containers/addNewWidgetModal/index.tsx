@@ -1,4 +1,3 @@
-// TODO - what's with all the commented out code here. Also create should be in the store
 import React, { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
@@ -9,6 +8,7 @@ import SystemIntegrationWidgetSelect from 'containers/systemIntegrationWidgetSel
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Label from 'components/label';
+import logger from 'utils/logger';
 
 interface Props {
   onClose: () => void;
@@ -29,13 +29,17 @@ const NewWidget = observer(({ onClose }: Props) => {
   const create = async () => {
     // TODO - move to correct store
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
+    logger.debug('Creating new widget for view', { viewId });
+
     if (!systemIntegration || !integration) {
       // TODO - error message?
+      logger.error('Either no system integration or integration selected', { systemIntegration, integration });
       return;
     }
     const systemIntegrationWidget = systemIntegration.widgets.find(c => c.slug === widgetSlug);
     if (!systemIntegrationWidget) {
       // TODO - error message?
+      logger.error('System integration does not exist in the store', { widgetSlug });
       return;
     }
 
@@ -59,8 +63,8 @@ const NewWidget = observer(({ onClose }: Props) => {
       setIntegrationId(null);
       setWidgetSlug('');
       onClose();
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      logger.error('Error creating widget', { error });
     }
   };
 

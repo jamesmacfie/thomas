@@ -6,6 +6,7 @@ import ReactGridLayout from 'components/reactGridLayout';
 import AddNewDeviceViewModal from 'containers/addNewDeviceViewModal';
 import useLongPress from 'hooks/useLongPress';
 import NavigationItem, { Props as ItemProps } from './item';
+import logger from 'utils/logger';
 
 const settings = {
   id: 'settings',
@@ -32,6 +33,7 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   const deviceViewStore = useContext(DeviceViewsStoreContext);
 
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
+    logger.debug('Layout change', { layout });
     const updates = layout.map(l => ({
       deviceViewId: l.i,
       order: l.y
@@ -39,8 +41,8 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
 
     try {
       await deviceViewStore.updateDeviceViews(updates);
-    } catch (err) {
-      console.error('Error updating nav layout', err);
+    } catch (error) {
+      logger.error('Error updating nav layout', error);
     }
   };
 
@@ -81,6 +83,7 @@ const Navigation = observer(() => {
   const uiStore = useContext(UIStoreContext);
   const [addModalVisible, setAddModalVisible] = useState<boolean>(false);
   const longPress = useLongPress(() => {
+    logger.debug('Navigation long press. Starting edit mode');
     uiStore.startEditMode();
   }, 500);
 

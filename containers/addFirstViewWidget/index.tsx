@@ -3,10 +3,14 @@ import { observer } from 'mobx-react-lite';
 import AddNewWidgetModal from 'containers/addNewWidgetModal';
 import Panel from 'components/panel';
 import Button from 'components/button';
+import logger from 'utils/logger';
 
 const AddFirstViewWidget = observer(() => {
   const [addNewModalVisible, setAddNewModalVisble] = useState<boolean>(false);
-  const toggleAddNewModalVisible = () => setAddNewModalVisble(!addNewModalVisible);
+  const toggleAddNewModalVisible = () => {
+    logger.debug('toggleAddNewModalVisible from', { addNewModalVisible });
+    setAddNewModalVisble(!addNewModalVisible);
+  };
 
   return (
     <div>

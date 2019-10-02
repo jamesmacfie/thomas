@@ -5,15 +5,20 @@ import Button from 'components/button';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import AddNewWidgetModal from 'containers/addNewWidgetModal';
+import logger from 'utils/logger';
 
 const EditStoreController = observer(() => {
   const UIStore = useContext(UIStoreContext);
   const deviceStore = useContext(DevicesStoreContext);
   const [addNewModalVisible, setAddNewModalVisble] = useState<boolean>(false);
-  const toggleAddNewModalVisible = () => setAddNewModalVisble(!addNewModalVisible);
+  const toggleAddNewModalVisible = () => {
+    logger.debug('toggleAddNewModalVisible from', { addNewModalVisible });
+    setAddNewModalVisble(!addNewModalVisible);
+  };
   useEffect(() => {
     // Commit the config changes after updating
     if (!UIStore.editMode && deviceStore) {
+      logger.debug('Commiting edited device config');
       deviceStore.commitConfig();
     }
   }, [UIStore.editMode, deviceStore.device]);
@@ -24,23 +29,29 @@ const EditStoreController = observer(() => {
 
   // TODO - move these into the correct store
   const onColumnChange = (event: any) => {
+    const columns = parseInt(event.target.value);
+    logger.debug('Column change in <EditModeController />', { columns });
     deviceStore.device!.config = {
       ...deviceStore.device!.config,
-      columns: parseInt(event.target.value)
+      columns
     };
   };
 
   const onRowHeightChange = (event: any) => {
+    const rowHeight = parseInt(event.target.value);
+    logger.debug('Row height change in <EditModeController />', { rowHeight });
     deviceStore.device!.config = {
       ...deviceStore.device!.config,
-      rowHeight: parseInt(event.target.value)
+      rowHeight
     };
   };
 
   const onZoomChange = (event: any) => {
+    const zoom = parseInt(event.target.value);
+    logger.debug('Zoom change in <EditModeController />', { zoom });
     deviceStore.device!.config = {
       ...deviceStore.device!.config,
-      zoom: parseInt(event.target.value)
+      zoom
     };
   };
 

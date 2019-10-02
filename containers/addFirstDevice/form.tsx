@@ -5,6 +5,7 @@ import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import { createDeviceView } from 'validations/deviceView';
+import logger from 'utils/logger';
 
 interface Props {
   onClose: () => void;
@@ -27,12 +28,13 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={async (values: Formalues, { setSubmitting }) => {
+        logger.debug('Submitting <AddFirstDevice />', { values });
         setSubmitting(true);
         try {
           await devicesStore.addDevice(values);
           onClose();
-        } catch (err) {
-          console.error('Error creating first device', err);
+        } catch (error) {
+          logger.error('Error submitting <AddFirstDevice />', { error });
           // TODO - should show a message here
         }
       }}

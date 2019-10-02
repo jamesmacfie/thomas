@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
+import logger from 'utils/logger';
 
 interface Props {
   className?: string;
@@ -12,6 +13,7 @@ interface Props {
 const SystemIntegrationSelect = observer(({ className, onChange }: Props) => {
   const store = useContext(StoreContext) as IntegrationsStore;
   const onChangeHandler = (option: any) => {
+    logger.debug('<SystemIntegrationSelect /> change', { option });
     onChange(option.value);
   };
 

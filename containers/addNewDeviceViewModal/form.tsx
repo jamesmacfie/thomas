@@ -5,6 +5,7 @@ import { StoreContext as DeviceViewStoreContest } from 'stores/deviceViews';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import { createDeviceView } from 'validations/deviceView';
+import logger from 'utils/logger';
 
 interface Props {
   onClose: (deviceView: DeviceView) => void;
@@ -27,13 +28,15 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
       validateOnChange={false}
       validateOnBlur={false}
       onSubmit={async (values: FormValues, { setSubmitting }) => {
+        logger.debug('Submitting <CreateDeviceViewForm />', { values });
         setSubmitting(true);
         try {
           const deviceView = await deviceViewStore.createDeviceView(values);
           setSubmitting(false);
           onClose(deviceView);
-        } catch (err) {
-          console.error(err);
+        } catch (error) {
+          logger.error('Error submitting <CreateDeviceViewForm />', { error });
+          // TODO - should show a message here
           setSubmitting(false);
         }
       }}

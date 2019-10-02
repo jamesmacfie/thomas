@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import Icon from 'components/icon';
+import logger from 'utils/logger';
 
 export type Props = {
   id: number | string;
@@ -21,6 +22,7 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
   const uiStore = useContext(UIStoreContext);
 
   const onLinkClick = (event: any) => {
+    logger.debug('On <NavigationItem /> link click');
     if (uiStore.editMode) {
       // We have a long press registered or we are in edit more. Don't follow the anchor
       event.preventDefault();
@@ -28,6 +30,7 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
   };
 
   const onPencilClick = () => {
+    logger.debug('On <NavigationItem /> edit click', { id });
     alert(`This will edit ${id}`);
   };
 

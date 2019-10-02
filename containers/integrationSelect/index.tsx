@@ -3,15 +3,17 @@ import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
+import logger from 'utils/logger';
 
 interface Props {
   className?: string;
   onChange: (integrationId: number) => void;
 }
 
-const SystemIntegrationSelect = observer(({ className, onChange }: Props) => {
+const IntegrationSelect = observer(({ className, onChange }: Props) => {
   const store = useContext(StoreContext) as IntegrationsStore;
   const onChangeHandler = (option: any) => {
+    logger.debug('<IntegrationSelect /> change', { option });
     onChange(option.value);
   };
 
@@ -34,4 +36,4 @@ const SystemIntegrationSelect = observer(({ className, onChange }: Props) => {
   );
 });
 
-export default SystemIntegrationSelect;
+export default IntegrationSelect;
