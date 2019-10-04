@@ -1,8 +1,9 @@
 import { createContext } from 'react';
 import { keyBy, isEqual } from 'lodash';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import fetch from 'isomorphic-unfetch';
 import { store as devicesStore } from 'stores/devices';
+import logger from 'utils/logger';
 
 interface ViewWidgetCreate {
   integrationId: number;
@@ -20,24 +21,16 @@ interface ViewWidgetUpdate {
 export default class Store {
   @observable views: { [key: string]: View } = {}; // TODO - should have a proper type
 
-  getViews = async () => {
+  @action
+  fetchAll = async () => {
+    logger.debug('Views store fetchAll');
     const views = await fetch(`http://localhost:3000/views`).then(res => res.json());
+    logger.debug('Setting views', { views });
     this.views = keyBy(views, 'id');
   };
 
-  addWidget = (viewId: number, widget: any) => {
-    if (!viewId) {
-      console.log('No viewId provided to add widget to');
-      return;
-    }
-    if (!this.views || !this.views[viewId]) {
-      console.log(`No view for id ${viewId}`);
-      return;
-    }
-    this.views[viewId].widgets = this.views[viewId].widgets.concat(widget);
-  };
-
-  createViewWidget = async (values: ViewWidgetCreate) => {
+  insertWidget = async (values: ViewWidgetCreate) => {
+    logger.debug('Views store insertWidget', { values });
     const widget = await fetch(`/widget`, {
       method: 'POST',
       headers: {
@@ -49,15 +42,18 @@ export default class Store {
       })
     }).then(res => res.json());
 
-    this.addWidget(values.viewId, widget);
+    logger.debug('Setting widget', { widget, viewId: values.viewId });
+    this.views[values.viewId].widgets = this.views[values.viewId].widgets.concat(widget);
   };
 
-  updateViewWidgets = async (viewId: number, updates: ViewWidgetUpdate[]) => {
+  updateWidgets = async (viewId: number, updates: ViewWidgetUpdate[]) => {
+    logger.debug('Views store insertWidget', { viewId, updates });
     const updatedWidgets = await Promise.all(
-      this.views[viewId].widgets.map(async (cmp: any) => {
-        const update = updates.find(u => u.widgetId === cmp.id);
-        if (!update || isEqual(cmp.config, update.config)) {
-          return Promise.resolve(cmp);
+      this.views[viewId].widgets.map(async (widget: any) => {
+        const update = updates.find(u => u.widgetId === widget.id);
+        if (!update || isEqual(widget.config, update.config)) {
+          logger.debug('No update needed', { update, widget });
+          return Promise.resolve(widget);
         }
 
         await fetch(`http://localhost:3000/widget/${update.widgetId}`, {
@@ -65,22 +61,23 @@ export default class Store {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             config: {
-              ...cmp.config,
+              ...widget.config,
               ...update.config
             }
           })
         });
 
         return {
-          ...cmp,
+          ...widget,
           config: {
-            ...cmp.config,
+            ...widget.config,
             ...update.config
           }
         };
       })
     );
 
+    logger.debug('Updated widgets', { viewId, updatedWidgets });
     this.views[viewId].widgets = updatedWidgets;
   };
 }

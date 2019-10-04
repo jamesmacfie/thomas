@@ -74,7 +74,7 @@ declare interface SystemIntegration {
 interface ServerIntegration {
   id: number;
   slug: string;
-  config: object;
+  config: any;
 }
 
 interface IntegrationWidget {

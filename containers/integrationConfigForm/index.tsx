@@ -54,12 +54,12 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
         setSubmitting(true);
         if (allIntegrations.length) {
           logger.debug('Updating existing integration', { integration });
-          await integrationstore.updateExistingIntegration(integration.id, values);
+          await integrationstore.update(integration.id, values);
         } else {
           logger.debug('Creating new integration', { integration });
-          await integrationstore.saveNewIntegration(integration.slug, values);
+          await integrationstore.insert(integration.slug, values);
         }
-        await integrationstore.getIntegrations();
+        await integrationstore.fetch();
         setSubmitting(false);
       }}
     >

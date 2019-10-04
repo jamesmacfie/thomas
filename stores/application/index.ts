@@ -15,10 +15,10 @@ export default class Store {
     }
 
     Promise.all([
-      integrationsStore.getIntegrations(),
-      integrationsStore.getSystemIntegrations(),
-      deviceStore.getOtherDevices(),
-      viewsStore.getViews()
+      integrationsStore.fetch(),
+      integrationsStore.fetchSystem(),
+      deviceStore.fetchAll(),
+      viewsStore.fetchAll()
     ])
       .then(() => {
         this.loaded = true;

@@ -31,7 +31,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       }
     }));
     try {
-      await viewStore.updateViewWidgets(viewId, updates);
+      await viewStore.updateWidgets(viewId, updates);
     } catch (err) {
       console.error(`Error updating view widgets for ${viewId}`, err);
     }

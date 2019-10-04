@@ -18,7 +18,7 @@ const NewDeviceViewFromExisting = observer(({ onClose }: Props) => {
     logger.debug('Adding device view from existing', { viewId });
     const view = viewStore.views[viewId];
     try {
-      await deviceViewStore.createDeviceViewFromExisting({
+      await deviceViewStore.insert({
         viewId,
         name: view.name,
         icon: view.icon

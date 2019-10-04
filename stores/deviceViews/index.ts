@@ -1,8 +1,9 @@
 import { createContext } from 'react';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
 import { store as devicesStore } from 'stores/devices';
+import logger from 'utils/logger';
 
 interface DeviceViewWidgetUpdate {
   deviceViewId: number;
@@ -14,28 +15,18 @@ export default class Store {
   @observable deviceViews: { [key: string]: DeviceView } = {};
   pendingDeviceViewUpdates: { [key: string]: DeviceView } = {};
 
-  getDeviceViews = async ({ deviceId }: { deviceId: number | string }) => {
+  @action
+  fetchAll = async ({ deviceId }: { deviceId: number | string }) => {
+    logger.debug('DeviceViews store fetchAll', { deviceId });
     const deviceViews = await fetch(`http://localhost:3000/device/${deviceId}/views`).then(res => res.json());
+    logger.debug('Setting deviceViews', { deviceViews });
     this.deviceViews = keyBy(deviceViews, 'id');
     this.loaded = true;
   };
 
-  createDeviceView = async (values: { name: string; icon: string }) => {
-    const deviceView = await fetch(`/device/${devicesStore.getDeviceId()}/view`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        ...values,
-        createNewView: true
-      })
-    }).then(res => res.json());
-    this.deviceViews[deviceView.id] = deviceView;
-    return deviceView;
-  };
-
-  createDeviceViewFromExisting = async (values: { viewId: number; name: string; icon: string }) => {
+  @action
+  insert = async (values: { viewId?: number; name: string; icon: string }) => {
+    logger.debug('DeviceViews store insert', { values });
     const deviceView = await fetch(`/device/${devicesStore.getDeviceId()}/view`, {
       method: 'POST',
       headers: {
@@ -46,12 +37,16 @@ export default class Store {
         createNewView: false
       })
     }).then(res => res.json());
+    logger.debug('Saved deviceView', { deviceView });
     this.deviceViews[deviceView.id] = deviceView;
     return deviceView;
   };
 
-  updateDeviceViews = async (updates: DeviceViewWidgetUpdate[]) => {
+  @action
+  updateAll = async (updates: DeviceViewWidgetUpdate[]) => {
+    logger.debug('DeviceViews store updateAll', { updates });
     if (!Object.values(this.deviceViews).length) {
+      logger.warn('No device views, not updating', { deviceViews: this.deviceViews });
       return Promise.resolve();
     }
 
@@ -60,33 +55,40 @@ export default class Store {
         updates.map(u => {
           const old = this.deviceViews![u.deviceViewId];
           if (!old || old.order == u.order) {
+            logger.debug('No update needed', { old, update: u });
             // Either we don't have this device view (shouldnt happen?) or the order is the same.
             // In both cases, do nothing.
             return Promise.resolve();
           }
 
+          logger.debug('Updating', { update: u });
           fetch(`http://localhost:3000/device/view/${u.deviceViewId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ order: u.order })
           });
 
-          this.pendingDeviceViewUpdates[u.deviceViewId] = {
+          const valuesToUpdate = {
             ...this.deviceViews[u.deviceViewId],
             order: u.order
           };
+          logger.debug('Pending local commit', { valuesToUpdate });
+          this.pendingDeviceViewUpdates[u.deviceViewId] = valuesToUpdate;
         })
       );
-    } catch (err) {
-      console.error('Error updating devies views');
-      throw err;
+    } catch (error) {
+      logger.error('Error updating device views', { error });
+      throw error;
     }
   };
 
-  commitPendingDeviceViewUpdates = () => {
+  @action
+  commitPendingUpdates = () => {
+    logger.debug('DeviceViews store commitPendingUpdates');
     Object.keys(this.pendingDeviceViewUpdates).forEach(id => {
       const existing = this.deviceViews[id];
       if (!existing) {
+        logger.warn('No view for pending update', { id });
         return;
       }
 
@@ -96,6 +98,7 @@ export default class Store {
       };
     });
 
+    logger.debug('All pending updates successful');
     this.pendingDeviceViewUpdates = {};
   };
 }

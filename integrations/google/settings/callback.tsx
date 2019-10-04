@@ -10,16 +10,15 @@ const Inner = observer(() => {
     return null;
   }
 
-  const [saved, setSaved] = useState<boolean | null>(null);
+  const [saved] = useState<boolean | null>(null);
   const store = useContext(StoreContext) as IntegrationsStore;
   const { query } = useRouter();
 
   useEffect(() => {
-    store
-      .saveNewIntegration('google', {
-        code: query.code
-      })
-      .then(setSaved);
+    store.insert('google', {
+      code: query.code
+    });
+    // .then(setSaved);
   }, [null]);
 
   if (saved === null) {

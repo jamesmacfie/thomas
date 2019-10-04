@@ -1,43 +1,44 @@
-/// <reference path="../../types/typings.d.ts" /> #
 import { createContext } from 'react';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
 import { store as deviceStore } from 'stores/devices';
+import logger from 'utils/logger';
 
 export default class Store {
   @observable loaded: boolean = false;
   @observable integrations: { [key: string]: Integration } = {};
   @observable systemIntegrations: { [key: string]: SystemIntegration } = {};
 
-  getSystemIntegrations = () => {
-    return fetch('http://localhost:3000/system/integrations')
-      .then(res => res.json())
-      .then((json: SystemIntegration[]) => {
-        this.systemIntegrations = keyBy(json, 'slug');
-        this.setLoadedIfReady();
-      });
+  @action
+  fetchSystem = async () => {
+    logger.debug('Integrations store fetchOthers');
+    const systemIntegrations = await fetch('http://localhost:3000/system/integrations').then(res => res.json());
+
+    logger.debug('Setting systemIntegrations', { systemIntegrations });
+    this.systemIntegrations = keyBy(systemIntegrations, 'slug');
+    this.setLoadedIfReady();
   };
 
-  getIntegrations = () => {
-    return fetch('http://localhost:3000/integrations')
-      .then(res => res.json())
-      .then((json: Integration[]) => {
-        this.integrations = keyBy(json, 'id');
-        this.setLoadedIfReady();
-      });
+  @action
+  fetch = async () => {
+    logger.debug('Integrations store fetch');
+    const integrations = await fetch('http://localhost:3000/integrations').then(res => res.json());
+
+    logger.debug('Setting integrations', { integrations });
+    this.integrations = keyBy(integrations, 'id');
+    this.setLoadedIfReady();
   };
 
   setLoadedIfReady = () => {
+    logger.debug('Integrations store setLoadedIfReady');
     this.loaded = !!this.systemIntegrations && !!this.integrations;
   };
 
-  saveNewIntegration = (slug: string, config: any) => {
-    if (!deviceStore.getDeviceId()) {
-      return Promise.resolve(false);
-    }
-
-    return fetch('http://localhost:3000/integration', {
+  @action
+  insert = async (slug: string, config: any) => {
+    logger.debug('Integrations store insert', { slug, config });
+    await fetch('http://localhost:3000/integration', {
       method: 'POST',
       body: JSON.stringify({
         deviceId: deviceStore.getDeviceId(),
@@ -45,37 +46,19 @@ export default class Store {
         config
       }),
       headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(() => {
-        return true;
-      })
-      .catch(err => {
-        console.error(err);
-        return false;
-      });
+    });
   };
 
-  updateExistingIntegration = (id: number, config: any) => {
-    if (!deviceStore.getDeviceId()) {
-      return Promise.resolve(false);
-    }
-
-    return fetch(`http://localhost:3000/integration/${id}`, {
+  @action
+  update = async (id: number, config: any) => {
+    logger.debug('Integrations store update', { id, config });
+    await fetch(`http://localhost:3000/integration/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({
         config
       }),
       headers: { 'Content-Type': 'application/json' }
-    })
-      .then(res => res.json())
-      .then(() => {
-        return true;
-      })
-      .catch(err => {
-        console.error(err);
-        return false;
-      });
+    });
   };
 }
 

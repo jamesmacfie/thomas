@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { observable, action } from 'mobx';
 import fetch from 'isomorphic-unfetch';
 import { store as deviceViewStore } from 'stores/deviceViews';
+import logger from 'utils/logger';
 
 const isServer = typeof window === 'undefined';
 
@@ -13,20 +14,73 @@ export default class Store {
 
   constructor() {
     if (isServer) {
+      logger.debug('Devices store - not loading, server rendered');
       return;
     }
 
     const currentDeviceId = this.getDeviceId();
     if (currentDeviceId) {
+      logger.debug('Device Id  is currently set, fetching', { currentDeviceId });
       this.hasDeviceId = true;
-      this.getDevice();
+      this.fetch();
     }
   }
 
-  commitConfig = async () => {
+  getDeviceId = () => {
+    logger.debug('Devices store getDeviceId');
+    return localStorage.getItem(this.device_key);
+  };
+
+  @action
+  setDeviceId = async (id: number) => {
+    logger.debug('Devices store setDeviceId', { id });
+    localStorage.setItem(this.device_key, id.toString());
+    this.hasDeviceId = true;
+    await this.fetch();
+  };
+
+  @action
+  fetch = async () => {
+    const deviceId = this.getDeviceId();
+    logger.debug('Devices store fetch', { deviceId });
+    if (!deviceId) {
+      logger.warn('No deviceId set, cannot fetch');
+      return;
+    }
+    const device = await fetch(`http://localhost:3000/device/${deviceId}`).then(res => res.json());
+    logger.debug('Setting device', { device });
+    this.device = device;
+    await deviceViewStore.fetchAll({ deviceId });
+  };
+
+  @action
+  insert = async (values: { name: string; icon: string }) => {
+    logger.debug('Devices store insert', { values });
+    const device: Device = await fetch(`/device`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(res => res.json());
+    logger.debug('Device inserted, setting device Id ', { device });
+    this.setDeviceId(device.id);
+    this.device = device;
+  };
+
+  @action
+  fetchAll = async () => {
+    logger.debug('Devices store fetch all');
+    const devices = await fetch('http://localhost:3000/devices').then(res => res.json());
+    logger.debug('Setting other devives', { devices });
+    this.otherDevices = devices;
+  };
+
+  comitPendingUpdate = async () => {
+    logger.debug('DeviceViews store comitPendingUpdate');
     const deviceId = this.getDeviceId();
     if (!deviceId) {
-      console.warn('cannot get device details, no deviceId set');
+      logger.warn('No deviceId set, cannot commit update');
       return;
     }
 
@@ -35,50 +89,6 @@ export default class Store {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.device)
     });
-  };
-
-  getDeviceId = () => {
-    return localStorage.getItem(this.device_key);
-  };
-
-  @action
-  setDeviceId = async (id: number) => {
-    localStorage.setItem(this.device_key, id.toString());
-    this.hasDeviceId = true;
-    await this.getDevice();
-  };
-
-  @action
-  getDevice = async () => {
-    const deviceId = this.getDeviceId();
-    if (!deviceId) {
-      console.warn('cannot get device details, no deviceId set');
-      return;
-    }
-    const device = await fetch(`http://localhost:3000/device/${deviceId}`).then(res => res.json());
-    this.device = device;
-    if (deviceViewStore) {
-      await deviceViewStore.getDeviceViews({ deviceId });
-    }
-  };
-
-  @action
-  addDevice = async (values: { name: string; icon: string }) => {
-    const device: Device = await fetch(`/device`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(values)
-    }).then(res => res.json());
-    this.setDeviceId(device.id);
-    this.device = device;
-  };
-
-  @action
-  getOtherDevices = async () => {
-    const devices = await fetch('http://localhost:3000/devices').then(res => res.json());
-    this.otherDevices = devices;
   };
 }
 

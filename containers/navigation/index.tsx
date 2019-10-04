@@ -40,7 +40,7 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
     }));
 
     try {
-      await deviceViewStore.updateDeviceViews(updates);
+      await deviceViewStore.updateAll(updates);
     } catch (error) {
       logger.error('Error updating nav layout', error);
     }
@@ -91,7 +91,7 @@ const Navigation = observer(() => {
     // Only save the changed layout to the store once editMode changes back to false.
     // Fixes an issue with infinite rerenders and PATCH calls
     if (!uiStore.editMode && deiviceViewsStore.loaded) {
-      deiviceViewsStore.commitPendingDeviceViewUpdates();
+      deiviceViewsStore.commitPendingUpdates();
     }
   }, [uiStore.editMode, deiviceViewsStore.loaded]);
 

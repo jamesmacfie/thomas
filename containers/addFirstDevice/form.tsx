@@ -31,7 +31,7 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
         logger.debug('Submitting <AddFirstDevice />', { values });
         setSubmitting(true);
         try {
-          await devicesStore.addDevice(values);
+          await devicesStore.insert(values);
           onClose();
         } catch (error) {
           logger.error('Error submitting <AddFirstDevice />', { error });

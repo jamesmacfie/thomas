@@ -31,7 +31,7 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
         logger.debug('Submitting <CreateDeviceViewForm />', { values });
         setSubmitting(true);
         try {
-          const deviceView = await deviceViewStore.createDeviceView(values);
+          const deviceView = await deviceViewStore.insert(values);
           setSubmitting(false);
           onClose(deviceView);
         } catch (error) {
