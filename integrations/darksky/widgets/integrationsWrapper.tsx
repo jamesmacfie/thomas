@@ -10,7 +10,7 @@ const DarkSkyIntegrationsWrapper = observer(({ children }: Props) => {
   const store = useContext(StoreContext) as DarkSkyStore;
 
   if (store.integrations === null) {
-    store.getIntegrations();
+    store.fetchIntegrations();
     return null;
   }
 
