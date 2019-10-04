@@ -30,7 +30,6 @@ const init = (server: express.Express) => {
     const deviceId = req.params.device_id;
     try {
       const { name, icon, config } = req.body;
-      console.log(name, icon, config);
       logger.info(`📲 Updating device ${deviceId}`);
       const device = await db.Device.update(
         { name, icon, config },
@@ -86,21 +85,21 @@ const init = (server: express.Express) => {
 
   server.post('/device/:device_id/view', async (req: express.Request, res: express.Response) => {
     const deviceId = req.params.device_id;
-    const { name, icon, createNewView } = req.body;
+    const { name, icon, viewId } = req.body;
     try {
       logger.info(`📲 Creating view for device ${deviceId}`);
-      let viewId;
-      if (createNewView) {
+      let viewIdToSaveAgainst;
+      if (!viewId) {
         logger.info(`📲 Creating new view first`);
         const view = await db.View.create({
           name,
           icon,
           createdBy: deviceId
         });
-        viewId = view.id;
+        viewIdToSaveAgainst = view.id;
         logger.info(`📲 Creating view with id ${viewId}`);
       } else {
-        viewId = req.body.viewId;
+        viewIdToSaveAgainst = req.body.viewId;
         logger.info(`📲 Associating new device view with view ${viewId}`);
       }
 
@@ -114,7 +113,7 @@ const init = (server: express.Express) => {
         order: highestDeviceView + 1,
         name,
         icon,
-        viewId,
+        viewId: viewIdToSaveAgainst,
         deviceId
       });
       return res.json(deviceView);

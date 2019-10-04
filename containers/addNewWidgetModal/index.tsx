@@ -83,7 +83,7 @@ const NewWidget = observer(({ onClose }: Props) => {
 
   return (
     <Modal title="Create new widget" size="sm" onClose={onClose}>
-      {error && (
+      {!!error.length && (
         <Alert type="ERROR" className="mb-4">
           {error}
         </Alert>

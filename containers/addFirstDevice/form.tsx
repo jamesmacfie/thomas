@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
+import Alert from 'components/alert';
 import { createDeviceView } from 'validations/deviceView';
 import logger from 'utils/logger';
 
@@ -17,6 +18,7 @@ interface Formalues {
 }
 
 const CreateDeviceViewForm = observer(({ onClose }: Props) => {
+  const [error, setError] = useState<String>('');
   const devicesStore = useContext(DevicesStoreContext);
   return (
     <Formik
@@ -35,12 +37,18 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
           onClose();
         } catch (error) {
           logger.error('Error submitting <AddFirstDevice />', { error });
-          // TODO - should show a message here
+          setError(`Error submitting first device: ${error.message}`);
+          setSubmitting(false);
         }
       }}
     >
       {({ touched, isSubmitting, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
+          {!!error.length && (
+            <Alert type="ERROR" className="mb-4">
+              {error}
+            </Alert>
+          )}
           <FormikInput name="name" label="Name" placeholder="Name" />
           <FormikInput type="icon" name="icon" label="Icon" />
           <Button color="primary" type="submit" disabled={isSubmitting || !touched}>
