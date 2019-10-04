@@ -6,6 +6,7 @@ import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
 import integrationWidget from './integrationWidgets';
 import ReactGridLayout from 'components/reactGridLayout';
 import AddFirstViewWidget from 'containers/addFirstViewWidget';
+import logger from 'utils/logger';
 
 interface Props {
   viewId: number;
@@ -17,7 +18,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
   const integrationStore = useContext(IntegrationStoreContext);
 
   if (!deviceStore.device) {
-    console.error('Should not get here. Trying to load view widget without a device');
+    logger.error('<ViewWidgets />Should not get here. Trying to load view widget without a device');
     return null;
   }
   const onLayoutChange = async (layout: ReactGridLayoutConfig[]) => {
@@ -32,8 +33,9 @@ const ViewWidgets = observer(({ viewId }: Props) => {
     }));
     try {
       await viewStore.updateWidgets(viewId, updates);
-    } catch (err) {
-      console.error(`Error updating view widgets for ${viewId}`, err);
+    } catch (error) {
+      // TODO - show error
+      logger.error(`Error updating view widgets for ${viewId}`, { error });
     }
   };
 
