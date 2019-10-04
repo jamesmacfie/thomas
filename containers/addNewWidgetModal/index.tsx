@@ -8,6 +8,7 @@ import SystemIntegrationWidgetSelect from 'containers/systemIntegrationWidgetSel
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Label from 'components/label';
+import Alert from 'components/alert';
 import logger from 'utils/logger';
 
 interface Props {
@@ -19,6 +20,7 @@ const NewWidget = observer(({ onClose }: Props) => {
   const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationId, setIntegrationId] = useState<number | null>(null);
   const [widgetSlug, setWidgetSlug] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const { query } = useRouter();
   const integration: Integration | null = integrationId
     ? integrationsStore.integrations[integrationId.toString()]
@@ -27,24 +29,23 @@ const NewWidget = observer(({ onClose }: Props) => {
     integrationId && integration ? integrationsStore.systemIntegrations[integration.slug] : null;
 
   const create = async () => {
-    // TODO - move to correct store
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
     logger.debug('Creating new widget for view', { viewId });
 
     if (!systemIntegration || !integration) {
-      // TODO - error message?
       logger.error('Either no system integration or integration selected', { systemIntegration, integration });
+      setError('No integration selected');
       return;
     }
     const systemIntegrationWidget = systemIntegration.widgets.find(c => c.slug === widgetSlug);
     if (!systemIntegrationWidget) {
-      // TODO - error message?
       logger.error('System integration does not exist in the store', { widgetSlug });
+      setError('Selected integration does not exist');
       return;
     }
 
     try {
-      viewsStore.createViewWidget({
+      viewsStore.insertWidget({
         integrationId: integrationId!,
         integrationSlug: integration.slug,
         widgetSlug,
@@ -65,6 +66,7 @@ const NewWidget = observer(({ onClose }: Props) => {
       onClose();
     } catch (error) {
       logger.error('Error creating widget', { error });
+      setError(`Error creating widget: ${error.message}`);
     }
   };
 
@@ -81,6 +83,11 @@ const NewWidget = observer(({ onClose }: Props) => {
 
   return (
     <Modal title="Create new widget" size="sm" onClose={onClose}>
+      {error && (
+        <Alert type="ERROR" className="mb-4">
+          {error}
+        </Alert>
+      )}
       <Label>Integration</Label>
       <IntegrationSelect className="mb-4 w-96" onChange={setIntegrationId} />
       {widgetCmp}

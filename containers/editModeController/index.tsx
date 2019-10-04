@@ -19,7 +19,7 @@ const EditStoreController = observer(() => {
     // Commit the config changes after updating
     if (!UIStore.editMode && deviceStore) {
       logger.debug('Commiting edited device config');
-      deviceStore.commitConfig();
+      deviceStore.comitPendingUpdate();
     }
   }, [UIStore.editMode, deviceStore.device]);
 
