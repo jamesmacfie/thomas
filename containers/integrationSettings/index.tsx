@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import IntegrationConfigForm from '../integrationConfigForm';
 import { H2 } from 'components/text';
+import { toJS } from 'mobx';
 
 interface Props {
   systemIntegration: any;
@@ -9,8 +10,12 @@ interface Props {
 }
 
 const IntegrationSettings = ({ systemIntegration, integrations }: Props) => {
+  console.log(toJS(systemIntegration));
+  console.log(toJS(integrations));
   if (systemIntegration.singular) {
-    let integration = {};
+    let integration = {
+      slug: systemIntegration.slug
+    };
     if (integrations[0]) {
       integration = integrations[0];
     }

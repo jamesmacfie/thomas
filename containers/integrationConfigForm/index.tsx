@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { object } from 'yup';
 import IntegrationsStore, { StoreContext as IntegrationStoreContext } from 'stores/integrations';
+import Alert from 'components/alert';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import { createSchema } from 'utils/yupSchemaFromJson';
@@ -29,6 +30,8 @@ const Save = ({ submitting }: SaveProps) => {
 };
 
 const IntegrationConfigForm = observer(({ config, integration, allIntegrations }: Props) => {
+  const [success, setSuccess] = useState(false);
+  const [errored, setErrored] = useState(false);
   const integrationstore = useContext(IntegrationStoreContext) as IntegrationsStore;
   const validationSchema = config.reduce(createSchema, {});
   const validateAgainst = object().shape(validationSchema);
@@ -41,45 +44,66 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
   });
 
   return (
-    <Formik
-      initialValues={{
-        ...configInitialValues,
-        ...integration.config
-      }}
-      validationSchema={validateAgainst}
-      validateOnChange={false}
-      validateOnBlur={false}
-      onSubmit={async (values, { setSubmitting }) => {
-        logger.debug('Submitting <IntegrationConfigForm />', { values });
-        setSubmitting(true);
-        if (allIntegrations.length) {
-          logger.debug('Updating existing integration', { integration });
-          await integrationstore.update(integration.id, values);
-        } else {
-          logger.debug('Creating new integration', { integration });
-          await integrationstore.insert(integration.slug, values);
-        }
-        await integrationstore.fetch();
-        setSubmitting(false);
-      }}
-    >
-      {({ values, isSubmitting, handleSubmit }) => (
-        <form onSubmit={handleSubmit} className="pr-4">
-          {config.map(c => (
-            <FormikInput
-              key={c.key}
-              name={c.key}
-              values={c.values}
-              defaultValue={c.defaultValue}
-              value={values[c.key]}
-              label={c.label}
-              type={c.type}
-            />
-          ))}
-          <Save submitting={isSubmitting} onClick={() => {}} />
-        </form>
+    <>
+      {success && (
+        <Alert className="mb-3 mr-4" type="SUCCESS">
+          Saved successfully.
+        </Alert>
       )}
-    </Formik>
+      {errored && (
+        <Alert className="mb-3 mr-4" type="ERROR">
+          Something went wrong.
+        </Alert>
+      )}
+      <Formik
+        initialValues={{
+          ...configInitialValues,
+          ...integration.config
+        }}
+        validationSchema={validateAgainst}
+        validateOnChange={false}
+        validateOnBlur={false}
+        onSubmit={async (values, { setSubmitting }) => {
+          logger.debug('Submitting <IntegrationConfigForm />', { values });
+          setSuccess(false);
+          setErrored(false);
+          setSubmitting(true);
+          try {
+            if (allIntegrations.length) {
+              logger.debug('Updating existing integration', { integration });
+              await integrationstore.update(integration.id, values);
+            } else {
+              logger.debug('Creating new integration', { integration });
+              await integrationstore.insert(integration.slug, values);
+            }
+            await integrationstore.fetch();
+            setSubmitting(false);
+            setSuccess(true);
+          } catch (error) {
+            logger.error('Error saving integration', { error });
+            setSubmitting(false);
+            setErrored(true);
+          }
+        }}
+      >
+        {({ values, isSubmitting, handleSubmit }) => (
+          <form onSubmit={handleSubmit} className="pr-4">
+            {config.map(c => (
+              <FormikInput
+                key={c.key}
+                name={c.key}
+                values={c.values}
+                defaultValue={c.defaultValue}
+                value={values[c.key]}
+                label={c.label}
+                type={c.type}
+              />
+            ))}
+            <Save submitting={isSubmitting} onClick={() => {}} />
+          </form>
+        )}
+      </Formik>
+    </>
   );
 });
 

@@ -13,9 +13,11 @@ const CurrentHumidity = observer(({ integrationId, widgetConfig }: IntegrationWi
     return <Panel {...widgetConfig} label="Current humidity" />;
   }
 
+  const humidity = forecast.currently.humidity * 100;
+
   return (
     <Panel {...widgetConfig} className="flex flex-col" label="Current humidity">
-      <PanelMainText {...widgetConfig}>{forecast.currently.humidity}%</PanelMainText>
+      <PanelMainText {...widgetConfig}>{humidity}%</PanelMainText>
     </Panel>
   );
 });
