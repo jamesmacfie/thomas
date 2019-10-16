@@ -7,7 +7,7 @@ import { H3 } from 'components/text';
 
 interface Props {
   imgSrc?: string;
-  icon?: string;
+  icon?: any;
   title?: string;
   href?: string;
   onClick?: (e: MouseEvent<HTMLElement>) => void;
@@ -37,7 +37,7 @@ const Image = ({ imgSrc, icon, title, imageClassName }: Props) => {
   }
 
   if (icon) {
-    return <Icon icon="project-diagram" className={cn('text-4xl current-stroke', baseClasses, imageClassName)} />;
+    return <Icon icon={icon} className={cn('text-4xl current-stroke', baseClasses, imageClassName)} />;
   }
 
   return <div className={cn(baseClasses, imageClassName)} />;
