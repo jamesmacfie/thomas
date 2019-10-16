@@ -10,8 +10,6 @@ interface Props {
 }
 
 const IntegrationSettings = ({ systemIntegration, integrations }: Props) => {
-  console.log(toJS(systemIntegration));
-  console.log(toJS(integrations));
   if (systemIntegration.singular) {
     let integration = {
       slug: systemIntegration.slug

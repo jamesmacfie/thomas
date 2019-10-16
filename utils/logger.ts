@@ -5,7 +5,7 @@ const log = createLogger({
   name: 'thomas',
   streams: [
     {
-      level: 'error',
+      level: 'warn',
       stream: new ConsoleFormattedStream()
     }
   ],

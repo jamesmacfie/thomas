@@ -21,6 +21,8 @@ export default class Store {
   initSettings = () => {
     const settings = this.getSettings();
     if (!settings) {
+      logger.warn('No settings set. Saving as blank object');
+      this.setAllSettings({});
       return;
     }
 
@@ -29,13 +31,23 @@ export default class Store {
 
   getSettings = () => {
     try {
-      return JSON.parse(window.localStorage.get(this.device_key));
+      return JSON.parse(window.localStorage.getItem(this.device_key) || '');
     } catch (error) {
       logger.warn('Could not parse developer settings', { error });
     }
   };
 
-  setSettings = (settings: any) => {
+  setSetting = (key: string, value: any) => {
+    try {
+      const settings = this.getSettings();
+      settings[key] = value;
+      this.setAllSettings(settings);
+    } catch (error) {
+      logger.warn('Could not save setting', { key, value, error });
+    }
+  };
+
+  setAllSettings = (settings: any) => {
     try {
       window.localStorage.setItem(this.device_key, JSON.stringify(settings));
     } catch (error) {
@@ -48,13 +60,15 @@ export default class Store {
     logger.debug('Developer store enableDebugLogs');
     logger.level('debug');
     this.debugLogs = true;
+    this.setSetting('debugLogs', true);
   };
 
   @action
   disableDebugLogs = () => {
     logger.debug('Developer store disableDebugLogs');
-    logger.level('error');
+    logger.level('warn');
     this.debugLogs = false;
+    this.setSetting('debugLogs', false);
   };
 
   toggleDebugLogs = () => {
