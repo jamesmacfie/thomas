@@ -3,7 +3,7 @@ import Head from 'next/head';
 import DeviceWrapper from 'containers/wrappers/devices';
 
 import ApplicationWrapper from 'containers/wrappers/application';
-import Page from 'components/page';
+import Page from 'containers/page';
 
 interface Props {
   title: string;

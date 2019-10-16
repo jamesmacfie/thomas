@@ -1,0 +1,7 @@
+.select-pill-alt:not(:last-child) {
+  border-right: 1px solid #6b6d6e;
+}
+
+.select-pill:not(:last-child) {
+  border-right: 1px solid #f1f4f8;
+}

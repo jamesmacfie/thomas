@@ -25,6 +25,7 @@ declare interface DeviceConfig {
   columns: number;
   rowHeight: number;
   showHeader: boolean;
+  sideNavPlacement: string;
 }
 
 declare interface Device {

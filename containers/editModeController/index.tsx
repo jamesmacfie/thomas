@@ -1,11 +1,27 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
-import Label from 'components/label';
-import Button from 'components/button';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import AddNewWidgetModal from 'containers/addNewWidgetModal';
+import Label from 'components/label';
+import Button from 'components/button';
+import SelectPill from 'components/selectPill';
 import logger from 'utils/logger';
+
+const navPlacementOptions = [
+  {
+    value: 'left',
+    text: 'Left'
+  },
+  {
+    value: 'bottom',
+    text: 'Bottom'
+  },
+  {
+    value: 'right',
+    text: 'Right'
+  }
+];
 
 const EditModeController = observer(() => {
   const UIStore = useContext(UIStoreContext);
@@ -38,6 +54,9 @@ const EditModeController = observer(() => {
   const onCheckboxValueChange = ({ target }: any) => {
     deviceStore.updateConfigSetting(target.name, target.checked);
   };
+  const onPillValueChange = (name: any, value: string) => {
+    deviceStore.updateConfigSetting(name, value);
+  };
 
   const config = deviceStore.device!.config;
 
@@ -48,6 +67,13 @@ const EditModeController = observer(() => {
       </Button>
       {addNewModalVisible && <AddNewWidgetModal onClose={toggleAddNewModalVisible} />}
       <div>
+        <SelectPill
+          value={config.sideNavPlacement}
+          alt
+          name="sideNavPlacement"
+          pills={navPlacementOptions}
+          onSelect={onPillValueChange}
+        />
         <div className="flex w-full">
           <Label className="flex-grow" color="alt">
             Show header
