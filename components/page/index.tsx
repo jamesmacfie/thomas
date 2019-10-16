@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
-import Header from 'components/header';
+import Header from 'containers/header';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import Navigation from 'containers/navigation';

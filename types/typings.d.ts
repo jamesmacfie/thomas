@@ -24,6 +24,7 @@ declare interface DeviceConfig {
   zoom: number;
   columns: number;
   rowHeight: number;
+  showHeader: boolean;
 }
 
 declare interface Device {

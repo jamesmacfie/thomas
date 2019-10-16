@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import moment from 'moment';
+import { observer } from 'mobx-react-lite';
+import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import useInterval from 'hooks/useInterval';
 
-const Header = () => {
+const Header = observer(() => {
   const [date, setDate] = useState(moment());
-
+  const deviceStore = useContext(DevicesStoreContext);
   useInterval(() => {
     setDate(moment());
   }, 1000);
+
+  if (!deviceStore.device || !deviceStore.device.config.showHeader) {
+    return <div className="h-4" />;
+  }
 
   const hours = date.format('HH');
   const minutes = date.format('mm');
@@ -22,6 +28,6 @@ const Header = () => {
       <span className="text-xl">{date.format('dddd, Do MMMM')}</span>
     </div>
   );
-};
+});
 
 export default Header;

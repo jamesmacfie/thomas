@@ -30,7 +30,7 @@ const device = (sequelize: Sequelize.Sequelize) => {
     },
     config: {
       type: DataTypes.STRING,
-      defaultValue: {},
+      defaultValue: '{ "showHeader": true }',
       allowNull: false,
       get(this: DeviceModel) {
         return JSON.parse(this.getDataValue('config'));

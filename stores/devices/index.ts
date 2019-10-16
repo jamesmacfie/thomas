@@ -85,7 +85,7 @@ export default class Store {
       return;
     }
 
-    this.device.config[key] = value;
+    (this.device.config as any)[key] = value;
 
     try {
       await fetch(`http://localhost:3000/device/${this.device.id}`, {

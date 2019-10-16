@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import Label from 'components/label';
 import Button from 'components/button';
@@ -15,9 +15,14 @@ const EditModeController = observer(() => {
     logger.debug('toggleAddNewModalVisible from', { addNewModalVisible });
     setAddNewModalVisble(!addNewModalVisible);
   };
+  const firstUpdate = useRef(true);
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
     // Commit the config changes after updating
-    if (!UIStore.editMode && deviceStore) {
+    if (!UIStore.editMode) {
       logger.debug('Commiting edited device config');
       deviceStore.comitPendingUpdate();
     }
@@ -30,6 +35,9 @@ const EditModeController = observer(() => {
   const onNumericValueChange = ({ target }: any) => {
     deviceStore.updateConfigSetting(target.name, parseInt(target.value));
   };
+  const onCheckboxValueChange = ({ target }: any) => {
+    deviceStore.updateConfigSetting(target.name, target.checked);
+  };
 
   const config = deviceStore.device!.config;
 
@@ -40,6 +48,18 @@ const EditModeController = observer(() => {
       </Button>
       {addNewModalVisible && <AddNewWidgetModal onClose={toggleAddNewModalVisible} />}
       <div>
+        <div className="flex w-full">
+          <Label className="flex-grow" color="alt">
+            Show header
+          </Label>
+          <input
+            name="showHeader"
+            className="self-align"
+            type="checkbox"
+            onChange={onCheckboxValueChange}
+            checked={config.showHeader}
+          />
+        </div>
         <Label color="alt">Column count</Label>
         <input
           name="columns"

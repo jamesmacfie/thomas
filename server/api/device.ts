@@ -57,7 +57,8 @@ const init = (server: express.Express) => {
         config: {
           zoom: 1,
           columns: 20,
-          rowHeight: 50
+          rowHeight: 50,
+          showHeader: true
         }
       });
       return res.json(device);
