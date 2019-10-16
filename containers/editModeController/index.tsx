@@ -7,7 +7,7 @@ import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import AddNewWidgetModal from 'containers/addNewWidgetModal';
 import logger from 'utils/logger';
 
-const EditStoreController = observer(() => {
+const EditModeController = observer(() => {
   const UIStore = useContext(UIStoreContext);
   const deviceStore = useContext(DevicesStoreContext);
   const [addNewModalVisible, setAddNewModalVisble] = useState<boolean>(false);
@@ -78,4 +78,4 @@ const EditStoreController = observer(() => {
   );
 });
 
-export default EditStoreController;
+export default EditModeController;
