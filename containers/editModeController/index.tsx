@@ -27,20 +27,8 @@ const EditStoreController = observer(() => {
     return null;
   }
 
-  // TODO - move these into the correct store
-  const onColumnChange = (event: any) => {
-    const columns = parseInt(event.target.value);
-    deviceStore.updateConfigSetting('columns', columns);
-  };
-
-  const onRowHeightChange = (event: any) => {
-    const rowHeight = parseInt(event.target.value);
-    deviceStore.updateConfigSetting('rowHeight', rowHeight);
-  };
-
-  const onZoomChange = (event: any) => {
-    const zoom = parseInt(event.target.value);
-    deviceStore.updateConfigSetting('zoom', zoom);
+  const onNumericValueChange = ({ target }: any) => {
+    deviceStore.updateConfigSetting(target.name, parseInt(target.value));
   };
 
   const config = deviceStore.device!.config;
@@ -53,18 +41,35 @@ const EditStoreController = observer(() => {
       {addNewModalVisible && <AddNewWidgetModal onClose={toggleAddNewModalVisible} />}
       <div>
         <Label color="alt">Column count</Label>
-        <input className="w-full" type="range" min="10" max="30" onChange={onColumnChange} value={config.columns} />
+        <input
+          name="columns"
+          className="w-full"
+          type="range"
+          min="10"
+          max="30"
+          onChange={onNumericValueChange}
+          value={config.columns}
+        />
         <Label color="alt">Row size</Label>
         <input
+          name="rowHeight"
           className="w-full"
           type="range"
           min="10"
           max="100"
-          onChange={onRowHeightChange}
+          onChange={onNumericValueChange}
           value={config.rowHeight}
         />
         <Label color="alt">Zoom level</Label>
-        <input className="w-full" type="range" min="1" max="10" onChange={onZoomChange} value={config.zoom} />
+        <input
+          name="zoom"
+          className="w-full"
+          type="range"
+          min="1"
+          max="10"
+          onChange={onNumericValueChange}
+          value={config.zoom}
+        />
       </div>
       <Button className="w-full mt-4" color="secondary-alt" onClick={UIStore.stopEditMode}>
         Finish
