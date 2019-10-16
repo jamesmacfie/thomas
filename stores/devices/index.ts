@@ -70,10 +70,32 @@ export default class Store {
 
   @action
   fetchAll = async () => {
-    logger.debug('Devices store fetch all');
+    logger.debug('Devices store fetchAll');
     const devices = await fetch('http://localhost:3000/devices').then(res => res.json());
     logger.debug('Setting other devives', { devices });
     this.otherDevices = devices;
+  };
+
+  @action
+  updateConfigSetting = async (key: keyof DeviceConfig, value: any) => {
+    logger.debug('Devices store updateConfigSetting', { key, value });
+
+    if (!this.device) {
+      logger.warn('No device set, cannot update setting');
+      return;
+    }
+
+    this.device.config[key] = value;
+
+    try {
+      await fetch(`http://localhost:3000/device/${this.device.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.device)
+      });
+    } catch (error) {
+      logger.warn('Error updating setting', { key, value, error });
+    }
   };
 
   comitPendingUpdate = async () => {

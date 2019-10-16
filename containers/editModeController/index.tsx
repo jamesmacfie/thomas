@@ -30,29 +30,17 @@ const EditStoreController = observer(() => {
   // TODO - move these into the correct store
   const onColumnChange = (event: any) => {
     const columns = parseInt(event.target.value);
-    logger.debug('Column change in <EditModeController />', { columns });
-    deviceStore.device!.config = {
-      ...deviceStore.device!.config,
-      columns
-    };
+    deviceStore.updateConfigSetting('columns', columns);
   };
 
   const onRowHeightChange = (event: any) => {
     const rowHeight = parseInt(event.target.value);
-    logger.debug('Row height change in <EditModeController />', { rowHeight });
-    deviceStore.device!.config = {
-      ...deviceStore.device!.config,
-      rowHeight
-    };
+    deviceStore.updateConfigSetting('rowHeight', rowHeight);
   };
 
   const onZoomChange = (event: any) => {
     const zoom = parseInt(event.target.value);
-    logger.debug('Zoom change in <EditModeController />', { zoom });
-    deviceStore.device!.config = {
-      ...deviceStore.device!.config,
-      zoom
-    };
+    deviceStore.updateConfigSetting('zoom', zoom);
   };
 
   const config = deviceStore.device!.config;
