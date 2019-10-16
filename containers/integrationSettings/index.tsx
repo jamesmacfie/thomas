@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import IntegrationConfigForm from '../integrationConfigForm';
 import { H2 } from 'components/text';
-import { toJS } from 'mobx';
 
 interface Props {
   systemIntegration: any;
