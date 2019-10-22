@@ -12,13 +12,25 @@ const getDirectories: () => string[] = () => {
     .filter(path => fs.statSync(path).isDirectory());
 };
 
+
+const initServerFromDir = (dirPath: string, server: express.Express) => {
+  if (!fs.existsSync(dirPath)) {
+    logger.info(`🐔 Integration no server found at ${dirPath}`);
+    return;
+  }
+
+  logger.info(`🐔 Integration server found at ${dirPath}`);
+  const integration: ServerIntegration = require(dirPath);
+  integration.init(server)
+}
+
 const load = async (dir: string, server: express.Express) => {
   try {
     logger.error(`🐔 Loading integration from dir ${dir}`);
-    const config: any = require(`${dir}/config.json`);
-    const integration: ServerIntegration = require(`${dir}/server`);
-    logger.error(`🐔 Imported integration ${config.name}. Initialising.`);
-    integration.init(server);
+    const configFilePath = `${dir}/config.json`
+    const serverDirPath = `${dir}/server`
+    const config: any = require(configFilePath);
+    initServerFromDir(serverDirPath, server);
     return {
       slug: path.basename(dir),
       ...config

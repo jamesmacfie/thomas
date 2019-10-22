@@ -1,6 +1,7 @@
 {
   "name": "Dark Sky Weather",
   "singular": true,
+  "requiresSettings": true,
   "widgets": [
     {
       "slug": "currentHumidity",
@@ -44,7 +45,9 @@
       "validations": [
         {
           "type": "required",
-          "params": ["Please enter your API key"]
+          "params": [
+            "Please enter your API key"
+          ]
         }
       ]
     },
@@ -56,11 +59,17 @@
       "validations": [
         {
           "type": "min",
-          "params": [-180, "Please enter a valid longitude"]
+          "params": [
+            -180,
+            "Please enter a valid longitude"
+          ]
         },
         {
           "type": "max",
-          "params": [180, "Please enter a valid longitude"]
+          "params": [
+            180,
+            "Please enter a valid longitude"
+          ]
         }
       ]
     },
@@ -72,11 +81,17 @@
       "validations": [
         {
           "type": "min",
-          "params": [-90, "Please enter a valid latitude"]
+          "params": [
+            -90,
+            "Please enter a valid latitude"
+          ]
         },
         {
           "type": "max",
-          "params": [90, "Please enter a valid latitude"]
+          "params": [
+            90,
+            "Please enter a valid latitude"
+          ]
         }
       ]
     },
@@ -99,7 +114,9 @@
       "validations": [
         {
           "type": "required",
-          "params": ["Please enter which units you would like to use"]
+          "params": [
+            "Please enter which units you would like to use"
+          ]
         }
       ]
     }
