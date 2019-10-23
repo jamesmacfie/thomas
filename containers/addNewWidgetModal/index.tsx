@@ -23,24 +23,31 @@ const NewWidget = observer(({ onClose }: Props) => {
   const [integrationSlug, setIntegrationSlug] = useState<string | null>(null);
   const [noIntegrationSetup, setNoIntegrationSetup] = useState<null | boolean>(null);
   const [widgetSlug, setWidgetSlug] = useState<string>('');
+  const [requiresIntegrationIdSelection, setRequiresIntegrationIdSelection] = useState<null | boolean>(null);
   const [error, setError] = useState<string>('');
   const { query } = useRouter();
   const integration: Integration | null = integrationId ? integrationsStore.integrations[integrationId] : null;
-  const systemIntegration: SystemIntegration | null =
-    integrationId && integration ? integrationsStore.systemIntegrations[integration.slug] : null;
+  const systemIntegration: SystemIntegration | null = integrationSlug
+    ? integrationsStore.systemIntegrations[integrationSlug]
+    : null;
   const onIntegrationSelectChange = (details: IntegrationSelectChange) => {
-    console.log('DETAILS', details);
     setIntegrationId(details.integrationId);
     setIntegrationSlug(details.integrationSlug);
     setNoIntegrationSetup(details.noIntegrationSetup);
+    setRequiresIntegrationIdSelection(details.requiresIntegrationIdSelection);
   };
 
   const create = async () => {
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
     logger.debug('Creating new widget for view', { viewId });
 
-    if (!systemIntegration || !integration) {
-      logger.error('Either no system integration or integration selected', { systemIntegration, integration });
+    if (!systemIntegration) {
+      logger.error('No system integration selected', {
+        systemIntegration,
+        integration,
+        integrationSlug,
+        integrationId
+      });
       setError('No integration selected');
       return;
     }
@@ -53,8 +60,8 @@ const NewWidget = observer(({ onClose }: Props) => {
 
     try {
       viewsStore.insertWidget({
-        integrationId: integrationId!,
-        integrationSlug: integration.slug,
+        integrationId,
+        integrationSlug: integrationSlug!,
         widgetSlug,
         viewId: parseInt(viewId),
         config: {
@@ -77,16 +84,24 @@ const NewWidget = observer(({ onClose }: Props) => {
     }
   };
 
-  const widgetCmp = !integration ? null : (
-    <>
-      <Label>Widget</Label>
-      <SystemIntegrationWidgetSelect
-        integrationSlug={integration.slug}
-        className="mb-4 w-96"
-        onChange={setWidgetSlug}
-      />
-    </>
-  );
+  // Show the widget select if the integration does not require any id selection or, if it does
+  // that we actually have an integration selected
+  let widgetCmp = null;
+  if (integrationSlug) {
+    const shouldRenderWidgetSelection = !requiresIntegrationIdSelection ? true : !!integration;
+    widgetCmp = shouldRenderWidgetSelection && (
+      <>
+        <Label>Widget</Label>
+        <SystemIntegrationWidgetSelect
+          integrationSlug={integrationSlug}
+          className="mb-4 w-96"
+          onChange={setWidgetSlug}
+        />
+      </>
+    );
+  }
+
+  const buttonDisabled = !requiresIntegrationIdSelection ? !widgetSlug : !integrationId || !widgetSlug;
 
   return (
     <Modal title="Create new widget" size="sm" onClose={onClose}>
@@ -106,7 +121,7 @@ const NewWidget = observer(({ onClose }: Props) => {
           </Link>
         </p>
       )}
-      <Button disabled={!integrationId || !widgetSlug} color="primary" onClick={create}>
+      <Button disabled={buttonDisabled} color="primary" onClick={create}>
         Create
       </Button>
     </Modal>

@@ -74,6 +74,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       {widgetsForThisView.map((i: IntegrationWidget) => {
         // TODO - there's a case where integrationStore.integrations[i.integrationId].config could return undefined
         const Cmp = integrationWidget(i);
+        const integration = integrationStore.integrations[i.integrationId];
         return (
           <div key={i.id}>
             <Cmp
@@ -81,7 +82,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
               widgetId={i.id}
               integrationId={i.integrationId}
               widgetConfig={i.config}
-              integrationConfig={integrationStore.integrations[i.integrationId].config}
+              integrationConfig={integration ? integration.config : null}
             />
           </div>
         );

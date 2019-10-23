@@ -44,6 +44,7 @@ const widget = (sequelize: Sequelize.Sequelize) => {
     },
     integrationId: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: 'integrations',
         key: 'id'

@@ -58,6 +58,7 @@ module.exports = {
       },
       integrationId: {
         type: Sequelize.DataTypes.INTEGER,
+        allowNull: true,
         references: {
           model: 'integrations',
           key: 'id'

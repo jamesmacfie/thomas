@@ -6,7 +6,7 @@ import { store as devicesStore } from 'stores/devices';
 import logger from 'utils/logger';
 
 interface ViewWidgetCreate {
-  integrationId: number;
+  integrationId: number | null;
   integrationSlug: string;
   widgetSlug: string;
   viewId: number;
