@@ -2,11 +2,10 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import { StoreContext as ViewStoreContext } from 'stores/views';
-import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
-import integrationWidget from './integrationWidgets';
 import ReactGridLayout from 'components/reactGridLayout';
 import AddFirstViewWidget from 'containers/addFirstViewWidget';
 import logger from 'utils/logger';
+import Widget from './widget';
 
 interface Props {
   viewId: number;
@@ -15,7 +14,6 @@ interface Props {
 const ViewWidgets = observer(({ viewId }: Props) => {
   const deviceStore = useContext(DevicesStoreContext);
   const viewStore = useContext(ViewStoreContext);
-  const integrationStore = useContext(IntegrationStoreContext);
 
   if (!deviceStore.device) {
     logger.error('<ViewWidgets />Should not get here. Trying to load view widget without a device');
@@ -71,19 +69,11 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       cols={deviceConfig.columns}
       rowHeight={deviceConfig.rowHeight}
     >
-      {widgetsForThisView.map((i: IntegrationWidget) => {
+      {widgetsForThisView.map((widget: IntegrationWidget) => {
         // TODO - there's a case where integrationStore.integrations[i.integrationId].config could return undefined
-        const Cmp = integrationWidget(i);
-        const integration = integrationStore.integrations[i.integrationId];
         return (
-          <div key={i.id}>
-            <Cmp
-              key={i.id}
-              widgetId={i.id}
-              integrationId={i.integrationId}
-              widgetConfig={i.config}
-              integrationConfig={integration ? integration.config : null}
-            />
+          <div key={widget.id}>
+            <Widget widget={widget} />
           </div>
         );
       })}
