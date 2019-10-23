@@ -4,10 +4,11 @@ interface Props {
   w: number;
   h: number;
   children: ReactNode;
+  increase?: number;
 }
 
-const PanelMainText = ({ children, w, h }: Props) => {
-  const smallest = Math.min(w, h);
+const PanelMainText = ({ children, w, h, increase = 0 }: Props) => {
+  const smallest = Math.min(w, h) + increase;
 
   let className;
   if (smallest <= 2) {
