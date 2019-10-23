@@ -71,6 +71,8 @@ declare interface SystemIntegration {
   slug: string;
   widgets: SystemIntegrationWidget[];
   settings?: any[];
+  singular?: boolean;
+  requiresSettings?: boolean;
 }
 
 interface ServerIntegration {

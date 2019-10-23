@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "npm run db:migrate && nodemon",
     "build": "next build",
     "next-start": "next start",
     "start": "NODE_ENV=production ts-node --project tsconfig.server.json server/index.ts",
     "pm2-start": "pm2 start npm --name 'Thomas' -- start",
     "pm2-stop": "pm2 stop 'Thomas'",
-    "db:migrate": "sequelize db:migrate",
-    "db:rollback": "sequelize db:migrate:undo"
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:rollback": "sequelize-cli db:migrate:undo"
   },
   "author": "James Macfie",
   "keywords": [],
@@ -71,7 +71,8 @@
     "react-dom": "^16.8.6",
     "react-grid-layout": "^0.16.6",
     "react-select": "^3.0.4",
-    "sequelize": "^5.12.3",
+    "sequelize": "^5.20.0",
+    "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.0.9",
     "tailwindcss": "^1.0.4",
     "ts-node": "^8.3.0",

@@ -1,5 +1,6 @@
 {
+  "verbose": true,
   "watch": ["server", "integrations"],
-  "ext": "ts",
+  "ext": "ts,tsx,json",
   "exec": "ts-node --project tsconfig.server.json server/index.ts"
 }

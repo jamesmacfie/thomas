@@ -17,7 +17,7 @@ const SystemIntegrationSelect = observer(({ className, onChange }: Props) => {
     onChange(option.value);
   };
 
-  const options = Object.values(store.systemIntegrations!).map((i: SystemIntegration) => ({
+  const options = Object.values(store.systemIntegrations).map((i: SystemIntegration) => ({
     value: i.slug,
     label: i.name
   }));

@@ -1,0 +1,14 @@
+{
+  "name": "Clocks",
+  "requiresSettings": false,
+  "widgets": [
+    {
+      "slug": "digital",
+      "name": "Digital Closk",
+      "layout": {
+        "initialW": 4,
+        "initialH": 2
+      }
+    }
+  ]
+}

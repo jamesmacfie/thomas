@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
 import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
 import { useRouter } from 'next/router';
-import IntegrationSelect from 'containers/integrationSelect';
+import IntegrationSelect, { IntegrationSelectChange } from 'containers/integrationSelect';
 import SystemIntegrationWidgetSelect from 'containers/systemIntegrationWidgetSelect';
 import Button from 'components/button';
 import Modal from 'components/modal';
@@ -19,6 +19,7 @@ const NewWidget = observer(({ onClose }: Props) => {
   const viewsStore = useContext(ViewsStoreContext);
   const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationId, setIntegrationId] = useState<number | null>(null);
+  const [integrationSlug, setIntegrationSlug] = useState<string | null>(null);
   const [widgetSlug, setWidgetSlug] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { query } = useRouter();
@@ -27,6 +28,13 @@ const NewWidget = observer(({ onClose }: Props) => {
     : null;
   const systemIntegration: SystemIntegration | null =
     integrationId && integration ? integrationsStore.systemIntegrations[integration.slug] : null;
+  const onIntegrationSelectChange = (details: IntegrationSelectChange) => {
+    console.log('DETAILS', details);
+    setIntegrationId(details.integrationId);
+    setIntegrationSlug(details.integrationSlug);
+  };
+
+  console.log(integrationSlug);
 
   const create = async () => {
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
@@ -89,7 +97,7 @@ const NewWidget = observer(({ onClose }: Props) => {
         </Alert>
       )}
       <Label>Integration</Label>
-      <IntegrationSelect className="mb-4 w-96" onChange={setIntegrationId} />
+      <IntegrationSelect className="mb-4 w-96" onChange={onIntegrationSelectChange} />
       {widgetCmp}
       <Button disabled={!integrationId || !widgetSlug} color="primary" onClick={create}>
         Create
