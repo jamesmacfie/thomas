@@ -12,25 +12,25 @@ const getDirectories: () => string[] = () => {
     .filter(path => fs.statSync(path).isDirectory());
 };
 
-
-const initServerFromDir = (dirPath: string, server: express.Express) => {
-  if (!fs.existsSync(dirPath)) {
-    logger.info(`🐔 Integration no server found at ${dirPath}`);
+// TODO - should be able to read from /server/index.ts also
+const initServerFromFile = (filePath: string, server: express.Express) => {
+  if (!fs.existsSync(filePath)) {
+    logger.info(`🐔 Integration no server found at ${filePath}`);
     return;
   }
 
-  logger.info(`🐔 Integration server found at ${dirPath}`);
-  const integration: ServerIntegration = require(dirPath);
-  integration.init(server)
-}
+  logger.info(`🐔 Integration server found at ${filePath}`);
+  const integration: ServerIntegration = require(filePath);
+  integration.init(server);
+};
 
 const load = async (dir: string, server: express.Express) => {
   try {
     logger.error(`🐔 Loading integration from dir ${dir}`);
-    const configFilePath = `${dir}/config.json`
-    const serverDirPath = `${dir}/server`
+    const configFilePath = `${dir}/config.json`;
+    const serverFilePath = `${dir}/server.ts`;
     const config: any = require(configFilePath);
-    initServerFromDir(serverDirPath, server);
+    initServerFromFile(serverFilePath, server);
     return {
       slug: path.basename(dir),
       ...config

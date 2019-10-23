@@ -4,13 +4,14 @@ import logger from 'utils/logger';
 
 const isServer = typeof window === 'undefined';
 
+console.log('here');
 export default class Store {
   device_key: string = 'thomas_developer';
   @observable debugLogs: boolean = false;
 
   constructor() {
     if (isServer) {
-      logger.debug('Develoepr store - not loading, server rendered');
+      logger.debug('Developer store - not loading, server rendered');
       return;
     }
 
@@ -27,6 +28,8 @@ export default class Store {
     }
 
     this.debugLogs = !!settings.debugLogs;
+    this.initDebugLogs();
+    return Promise.resolve();
   };
 
   getSettings = () => {
@@ -55,9 +58,14 @@ export default class Store {
     }
   };
 
+  initDebugLogs = () => {
+    console.log(!!this.debugLogs ? 'debug' : 'warn');
+    logger.level(!!this.debugLogs ? 'debug' : 'warn');
+  };
+
   @action
   enableDebugLogs = () => {
-    logger.debug('Developer store enableDebugLogs');
+    console.log('Developer store enableDebugLogs');
     logger.level('debug');
     this.debugLogs = true;
     this.setSetting('debugLogs', true);
@@ -65,7 +73,7 @@ export default class Store {
 
   @action
   disableDebugLogs = () => {
-    logger.debug('Developer store disableDebugLogs');
+    console.log('Developer store disableDebugLogs');
     logger.level('warn');
     this.debugLogs = false;
     this.setSetting('debugLogs', false);

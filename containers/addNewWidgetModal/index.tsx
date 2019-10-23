@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import Link from 'next/link';
 import { StoreContext as ViewsStoreContext } from 'stores/views';
 import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
 import { useRouter } from 'next/router';
@@ -20,21 +21,19 @@ const NewWidget = observer(({ onClose }: Props) => {
   const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationId, setIntegrationId] = useState<number | null>(null);
   const [integrationSlug, setIntegrationSlug] = useState<string | null>(null);
+  const [noIntegrationSetup, setNoIntegrationSetup] = useState<null | boolean>(null);
   const [widgetSlug, setWidgetSlug] = useState<string>('');
   const [error, setError] = useState<string>('');
   const { query } = useRouter();
-  const integration: Integration | null = integrationId
-    ? integrationsStore.integrations[integrationId.toString()]
-    : null;
+  const integration: Integration | null = integrationId ? integrationsStore.integrations[integrationId] : null;
   const systemIntegration: SystemIntegration | null =
     integrationId && integration ? integrationsStore.systemIntegrations[integration.slug] : null;
   const onIntegrationSelectChange = (details: IntegrationSelectChange) => {
     console.log('DETAILS', details);
     setIntegrationId(details.integrationId);
     setIntegrationSlug(details.integrationSlug);
+    setNoIntegrationSetup(details.noIntegrationSetup);
   };
-
-  console.log(integrationSlug);
 
   const create = async () => {
     const viewId = Array.isArray(query.id) ? query.id[0] : query.id;
@@ -99,6 +98,14 @@ const NewWidget = observer(({ onClose }: Props) => {
       <Label>Integration</Label>
       <IntegrationSelect className="mb-4 w-96" onChange={onIntegrationSelectChange} />
       {widgetCmp}
+      {noIntegrationSetup && (
+        <p className="mb-4">
+          This integration needs to be setup in order to be used.{' '}
+          <Link href={`/settings/integrations/${integrationSlug}`}>
+            <a className="text-blue mb-4">You can do this here.</a>
+          </Link>
+        </p>
+      )}
       <Button disabled={!integrationId || !widgetSlug} color="primary" onClick={create}>
         Create
       </Button>
