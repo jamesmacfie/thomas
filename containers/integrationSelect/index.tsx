@@ -88,7 +88,6 @@ const IntegrationSelect = observer(({ className, onChange }: Props) => {
   // TODO - clean up. Many nested ifs here
   let integrationSelect = null;
   if (systemIntegrationSlug) {
-    console.log('s', systemIntegrationSlug);
     const systemIntegration = store.systemIntegrations[systemIntegrationSlug];
     if (!systemIntegration) {
       logger.error('Cannot find integration for slug', { systemIntegrationSlug });
