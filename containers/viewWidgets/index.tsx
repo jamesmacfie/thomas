@@ -72,7 +72,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       {widgetsForThisView.map((widget: IntegrationWidget) => {
         // TODO - there's a case where integrationStore.integrations[i.integrationId].config could return undefined
         return (
-          <div key={widget.id}>
+          <div key={widget.id} className="relative">
             <Widget widget={widget} />
           </div>
         );

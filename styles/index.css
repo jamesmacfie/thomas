@@ -94,8 +94,13 @@ body {
 }
 
 .pin-edit {
-  right: -1rem;
-  top: -1rem;
+  right: -0.75rem;
+  top: -0.75rem;
+}
+
+.pin-delete {
+  right: -0.75rem;
+  top: 1rem;
 }
 
 .rotate-45deg {
