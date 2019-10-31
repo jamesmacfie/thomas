@@ -1,5 +1,5 @@
 import React from 'react';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import { useStaticRendering } from 'mobx-react-lite';
 import fontawesome from '@fortawesome/fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -26,11 +26,7 @@ class Thomas extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    return (
-      <Container>
-        <Component {...pageProps} />
-      </Container>
-    );
+    return <Component {...pageProps} />;
   }
 }
 
