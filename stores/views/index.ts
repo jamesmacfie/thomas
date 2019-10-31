@@ -80,6 +80,16 @@ export default class Store {
     logger.debug('Updated widgets', { viewId, updatedWidgets });
     this.views[viewId].widgets = updatedWidgets;
   };
+
+  deleteWidget = async (viewId: number, widgetId: number) => {
+    logger.debug('Views store archiveWidget', { widgetId });
+    await fetch(`/view/${viewId}/widget/${widgetId}`, {
+      method: 'DELETE'
+    });
+
+    logger.debug('Removing widget', { widgetId });
+    this.views[viewId].widgets = this.views[viewId].widgets.filter(w => w.id !== widgetId);
+  };
 }
 
 export const store = new Store();

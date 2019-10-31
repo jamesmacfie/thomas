@@ -45,11 +45,17 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
     event.stopPropagation();
     close();
   };
+  const onMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Need this to stop the edit mode jumping around because of the mouse down and drag events.
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   return (
     <>
       <div
         onClick={onOverlayClick}
+        onMouseDown={onMouseDown}
         className="cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-10"
       >
         <Panel fit={false} className={panelClasses} padding={padding}>

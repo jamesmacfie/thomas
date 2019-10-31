@@ -1,19 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
 import { StoreContext as UIStoreContext } from 'stores/ui';
 import Icon from 'components/icon';
 import integrationWidget from './integrationWidgets';
 import logger from 'utils/logger';
+import DeleteWidgetModal from './deleteWidgetModal';
 
 interface Props {
   widget: IntegrationWidget;
 }
 
 const Widget = observer(({ widget }: Props) => {
+  const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
   const integrationStore = useContext(IntegrationStoreContext);
   const uiStore = useContext(UIStoreContext);
-  // const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
 
   const onPencilClick = () => {
     logger.debug('On <Widget /> edit click', { id: widget.id });
@@ -22,7 +23,7 @@ const Widget = observer(({ widget }: Props) => {
 
   const onTrashClick = () => {
     logger.debug('On <Widget /> delete click', { id: widget.id });
-    alert(`This will delete ${widget.id}`);
+    setDeleteModalVisible(true);
   };
 
   // TODO - there's a case where integrationStore.integrations[i.integrationId].config could return undefined
@@ -36,7 +37,7 @@ const Widget = observer(({ widget }: Props) => {
       {uiStore.editMode && (
         <>
           <div onClick={onPencilClick} className={`${editClasses} pin-edit`}>
-            <Icon icon="pencil" containerClassName="flex" className="text-xs current-stroke" />
+            <Icon icon="pen" containerClassName="flex" className="text-xs current-stroke" />
           </div>
           <div onClick={onTrashClick} className={`${editClasses} pin-delete`}>
             <Icon icon="trash" containerClassName="flex" className="text-xs current-stroke" />
@@ -50,6 +51,9 @@ const Widget = observer(({ widget }: Props) => {
         widgetConfig={widget.config}
         integrationConfig={integration ? integration.config : null}
       />
+      {deleteModalVisible && (
+        <DeleteWidgetModal onClose={() => setDeleteModalVisible(false)} viewId={widget.viewId} widgetId={widget.id} />
+      )}
     </>
   );
 });

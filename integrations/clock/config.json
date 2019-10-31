@@ -4,10 +4,10 @@
   "widgets": [
     {
       "slug": "digital",
-      "name": "Digital Closk",
+      "name": "Digital Clock",
       "layout": {
-        "initialW": 4,
-        "initialH": 2
+        "initialW": 5,
+        "initialH": 3
       }
     }
   ]

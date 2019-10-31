@@ -37,7 +37,22 @@ const init = (server: express.Express) => {
       });
       return res.json(widgets);
     } catch (err) {
-      logger.error(`📦 Error getting widgets for screen id ${req.params.screen_id}: ${err.message}`);
+      logger.error(`📦 Error getting widgets for view id ${req.params.view_id}: ${err.message}`);
+      return res.status(500).send(err.message);
+    }
+  });
+
+  server.delete('/view/:view_id/widget/:widget_id', async (req: express.Request, res: express.Response) => {
+    try {
+      logger.info(`📦 Deleting widget for view ${req.params.view_id}`);
+      await db.Widget.destroy({
+        where: {
+          id: req.params.widget_id
+        }
+      });
+      return res.sendStatus(200);
+    } catch (err) {
+      logger.error(`📦 Error getting widgets for screen id ${req.params.view_id}: ${err.message}`);
       return res.status(500).send(err.message);
     }
   });

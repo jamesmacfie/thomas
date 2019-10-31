@@ -14,7 +14,7 @@ const colorClasses = {
   primary: 'bg-blue border-blue-dark hover:bg-blue-dark hover:border-blue text-white',
   secondary: 'bg-transparent border-white hover:text-blue hover:border-blue text-white',
   'secondary-alt': 'bg-transparent border-grey-darker text-grey-darker hover:text-blue hover:border-blue',
-  danger: 'bg-red text-white'
+  danger: 'bg-red text-white border-red-light'
 };
 
 const Button = ({ children, color, className, padding = true, disabled = false, onClick, ...props }: Props) => {
