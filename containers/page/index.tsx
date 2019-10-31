@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import Header from 'containers/header';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
@@ -77,8 +77,8 @@ const getNavCmp: (placement: string) => any = placement => {
 
 const Page = observer(({ children }: Props) => {
   const devicesStore = useContext(DevicesStoreContext);
-  // Define base font Size. If we have a device set, use their config ( TODO )
-  let fontSize = '15px';
+  // Define base font Size. If we have a device set, use their config
+  const [fontSize, setFontSize] = useState<string>('15px');
   useEffect(() => {
     document.documentElement.style.fontSize = fontSize;
   }, [fontSize]);
@@ -87,7 +87,10 @@ const Page = observer(({ children }: Props) => {
   if (!devicesStore.device) {
     Cmp = NoNav;
   } else {
-    fontSize = `${devicesStore.device.config.zoom + 15}px`;
+    const newFontSize = `${devicesStore.device.config.zoom + 15}px`;
+    if (fontSize !== newFontSize) {
+      setFontSize(newFontSize);
+    }
     Cmp = getNavCmp(devicesStore.device.config.sideNavPlacement);
   }
 
