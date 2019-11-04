@@ -8,7 +8,71 @@
       "layout": {
         "initialW": 5,
         "initialH": 3
-      }
+      },
+      "settings": [
+        {
+          "key": "timeFormat",
+          "type": "select",
+          "label": "Time format",
+          "validationType": "string",
+          "values": [
+            {
+              "value": "h:mm a",
+              "label": "12 hour"
+            },
+            {
+              "value": "H:mm",
+              "label": "24 hour"
+            }
+          ],
+          "defaultValue": "h:mm a",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please enter which time format you would like to use"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "dateFormat",
+          "type": "select",
+          "label": "Date format",
+          "validationType": "string",
+          "values": [
+            {
+              "value": "dddd, Do MMMM",
+              "label": "dddd, Do MMMM"
+            },
+            {
+              "value": "dddd, MMMM Do YYYY",
+              "label": "dddd, MMMM Do YYYY"
+            },
+            {
+              "value": "YYYY-MM-DD",
+              "label": "YYYY-MM-DD"
+            },
+            {
+              "value": "MM-DD-YYYY",
+              "label": "MM-DD-YYYY"
+            },
+            {
+              "value": "DD-MM-YYYY",
+              "label": "DD-MM-YYYY"
+            }
+          ],
+          "defaultValue": "h:mm a",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please enter which date format you would like to use"
+              ]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

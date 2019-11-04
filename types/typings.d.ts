@@ -64,13 +64,14 @@ declare interface SystemIntegrationWidget {
     minH?: number;
     minW?: number;
   };
+  settings?: FormConfig[];
 }
 
 declare interface SystemIntegration {
   name: string;
   slug: string;
   widgets: SystemIntegrationWidget[];
-  settings?: any[];
+  settings?: FormConfig[];
   singular?: boolean;
   requiresSettings?: boolean;
 }

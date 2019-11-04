@@ -29,6 +29,7 @@ export default class Store {
     this.views = keyBy(views, 'id');
   };
 
+  @action
   insertWidget = async (values: ViewWidgetCreate) => {
     logger.debug('Views store insertWidget', { values });
     const widget = await fetch(`/widget`, {
@@ -46,8 +47,43 @@ export default class Store {
     this.views[values.viewId].widgets = this.views[values.viewId].widgets.concat(widget);
   };
 
+  @action
+  updateWidget = async (viewId: number, update: ViewWidgetUpdate) => {
+    logger.debug('Views store insertWidget', { viewId, update });
+    const currentWidget = this.views[viewId].widgets.find(w => w.id === update.widgetId);
+    if (!currentWidget) {
+      throw new Error(`Widget with id ${update.widgetId} does not exist in view store`);
+    }
+
+    const newConfig = {
+      ...currentWidget.config,
+      ...update.config
+    };
+
+    await fetch(`http://localhost:3000/widget/${update.widgetId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        config: newConfig
+      })
+    });
+
+    logger.debug('Updated widget', { viewId, update });
+    const updatedWidgets = this.views[viewId].widgets.map(w => {
+      if (w.id !== update.widgetId) {
+        return w;
+      }
+      return {
+        ...w,
+        config: newConfig
+      };
+    });
+    this.views[viewId].widgets = updatedWidgets;
+  };
+
+  @action
   updateWidgets = async (viewId: number, updates: ViewWidgetUpdate[]) => {
-    logger.debug('Views store insertWidget', { viewId, updates });
+    logger.debug('Views store updateWidgets', { viewId, updates });
     const updatedWidgets = await Promise.all(
       this.views[viewId].widgets.map(async (widget: any) => {
         const update = updates.find(u => u.widgetId === widget.id);
