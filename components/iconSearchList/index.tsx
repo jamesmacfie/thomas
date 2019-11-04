@@ -49,14 +49,16 @@ const defaultIcons = [
 
 export const iconNames = Object.keys(allIcons);
 interface Props {
+  value?: IIcon;
   className?: string;
   iconListClassName?: string;
   showLabel?: boolean;
   onSelect: (iconName: string) => void;
 }
 
-const IconList = ({ className, iconListClassName, showLabel = true, onSelect }: Props) => {
-  const [selectedIcon, setSelectedIcon] = useState<null | IIcon>(null);
+const IconList = ({ className, iconListClassName, showLabel = true, onSelect, value }: Props) => {
+  console.log('SETTING TO VALUE', value);
+  const [selectedIcon, setSelectedIcon] = useState<null | IIcon>(value ? ({ iconName: value } as any) : null);
   const [searchString, setSearchString] = useState('');
   const [debouncedOnSearchChange] = useDebouncedCallback(value => {
     setSearchString(value);
@@ -78,6 +80,7 @@ const IconList = ({ className, iconListClassName, showLabel = true, onSelect }: 
     iconNamesToShow = defaultIcons; //.map(i => i.icon);
   }
 
+  console.log(selectedIcon);
   return (
     <div className={className}>
       {showLabel && <Label>Search</Label>}

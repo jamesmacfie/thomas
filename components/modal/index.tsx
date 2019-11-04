@@ -3,6 +3,7 @@ import cn from 'classnames';
 import Panel from 'components/panel';
 import Icon from 'components/icon';
 import { H4 } from 'components/text';
+import ClientOnlyPortal from './clientOnlyPortal';
 import './styles.css';
 
 interface Props {
@@ -45,17 +46,11 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
     event.stopPropagation();
     close();
   };
-  const onMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    // Need this to stop the edit mode jumping around because of the mouse down and drag events.
-    event.preventDefault();
-    event.stopPropagation();
-  };
 
   return (
-    <>
+    <ClientOnlyPortal selector="#modal">
       <div
         onClick={onOverlayClick}
-        onMouseDown={onMouseDown}
         className="cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-10"
       >
         <Panel fit={false} className={panelClasses} padding={padding}>
@@ -71,7 +66,7 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
           {children}
         </Panel>
       </div>
-    </>
+    </ClientOnlyPortal>
   );
 };
 

@@ -43,6 +43,27 @@ export default class Store {
   };
 
   @action
+  update = async (values: { viewId: number; name: string; icon: string }) => {
+    logger.debug('DeviceViews store update', { values });
+    const deviceView = await fetch(`/device/view/${values.viewId}`, {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...values
+      })
+    }).then(res => res.json());
+    logger.debug('Saved deviceView', { deviceView });
+    this.deviceViews[deviceView.id] = {
+      ...deviceView,
+      name: values.name,
+      icon: values.icon
+    };
+    return deviceView;
+  };
+
+  @action
   updateAll = async (updates: DeviceViewWidgetUpdate[]) => {
     logger.debug('DeviceViews store updateAll', { updates });
     if (!Object.values(this.deviceViews).length) {

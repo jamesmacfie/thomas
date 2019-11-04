@@ -12,6 +12,7 @@ export default class PageDocument extends Document {
         </Head>
         <body>
           <Main />
+          <div id="modal" />
           <NextScript />
         </body>
       </html>

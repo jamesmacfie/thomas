@@ -6,12 +6,18 @@ interface Props {
   name: string;
 }
 
-const FormikInputIcon = ({ form, name }: Props) => {
+const FormikInputIcon = ({ form, name, ...props }: Props) => {
   const onSelect = (iconName: string) => {
     form.setFieldValue(name, iconName);
   };
   return (
-    <IconSearchList onSelect={onSelect} showLabel={false} className="mb-4" iconListClassName="h-64 overflow-y-scroll" />
+    <IconSearchList
+      onSelect={onSelect}
+      showLabel={false}
+      className="mb-4"
+      iconListClassName="h-64 overflow-y-scroll"
+      {...props}
+    />
   );
 };
 

@@ -31,15 +31,9 @@ const init = (server: express.Express) => {
     try {
       const { name, icon, config } = req.body;
       logger.info(`📲 Updating device ${deviceId}`);
-      const device = await db.Device.update(
-        { name, icon, config },
-        {
-          where: {
-            id: deviceId
-          }
-        }
-      );
-      return res.json(device);
+      const device = await db.Device.findByPk(deviceId);
+      await device.update({ name, icon, config });
+      return res.json(device.dataValues);
     } catch (err) {
       console.log(err);
       logger.error(`📲 Error updating device ${deviceId}: ${err.message}`);
@@ -127,17 +121,11 @@ const init = (server: express.Express) => {
   server.patch('/device/view/:device_view_id', async (req: express.Request, res: express.Response) => {
     const deviceViewId = req.params.device_view_id;
     try {
-      const { order } = req.body;
+      const { order, name, icon } = req.body;
       logger.info(`📦 Updating device view ${deviceViewId} with order ${order}`);
-      const deviceView = await db.DeviceView.update(
-        { order },
-        {
-          where: {
-            id: deviceViewId
-          }
-        }
-      );
-      return res.json(deviceView);
+      const deviceView = await db.DeviceView.findByPk(deviceViewId);
+      await deviceView.update({ order, name, icon });
+      return res.json(deviceView.dataValues);
     } catch (err) {
       console.log(err);
       logger.error(`📦 Error updating view for id ${deviceViewId}: ${err.message}`);

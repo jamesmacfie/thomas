@@ -4,3 +4,8 @@ export const createDeviceView = Yup.object().shape({
   name: Yup.string().required('Please enter the name'),
   icon: Yup.string().required('Please select an icon')
 });
+
+export const updateDeviceview = Yup.object().shape({
+  name: Yup.string().required('Please enter the name'),
+  icon: Yup.string().required('Please select an icon')
+});
