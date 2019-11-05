@@ -33,6 +33,14 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
     },
     className
   );
+  const overlayClasses = cn(
+    'cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-10',
+    {
+      'modal-open': !willClose,
+      'modal-close': willClose
+    },
+    className
+  );
   const close = () => {
     setWillClose(true);
     setTimeout(() => {
@@ -49,10 +57,7 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
 
   return (
     <ClientOnlyPortal selector="#modal">
-      <div
-        onClick={onOverlayClick}
-        className="cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-10"
-      >
+      <div onClick={onOverlayClick} className={overlayClasses}>
         <Panel fit={false} className={panelClasses} padding={padding}>
           <div>
             <H4 className="text-2">{title}</H4>
