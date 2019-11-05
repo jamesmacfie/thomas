@@ -21,14 +21,16 @@ const Integrations = observer(() => {
         {' > '}Integrations
       </H2>
       <div className="flex">
-        {Object.values(store.systemIntegrations!).map((i: any) => (
-          <PanelIcon
-            title={i.name}
-            href={`/settings/integrations/${i.slug}`}
-            imgSrc={`/static/${i.slug}/logo.png`}
-            imageClassName="rounded-full bg-white"
-          />
-        ))}
+        {Object.values(store.systemIntegrations!)
+          .filter((i: SystemIntegration) => i.requiresSettings)
+          .map((i: SystemIntegration) => (
+            <PanelIcon
+              title={i.name}
+              href={`/settings/integrations/${i.slug}`}
+              imgSrc={`/static/${i.slug}/logo.png`}
+              imageClassName="rounded-full bg-white"
+            />
+          ))}
       </div>
     </PageWrapper>
   );
