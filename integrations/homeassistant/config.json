@@ -1,0 +1,37 @@
+{
+  "name": "Home Assistant",
+  "singular": false,
+  "requiresSettings": true,
+  "settings": [
+    {
+      "key": "name",
+      "type": "text",
+      "label": "Name",
+      "description": "A helpful name to remember this integration",
+      "validationType": "string",
+      "validations": [
+        {
+          "type": "required",
+          "params": [
+            "Please enter the name"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "token",
+      "type": "text",
+      "label": "Long lived token",
+      "description": "A long lived token obtained via the Home Assistant UI",
+      "validationType": "string",
+      "validations": [
+        {
+          "type": "required",
+          "params": [
+            "Please enter your long lived token"
+          ]
+        }
+      ]
+    }
+  ]
+}

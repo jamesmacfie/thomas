@@ -4,7 +4,6 @@ import logger from 'utils/logger';
 
 const isServer = typeof window === 'undefined';
 
-console.log('here');
 export default class Store {
   device_key: string = 'thomas_developer';
   @observable debugLogs: boolean = false;

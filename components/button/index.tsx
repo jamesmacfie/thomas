@@ -1,4 +1,5 @@
 import React, { ReactNode, ButtonHTMLAttributes } from 'react';
+import Link from 'next/link';
 import cn from 'classnames';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -8,6 +9,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   padding?: Boolean;
   color: 'primary' | 'secondary' | 'secondary-alt' | 'danger';
+  href?: string;
 }
 
 const colorClasses = {
@@ -17,15 +19,22 @@ const colorClasses = {
   danger: 'bg-red text-white border-red-light'
 };
 
-const Button = ({ children, color, className, padding = true, disabled = false, onClick, ...props }: Props) => {
+const Button = ({ children, color, className, padding = true, disabled = false, onClick, href, ...props }: Props) => {
   const classes = cn(
     'text-xs uppercase font-bold rounded leading-normal border',
     { 'px-12 py-3': padding, [colorClasses[color]]: !disabled, 'bg-grey': disabled },
     className
   );
+  const cmp = href ? (
+    <Link href={href}>
+      <a>{children}</a>
+    </Link>
+  ) : (
+    children
+  );
   return (
     <button disabled={disabled} className={classes} onClick={onClick} {...props}>
-      {children}
+      {cmp}
     </button>
   );
 };

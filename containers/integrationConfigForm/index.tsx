@@ -15,9 +15,8 @@ interface SaveProps {
 }
 
 interface Props {
-  config: FormConfig[];
-  integration: any;
-  allIntegrations: any[];
+  integration?: Integration;
+  systemIntegration: SystemIntegration;
   initialValues?: any;
 }
 
@@ -29,10 +28,11 @@ const Save = ({ submitting }: SaveProps) => {
   );
 };
 
-const IntegrationConfigForm = observer(({ config, integration, allIntegrations }: Props) => {
+const IntegrationConfigForm = observer(({ systemIntegration, integration }: Props) => {
   const [success, setSuccess] = useState(false);
   const [errored, setErrored] = useState(false);
   const integrationstore = useContext(IntegrationStoreContext) as IntegrationsStore;
+  const config = systemIntegration.settings!;
   const validationSchema = config.reduce(createSchema, {});
   const validateAgainst = object().shape(validationSchema);
 
@@ -42,6 +42,11 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
       configInitialValues[c.key] = c.defaultValue;
     }
   });
+
+  let initialValues = configInitialValues;
+  if (integration) {
+    initialValues = Object.assign({}, initialValues, integration.config);
+  }
 
   return (
     <>
@@ -56,10 +61,7 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
         </Alert>
       )}
       <Formik
-        initialValues={{
-          ...configInitialValues,
-          ...integration.config
-        }}
+        initialValues={initialValues}
         validationSchema={validateAgainst}
         validateOnChange={false}
         validateOnBlur={false}
@@ -69,12 +71,12 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
           setErrored(false);
           setSubmitting(true);
           try {
-            if (allIntegrations.length) {
+            if (integration) {
               logger.debug('Updating existing integration', { integration });
               await integrationstore.update(integration.id, values);
             } else {
               logger.debug('Creating new integration', { integration });
-              await integrationstore.insert(integration.slug, values);
+              await integrationstore.insert(systemIntegration.slug, values);
             }
             await integrationstore.fetch();
             setSubmitting(false);
@@ -87,7 +89,7 @@ const IntegrationConfigForm = observer(({ config, integration, allIntegrations }
         }}
       >
         {({ values, isSubmitting, handleSubmit }) => (
-          <form onSubmit={handleSubmit} className="pr-4">
+          <form onSubmit={handleSubmit} className="pr-4 max-w-lg mx-auto">
             {config.map(c => (
               <FormikInput
                 key={c.key}

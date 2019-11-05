@@ -30,10 +30,10 @@ const Wrapper = ({ href, children, onClick }: WrapperProps) => {
   return <div onClick={onClick}>{children}</div>;
 };
 
-const Image = ({ imgSrc, icon, title, imageClassName }: Props) => {
+const Image = ({ imgSrc, icon, imageClassName }: Props) => {
   const baseClasses = 'm-auto mt-3';
   if (imgSrc) {
-    return <img alt={title} src={imgSrc} className={cn(baseClasses, 'h-12 w-12', imageClassName)} />;
+    return <img src={imgSrc} className={cn(baseClasses, 'h-12 w-12', imageClassName)} />;
   }
 
   if (icon) {

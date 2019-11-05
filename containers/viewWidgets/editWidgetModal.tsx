@@ -69,13 +69,6 @@ const WidgetConfigForm = observer(({ widget, onClose, config }: Props) => {
               widgetId: widget.id,
               config: values
             });
-            // if (allIntegrations.length) {
-            //   logger.debug('Updating existing integration', { integration });
-            //   await integrationstore.update(integration.id, values);
-            // } else {
-            //   logger.debug('Creating new integration', { integration });
-            //   await integrationstore.insert(integration.slug, values);
-            // }
             await integrationstore.fetch();
             onClose();
           } catch (error) {
