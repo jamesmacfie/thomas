@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
 import cn from 'classnames';
+import Link from 'next/link';
 import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
 import SystemIntegrationSelect from 'containers/systemIntegrationSelect';
+import Label from 'components/label';
 import logger from 'utils/logger';
 
 export type IntegrationSelectChange = {
@@ -21,8 +23,7 @@ interface Props {
 const IntegrationSelect = observer(({ className, onChange }: Props) => {
   const store = useContext(StoreContext) as IntegrationsStore;
   const [systemIntegrationSlug, setSystemIntegrationSlug] = useState<null | string>(null);
-  const [integrationId, setIntegrationId] = useState<null | number>(null);
-  const [noIntegrationSetup, setNoIntegrationSetup] = useState<null | boolean>(null);
+  // const [_integrationId, setIntegrationId] = useState<null | number>(null);
   const [requiresIntegrationIdSelection, setRequiresIntegrationIdSelection] = useState<null | boolean>(null);
   const onSystemIntegrationChangeHandler = (slug: any) => {
     logger.debug('<SystemIntegrationSelect /> change', { slug });
@@ -47,14 +48,13 @@ const IntegrationSelect = observer(({ className, onChange }: Props) => {
 
     if (systemIntegration.requiresSettings) {
       requiresIntegrationIdSelectionToSet = true;
-      if (!integrationIdToSet) {
+      if (!integrationIdToSet && systemIntegration.singular) {
         // Requires setup but nothing has been added yet.
         noIntegrationSetupToSet = true;
       }
     }
 
-    setIntegrationId(integrationIdToSet);
-    setNoIntegrationSetup(noIntegrationSetupToSet);
+    // setIntegrationId(integrationIdToSet);
     setRequiresIntegrationIdSelection(requiresIntegrationIdSelectionToSet);
 
     onChange({
@@ -66,41 +66,53 @@ const IntegrationSelect = observer(({ className, onChange }: Props) => {
   };
   const onIntegrationChangeHandler = (iId: any) => {
     logger.debug('<IntegrationSelect /> change', { integrationId: iId });
-    setIntegrationId(iId);
+    // setIntegrationId(iId.value);
 
     onChange({
-      integrationId,
+      integrationId: iId.value,
       integrationSlug: systemIntegrationSlug,
-      noIntegrationSetup,
+      noIntegrationSetup: false,
       requiresIntegrationIdSelection
     });
   };
 
-  const options = Object.values(store.integrations).map((i: Integration) => {
-    // TODO - this will display correctly with a single integration
-    const systemIntegration = store.systemIntegrations[i.slug];
-    return {
-      value: i.id,
-      label: systemIntegration.name // TODO - Better name etc here
-    };
-  });
+  const options = Object.values(store.integrations)
+    .filter(i => i.slug === systemIntegrationSlug)
+    .map((i: Integration) => {
+      return {
+        value: i.id,
+        label: i.config.name
+      };
+    });
 
   // TODO - clean up. Many nested ifs here
-  let integrationSelect = null;
+  let integrationSelectCmp = null;
   if (systemIntegrationSlug) {
     const systemIntegration = store.systemIntegrations[systemIntegrationSlug];
     if (!systemIntegration) {
       logger.error('Cannot find integration for slug', { systemIntegrationSlug });
     } else {
-      // Only show integrationSelect if we are required to enter settings for it and it's not singular
-      if (systemIntegration.requiresSettings && !systemIntegration.singular) {
-        integrationSelect = (
-          <Select
-            onChange={onIntegrationChangeHandler}
-            className={cn(className, 'react-select-container')}
-            classNamePrefix="react-select"
-            options={options}
-          />
+      if (!options.length) {
+        integrationSelectCmp = (
+          <p className="my-4">
+            You need to add some settings.{' '}
+            <Link href={`/settings/integrations/${systemIntegrationSlug}/new`}>
+              <a className="text-blue mb-4">You can do this here.</a>
+            </Link>
+          </p>
+        );
+      } else if (systemIntegration.requiresSettings && !systemIntegration.singular) {
+        // Only show integrationSelect if we are required to enter settings for it and it's not singular
+        integrationSelectCmp = (
+          <>
+            <Label className="mt-4">Which one?</Label>
+            <Select
+              onChange={onIntegrationChangeHandler}
+              className={cn(className, 'react-select-container')}
+              classNamePrefix="react-select"
+              options={options}
+            />
+          </>
         );
       }
     }
@@ -109,7 +121,7 @@ const IntegrationSelect = observer(({ className, onChange }: Props) => {
   return (
     <div className={className}>
       <SystemIntegrationSelect onChange={onSystemIntegrationChangeHandler} />
-      {integrationSelect}
+      {integrationSelectCmp}
     </div>
   );
 });

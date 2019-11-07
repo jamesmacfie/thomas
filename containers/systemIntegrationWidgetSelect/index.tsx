@@ -23,6 +23,10 @@ const SystemIntegrationWidgetSelect = observer(({ className, integrationSlug, on
     return <p>No integration for {integrationSlug}</p>;
   }
 
+  if (!integration.widgets || !integration.widgets.length) {
+    return <p className="mb-4">No widgets have been setup for {integrationSlug} 🤷‍♂️</p>;
+  }
+
   const options = integration.widgets.map((i: SystemIntegrationWidget) => ({
     value: i.slug,
     label: i.name

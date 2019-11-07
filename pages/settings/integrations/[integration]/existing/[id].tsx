@@ -7,7 +7,7 @@ import PageWrapper from 'containers/wrappers/page';
 import { StoreContext } from 'stores/integrations';
 import IntegrationConfigForm from 'containers/integrationConfigForm';
 
-const NewIntegration = observer(() => {
+const ExistingIntegration = observer(() => {
   const integrationsStore = useContext(StoreContext);
   if (!integrationsStore.loaded) {
     return null;
@@ -15,8 +15,10 @@ const NewIntegration = observer(() => {
 
   const { query } = useRouter();
   const integrationSlug = Array.isArray(query.integration) ? query.integration[0] : query.integration;
+  const id = Array.isArray(query.id) ? query.id[0] : query.id;
 
   const systemIntegration = integrationsStore.systemIntegrations![integrationSlug];
+  const integration = integrationsStore.integrations![id];
 
   return (
     <>
@@ -30,9 +32,10 @@ const NewIntegration = observer(() => {
         </Link>
         {' > '}
         <Link href={`/settings/integrations/${systemIntegration.slug}`}>{systemIntegration.name}</Link>
-        {' > New'}
+        {' > '}
+        {integration.config.name}
       </H2>
-      <IntegrationConfigForm systemIntegration={systemIntegration} />
+      <IntegrationConfigForm systemIntegration={systemIntegration} integration={integration} />
     </>
   );
 });
@@ -40,7 +43,7 @@ const NewIntegration = observer(() => {
 const DynamicPage = () => {
   return (
     <PageWrapper title="">
-      <NewIntegration />
+      <ExistingIntegration />
     </PageWrapper>
   );
 };

@@ -9,21 +9,17 @@ import {{widgetImportName}} from 'integrations/{{integrationSlug}}/settings/{{se
 {{/if}}
 {{/each}}
 
-const cmp = (slug: string): ElementType => {
-switch (slug) {
+const components: { [key: string]: ElementType } = {
 {{#each settings }}
-case '{{integrationSlug}}':
-return {{widgetImportName}}
-{{#if hasChildren}}
-{{#each children }}
-case '{{integrationSlug}}_{{settingsPageSlug}}':
-return {{widgetImportName}}
+'{{integrationSlug}}':{{widgetImportName}},
 {{/each}}
-{{/if}}
-{{/each}}
+};
 
-}
-return NotFound;
+export const hasCmp = (slug: string) => !!components[slug] ? true : false;
+
+const cmp = (slug: string): ElementType => {
+const slugCmp = components[slug]
+return !!slugCmp ? slugCmp : NotFound;
 };
 
 export default cmp;
