@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
+import { newPage } from 'thomas/integrationSettings';
 import { H2 } from 'components/text';
 import PageWrapper from 'containers/wrappers/page';
 import { StoreContext } from 'stores/integrations';
@@ -18,6 +19,7 @@ const NewIntegration = observer(() => {
 
   const systemIntegration = integrationsStore.systemIntegrations![integrationSlug];
 
+  const SettingsPageCmp = newPage(integrationSlug);
   return (
     <>
       <H2 className="mt-0">
@@ -32,7 +34,11 @@ const NewIntegration = observer(() => {
         <Link href={`/settings/integrations/${systemIntegration.slug}`}>{systemIntegration.name}</Link>
         {' > New'}
       </H2>
-      <IntegrationConfigForm systemIntegration={systemIntegration} />
+      {SettingsPageCmp ? (
+        <SettingsPageCmp systemIntegration={systemIntegration} />
+      ) : (
+        <IntegrationConfigForm systemIntegration={systemIntegration} />
+      )}
     </>
   );
 });

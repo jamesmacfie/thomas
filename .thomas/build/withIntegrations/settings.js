@@ -16,23 +16,15 @@ const getIntegrationSettings = integrationDir => {
 
   const { files, folders } = getNamedFilesOrFolderIndex(source, true);
 
-  // Requires an index file for the main settings page
-  const hasIndexFile = files.find(f => f.endsWith('index.tsx'));
-  if (!hasIndexFile) {
-    return null;
-  }
-
   const integrationSlug = path.basename(integrationDir);
   const otherSettingsPages = {};
   files.forEach(f => {
     const settingsPageFile = path.parse(f).name.replace('.tsx', '');
-    if (settingsPageFile === 'index') {
-      return;
-    }
-
     otherSettingsPages[settingsPageFile] = {
       integrationSlug,
       settingsPageSlug: settingsPageFile,
+      isIndex: settingsPageFile === 'index',
+      isNew: settingsPageFile === 'new',
       widgetImportName: `${integrationSlug.charAt(0).toUpperCase()}${integrationSlug.slice(1)}_${settingsPageFile}`
     };
   });
@@ -40,6 +32,7 @@ const getIntegrationSettings = integrationDir => {
   folders.forEach(f => {
     const folderParts = f.split('/');
     const settingsPageFolder = folderParts[folderParts.length - 2];
+
     otherSettingsPages[settingsPageFolder] = {
       integrationSlug,
       settingsPageSlug: settingsPageFolder,
@@ -53,6 +46,7 @@ const getIntegrationSettings = integrationDir => {
 };
 
 const integrationSettingsToArray = settings => {
+  console.log(settings);
   return Object.keys(settings).map(key => {
     const setting = settings[key];
     const returnObj = {
@@ -67,6 +61,9 @@ const integrationSettingsToArray = settings => {
       returnObj.hasChildren = false;
     }
 
+    // Needs to have an index file
+    returnObj.hasIndex = !!Object.values(setting).find(s => s.isIndex);
+
     return returnObj;
   });
 };
@@ -79,8 +76,12 @@ const getSettings = () => {
     .filter(i => i !== null)
     .reduce((acc, val) => Object.assign(acc, val), {});
 
+  console.log(integrations.map(getIntegrationSettings).filter(i => i !== null));
+
   const template = getIntegrationSettingsTemplate();
   const settingsAsArray = integrationSettingsToArray(settings);
+
+  console.log('SAA', settingsAsArray);
 
   writeTemplateToFile(template, { settings: settingsAsArray }, 'integrationSettings.tsx');
 };

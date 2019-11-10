@@ -1,7 +1,8 @@
 import { ElementType } from 'react';
-import NotFound from 'components/notFound';
 {{#each settings }}
+{{#if hasIndex}}
 import {{widgetImportName}} from 'integrations/{{integrationSlug}}/settings'
+{{/if}}
 {{#if hasChildren}}
 {{#each children }}
 import {{widgetImportName}} from 'integrations/{{integrationSlug}}/settings/{{settingsPageSlug}}'
@@ -11,15 +12,23 @@ import {{widgetImportName}} from 'integrations/{{integrationSlug}}/settings/{{se
 
 const components: { [key: string]: ElementType } = {
 {{#each settings }}
+{{#if hasIndex}}
 '{{integrationSlug}}':{{widgetImportName}},
+{{/if}}
 {{/each}}
 };
 
-export const hasCmp = (slug: string) => !!components[slug] ? true : false;
-
-const cmp = (slug: string): ElementType => {
-const slugCmp = components[slug]
-return !!slugCmp ? slugCmp : NotFound;
+const newPages: { [key: string]: ElementType } = {
+{{#each settings }}
+{{#each children }}
+{{#if isNew}}
+'{{integrationSlug}}':{{widgetImportName}},
+{{/if}}
+{{/each}}
+{{/each}}
 };
 
+export const newPage = (slug: string) => newPages[slug];
+
+export const cmp = (slug: string) => components[slug];
 export default cmp;
