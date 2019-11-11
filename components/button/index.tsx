@@ -22,12 +22,12 @@ const colorClasses = {
 const Button = ({ children, color, className, padding = true, disabled = false, onClick, href, ...props }: Props) => {
   const classes = cn(
     'text-xs uppercase font-bold rounded leading-normal border',
-    { 'px-12 py-3': padding, [colorClasses[color]]: !disabled, 'bg-grey': disabled },
+    { 'px-12 py-3': padding && !href, [colorClasses[color]]: !disabled, 'bg-grey': disabled },
     className
   );
   const cmp = href ? (
     <Link href={href}>
-      <a>{children}</a>
+      <a className={cn({ 'block px-12 py-3': padding })}>{children}</a>
     </Link>
   ) : (
     children

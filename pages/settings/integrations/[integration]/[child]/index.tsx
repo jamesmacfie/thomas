@@ -15,8 +15,6 @@ const IntegrationSettingsChild = observer(() => {
   const childSlug = Array.isArray(query.child) ? query.child[0] : query.child;
   const slug = `${integrationSlug}_${childSlug}`;
 
-  console.log('ISC');
-
   const Cmp = integrationSettings(slug);
   return <Cmp />;
 });

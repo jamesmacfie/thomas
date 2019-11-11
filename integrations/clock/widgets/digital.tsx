@@ -29,10 +29,6 @@ const Digital = ({ widgetConfig }: IntegrationWidgetProps) => {
 
   const timeSplit = getTimeFormat(widgetConfig);
   const dateFormat = widgetConfig.dateFormat ? widgetConfig.dateFormat : 'dddd, Do MMMM';
-  try {
-  } catch (err) {
-    logger.warn('Error decoding time format for digital clock. Defaulting');
-  }
   const hours = date.format(timeSplit[0]);
   const minutes = date.format(timeSplit[1]);
   return (

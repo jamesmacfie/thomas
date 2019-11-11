@@ -38,7 +38,7 @@ export default class Store {
   @action
   insert = async (slug: string, config: any) => {
     logger.debug('Integrations store insert', { slug, config });
-    await fetch('http://localhost:3000/integration', {
+    return fetch('http://localhost:3000/integration', {
       method: 'POST',
       body: JSON.stringify({
         deviceId: deviceStore.getDeviceId(),
@@ -46,7 +46,7 @@ export default class Store {
         config
       }),
       headers: { 'Content-Type': 'application/json' }
-    });
+    }).then(res => res.json());
   };
 
   @action

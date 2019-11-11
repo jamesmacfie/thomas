@@ -15,6 +15,11 @@ const components: { [key: string]: ElementType } = {
 {{#if hasIndex}}
 '{{integrationSlug}}':{{widgetImportName}},
 {{/if}}
+{{#each children }}
+{{#unless isNew}}
+'{{integrationSlug}}_{{settingsPageSlug}}':{{widgetImportName}},
+{{/unless}}
+{{/each}}
 {{/each}}
 };
 
