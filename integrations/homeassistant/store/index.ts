@@ -48,12 +48,12 @@ export default class Store {
 
     socket.addEventListener('close', () => {
       logger.debug('Websocket close', { integrationId: integration.id });
-      this.setupWebsocket(integration);
+      // this.setupWebsocket(integration);
     });
 
     socket.addEventListener('error', () => {
       logger.debug('Websocket error', { integrationId: integration.id });
-      this.setupWebsocket(integration);
+      // this.setupWebsocket(integration);
     });
 
     socket.addEventListener('message', async e => {
@@ -62,8 +62,11 @@ export default class Store {
         case 'auth_required':
           return this.websocketAuthenticate(socket, integration);
         case 'auth_invalid':
-          await this.refreshToken(integration);
-          return this.websocketSubscribe(socket);
+          const hasRefreshed = await this.refreshToken(integration);
+          if (hasRefreshed) {
+            this.websocketAuthenticate(socket, integration);
+            this.websocketSubscribe(socket);
+          }
         case 'auth_ok':
           return this.websocketSubscribe(socket);
         case 'result':
@@ -156,9 +159,24 @@ export default class Store {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: 'POST',
-      body: `grant_type=refresh_token&code=${tokens.refresh_token}&client_id=${clientId}`
+      body: `grant_type=refresh_token&refresh_token=${tokens.refresh_token}&client_id=${clientId}`
     }).then(res => res.json());
-    console.log('GOT SOME NEW TOKENS', newTokens);
+
+    if (newTokens.error) {
+      logger.error('Error getting refresh token', { error: newTokens.error });
+      return false;
+    }
+
+    await this.updateIntegrationWithNewTokens(integration, newTokens);
+    return true;
+  };
+
+  updateIntegrationWithNewTokens = async (integration: Integration, tokens: any) => {
+    integration.config.tokens.access_token = tokens.access_token;
+    await integrationsStore.update(integration.id, integration.config);
+    this.integrations = this.integrations.map(i => {
+      return i.id !== integration.id ? i : integration;
+    });
   };
 }
 
