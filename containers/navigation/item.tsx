@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as UIStoreContext } from 'stores/ui';
+import { useEditMode } from 'stores/ui/hooks';
 import EditDeviceViewModal from '../editDeviceViewModal/index';
 import Icon from 'components/icon';
 import logger from 'utils/logger';
@@ -18,14 +17,14 @@ export type Props = {
   onAddNewClick?: () => void;
 };
 
-const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
+const NavigationItem = ({ id, href, icon, hidePencil, addNewClick, onAddNewClick }: Props) => {
   const { asPath } = useRouter();
-  const uiStore = useContext(UIStoreContext);
+  const editMode = useEditMode();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const onLinkClick = (event: any) => {
     logger.debug('On <NavigationItem /> link click');
-    if (uiStore.editMode) {
+    if (editMode) {
       // We have a long press registered or we are in edit more. Don't follow the anchor
       event.preventDefault();
     }
@@ -38,10 +37,10 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
 
   const isActive = asPath === href;
   const anchorClasses = cn('cursor-pointer current-stroke flex items-center justify-center', {
-    'text-white': isActive || uiStore.editMode,
+    'text-white': isActive || editMode,
     'text-grey-darker hover:text-white': !isActive
   });
-  const showEditControls = uiStore.editMode && !hidePencil;
+  const showEditControls = editMode && !hidePencil;
   const iconCmp = <Icon icon={icon as any} className="text-3xl" />;
   return (
     <>
@@ -69,6 +68,6 @@ const NavigationItem = observer(({ id, href, icon, hidePencil, addNewClick, onAd
       {modalVisible && <EditDeviceViewModal viewId={id as number} onClose={() => setModalVisible(false)} />}
     </>
   );
-});
+};
 
 export default NavigationItem;

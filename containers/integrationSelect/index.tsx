@@ -23,7 +23,6 @@ interface Props {
 const IntegrationSelect = observer(({ className, onChange }: Props) => {
   const store = useContext(StoreContext) as IntegrationsStore;
   const [systemIntegrationSlug, setSystemIntegrationSlug] = useState<null | string>(null);
-  // const [_integrationId, setIntegrationId] = useState<null | number>(null);
   const [requiresIntegrationIdSelection, setRequiresIntegrationIdSelection] = useState<null | boolean>(null);
   const onSystemIntegrationChangeHandler = (slug: any) => {
     logger.debug('<SystemIntegrationSelect /> change', { slug });

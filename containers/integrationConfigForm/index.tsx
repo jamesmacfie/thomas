@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { observer } from 'mobx-react-lite';
 import { object } from 'yup';
-import IntegrationsStore, { StoreContext as IntegrationStoreContext } from 'stores/integrations';
+import { store as integrationsStore } from 'stores/integrations';
 import Alert from 'components/alert';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
@@ -28,10 +27,9 @@ const Save = ({ submitting }: SaveProps) => {
   );
 };
 
-const IntegrationConfigForm = observer(({ systemIntegration, integration }: Props) => {
+const IntegrationConfigForm = ({ systemIntegration, integration }: Props) => {
   const [success, setSuccess] = useState(false);
   const [errored, setErrored] = useState(false);
-  const integrationstore = useContext(IntegrationStoreContext) as IntegrationsStore;
   const config = systemIntegration.settings!;
   const validationSchema = config.reduce(createSchema, {});
   const validateAgainst = object().shape(validationSchema);
@@ -73,12 +71,12 @@ const IntegrationConfigForm = observer(({ systemIntegration, integration }: Prop
           try {
             if (integration) {
               logger.debug('Updating existing integration', { integration });
-              await integrationstore.update(integration.id, values);
+              await integrationsStore.update(integration.id, values);
             } else {
               logger.debug('Creating new integration', { integration });
-              await integrationstore.insert(systemIntegration.slug, values);
+              await integrationsStore.insert(systemIntegration.slug, values);
             }
-            await integrationstore.fetch();
+            await integrationsStore.fetch();
             setSubmitting(false);
             setSuccess(true);
           } catch (error) {
@@ -107,6 +105,6 @@ const IntegrationConfigForm = observer(({ systemIntegration, integration }: Prop
       </Formik>
     </>
   );
-});
+};
 
 export default IntegrationConfigForm;

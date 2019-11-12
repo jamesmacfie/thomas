@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceViewStoreContest } from 'stores/deviceViews';
+import { store as deviceViewsStore } from 'stores/deviceViews';
+import { useDeviceView } from 'stores/deviceViews/hooks';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import Alert from 'components/alert';
@@ -18,10 +18,9 @@ interface FormValues {
   icon: string;
 }
 
-const EditDeviceViewForm = observer(({ viewId, onClose }: Props) => {
-  const deviceViewStore = useContext(DeviceViewStoreContest);
+const EditDeviceViewForm = ({ viewId, onClose }: Props) => {
   const [error, setError] = useState<string>('');
-  const deviceView = deviceViewStore.deviceViews[viewId];
+  const deviceView = useDeviceView(viewId);
   if (!deviceView) {
     return (
       <Alert type="ERROR" className="mb-4">
@@ -42,7 +41,7 @@ const EditDeviceViewForm = observer(({ viewId, onClose }: Props) => {
         logger.debug('Submitting <EditDeviceViewForm />', { values });
         setSubmitting(true);
         try {
-          const updatedDeviceView = await deviceViewStore.update({ viewId, ...values });
+          const updatedDeviceView = await deviceViewsStore.update({ viewId, ...values });
           setSubmitting(false);
           onClose(updatedDeviceView);
         } catch (error) {
@@ -68,6 +67,6 @@ const EditDeviceViewForm = observer(({ viewId, onClose }: Props) => {
       )}
     </Formik>
   );
-});
+};
 
 export default EditDeviceViewForm;

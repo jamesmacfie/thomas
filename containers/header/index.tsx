@@ -1,17 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DevicesStoreContext } from 'stores/devices';
+import { useDevice } from 'stores/devices/hooks';
 import useInterval from 'hooks/useInterval';
 
-const Header = observer(() => {
+const Header = () => {
   const [date, setDate] = useState(moment());
-  const deviceStore = useContext(DevicesStoreContext);
+  const device = useDevice();
   useInterval(() => {
     setDate(moment());
   }, 1000);
 
-  if (!deviceStore.device || !deviceStore.device.config.showHeader) {
+  if (!device || !device.config.showHeader) {
     return <div className="h-4" />;
   }
 
@@ -28,6 +27,6 @@ const Header = observer(() => {
       <span className="text-xl">{date.format('dddd, Do MMMM')}</span>
     </div>
   );
-});
+};
 
 export default Header;
