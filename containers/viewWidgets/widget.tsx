@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
-import { StoreContext as UIStoreContext } from 'stores/ui';
+import React, { useState } from 'react';
+import { useEditMode } from 'stores/ui/hooks';
+import { useIntegration, useSystemIntegration } from 'stores/integrations/hooks';
 import Icon from 'components/icon';
 import integrationWidget from './integrationWidgets';
 import logger from 'utils/logger';
-import { toJS } from 'mobx';
 import DeleteWidgetModal from './deleteWidgetModal';
 import EditWidgetModal from './editWidgetModal';
 
@@ -26,19 +24,17 @@ const getWidgetSettings = (systemIntegration: SystemIntegration, widget: Integra
   return integrationWidget.settings && integrationWidget.settings.length ? integrationWidget.settings : null;
 };
 
-const Widget = observer(({ widget }: Props) => {
+const Widget = ({ widget }: Props) => {
   const [deleteModalVisible, setDeleteModalVisible] = useState<boolean>(false);
   const [editModalVisible, setEditModalVisible] = useState<boolean>(false);
-  const integrationStore = useContext(IntegrationStoreContext);
-  const uiStore = useContext(UIStoreContext);
-  const integration = integrationStore.integrations[widget.integrationId];
-  const systemIntegration = integrationStore.systemIntegrations[widget.integrationSlug];
-  const widgetSettings = getWidgetSettings(systemIntegration, widget);
+  const editMode = useEditMode();
+  const integration = useIntegration(widget.integrationId);
+  const systemIntegration = useSystemIntegration(widget.integrationSlug);
+  const widgetSettings = getWidgetSettings(systemIntegration!, widget);
   const canEdit = !!widgetSettings;
   const onPencilClick = () => {
     logger.debug('On <Widget /> edit click', { id: widget.id });
     setEditModalVisible(true);
-    console.log(toJS(integrationStore.systemIntegrations));
   };
 
   const onTrashClick = () => {
@@ -54,7 +50,7 @@ const Widget = observer(({ widget }: Props) => {
 
   return (
     <>
-      {uiStore.editMode && (
+      {editMode && (
         <>
           {canEdit && (
             <div onClick={onPencilClick} className={`${editClasses} pin-edit`}>
@@ -81,6 +77,6 @@ const Widget = observer(({ widget }: Props) => {
       )}
     </>
   );
-});
+};
 
 export default Widget;

@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
+import { useObserver } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 import Panel from 'components/panel';
 import PanelMainText from 'components/panelMainText';
 import { StoreContext } from '../store';
 import HomeAssistantWrapper from './_wrapper';
 
-const Inner = observer(({ widgetConfig }: IntegrationWidgetProps) => {
+const useEntity = (entityId: string) => {
   const store = useContext(StoreContext);
+  return useObserver(() => {
+    return store.entities[entityId];
+  });
+};
+
+const Inner = ({ widgetConfig }: IntegrationWidgetProps) => {
+  const entity = useEntity(widgetConfig.entityId);
+  console.log('Result', entity);
   if (!widgetConfig.entityId) {
     return (
       <Panel {...widgetConfig} className="flex flex-col items-center justify-center">
@@ -16,7 +24,6 @@ const Inner = observer(({ widgetConfig }: IntegrationWidgetProps) => {
     );
   }
 
-  const entity = store.entities[widgetConfig.entityId];
   if (!entity) {
     return (
       <Panel {...widgetConfig} className="flex flex-col items-center justify-center">
@@ -33,7 +40,7 @@ const Inner = observer(({ widgetConfig }: IntegrationWidgetProps) => {
       <PanelMainText {...widgetConfig}>{entity.state}</PanelMainText>
     </Panel>
   );
-});
+};
 
 const State = (props: any) => {
   return (

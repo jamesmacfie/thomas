@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceViewStoreContest } from 'stores/deviceViews';
+import { store as deviceViewsStore } from 'stores/deviceViews';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import Alert from 'components/alert';
@@ -17,8 +16,7 @@ interface FormValues {
   icon: string;
 }
 
-const CreateDeviceViewForm = observer(({ onClose }: Props) => {
-  const deviceViewStore = useContext(DeviceViewStoreContest);
+const CreateDeviceViewForm = ({ onClose }: Props) => {
   const [error, setError] = useState<string>('');
   return (
     <Formik
@@ -33,7 +31,7 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
         logger.debug('Submitting <CreateDeviceViewForm />', { values });
         setSubmitting(true);
         try {
-          const deviceView = await deviceViewStore.insert(values);
+          const deviceView = await deviceViewsStore.insert(values);
           setSubmitting(false);
           onClose(deviceView);
         } catch (error) {
@@ -59,6 +57,6 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
       )}
     </Formik>
   );
-});
+};
 
 export default CreateDeviceViewForm;

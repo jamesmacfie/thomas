@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DeviceViewStoreContext } from 'stores/deviceViews';
-import { StoreContext as ViewStoreContext } from 'stores/views';
+import React, { useState } from 'react';
+import { store as deviceViewsStore } from 'stores/deviceViews';
+import { useViews } from 'stores/views/hooks';
 import ViewPillList from 'containers/viewPillList';
 import Alert from 'components/alert';
 import { H3 } from 'components/text';
@@ -11,16 +10,14 @@ interface Props {
   onClose: () => void;
 }
 
-const NewDeviceViewFromExisting = observer(({ onClose }: Props) => {
+const NewDeviceViewFromExisting = ({ onClose }: Props) => {
   const [error, setError] = useState<String>('');
-  const deviceViewStore = useContext(DeviceViewStoreContext);
-  const viewStore = useContext(ViewStoreContext);
-
+  const views = useViews();
   const add = async (viewId: number) => {
     logger.debug('Adding device view from existing', { viewId });
-    const view = viewStore.views[viewId];
+    const view = views[viewId];
     try {
-      await deviceViewStore.insert({
+      await deviceViewsStore.insert({
         viewId,
         name: view.name,
         icon: view.icon
@@ -43,6 +40,6 @@ const NewDeviceViewFromExisting = observer(({ onClose }: Props) => {
       <ViewPillList onSelect={add} />
     </>
   );
-});
+};
 
 export default NewDeviceViewFromExisting;

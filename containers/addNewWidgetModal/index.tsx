@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
-import { StoreContext as ViewsStoreContext } from 'stores/views';
-import { StoreContext as IntegrationsStoreContext } from 'stores/integrations';
+import { store as viewsStore } from 'stores/views';
+import { useIntegration, useSystemIntegration } from 'stores/integrations/hooks';
 import { useRouter } from 'next/router';
 import IntegrationSelect, { IntegrationSelectChange } from 'containers/integrationSelect';
 import SystemIntegrationWidgetSelect from 'containers/systemIntegrationWidgetSelect';
@@ -17,8 +17,6 @@ interface Props {
 }
 
 const NewWidget = observer(({ onClose }: Props) => {
-  const viewsStore = useContext(ViewsStoreContext);
-  const integrationsStore = useContext(IntegrationsStoreContext);
   const [integrationId, setIntegrationId] = useState<number | null>(null);
   const [integrationSlug, setIntegrationSlug] = useState<string | null>(null);
   const [noIntegrationSetup, setNoIntegrationSetup] = useState<null | boolean>(null);
@@ -26,10 +24,8 @@ const NewWidget = observer(({ onClose }: Props) => {
   const [requiresIntegrationIdSelection, setRequiresIntegrationIdSelection] = useState<null | boolean>(null);
   const [error, setError] = useState<string>('');
   const { query } = useRouter();
-  const integration: Integration | null = integrationId ? integrationsStore.integrations[integrationId] : null;
-  const systemIntegration: SystemIntegration | null = integrationSlug
-    ? integrationsStore.systemIntegrations[integrationSlug]
-    : null;
+  const integration: Integration | null = useIntegration(integrationId);
+  const systemIntegration: SystemIntegration | null = useSystemIntegration(integrationSlug);
   const onIntegrationSelectChange = (details: IntegrationSelectChange) => {
     setIntegrationId(details.integrationId);
     setIntegrationSlug(details.integrationSlug);

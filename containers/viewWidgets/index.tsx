@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DevicesStoreContext } from 'stores/devices';
+import { useDevice } from 'stores/devices/hooks';
+import { useViewWidgets } from 'stores/views/hooks';
 import { StoreContext as ViewStoreContext } from 'stores/views';
 import ReactGridLayout from 'components/reactGridLayout';
 import AddFirstViewWidget from 'containers/addFirstViewWidget';
@@ -11,11 +11,12 @@ interface Props {
   viewId: number;
 }
 
-const ViewWidgets = observer(({ viewId }: Props) => {
-  const deviceStore = useContext(DevicesStoreContext);
+const ViewWidgets = ({ viewId }: Props) => {
+  const device = useDevice();
+  const widgets = useViewWidgets(viewId);
   const viewStore = useContext(ViewStoreContext);
 
-  if (!deviceStore.device) {
+  if (!device) {
     logger.error('<ViewWidgets />Should not get here. Trying to load view widget without a device');
     return null;
   }
@@ -37,22 +38,16 @@ const ViewWidgets = observer(({ viewId }: Props) => {
     }
   };
 
-  if (!viewStore.views[viewId].widgets) {
+  if (!widgets) {
     return <p>You need to add a widget. Todo</p>;
   }
 
-  const widgetsForThisView = viewStore.views[viewId].widgets;
-
-  if (!widgetsForThisView) {
-    return <p>No view found</p>;
-  }
-
-  if (!widgetsForThisView.length) {
+  if (!widgets.length) {
     return <AddFirstViewWidget />;
   }
 
-  const deviceConfig = deviceStore.device.config;
-  const layout: ReactGridLayoutConfig[] = widgetsForThisView.map(({ id, config }: IntegrationWidget) => ({
+  const deviceConfig = device.config;
+  const layout: ReactGridLayoutConfig[] = widgets.map(({ id, config }: IntegrationWidget) => ({
     i: id.toString(),
     w: config.w,
     h: config.h,
@@ -69,7 +64,7 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       cols={deviceConfig.columns}
       rowHeight={deviceConfig.rowHeight}
     >
-      {widgetsForThisView.map((widget: IntegrationWidget) => {
+      {widgets.map((widget: IntegrationWidget) => {
         // TODO - there's a case where integrationStore.integrations[i.integrationId].config could return undefined
         return (
           <div key={widget.id} className="relative">
@@ -79,6 +74,6 @@ const ViewWidgets = observer(({ viewId }: Props) => {
       })}
     </ReactGridLayout>
   );
-});
+};
 
 export default ViewWidgets;

@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DevicesStoreContext } from 'stores/devices';
+import { store as devicesStore } from 'stores/devices';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
 import Alert from 'components/alert';
@@ -17,9 +16,8 @@ interface Formalues {
   icon: string;
 }
 
-const CreateDeviceViewForm = observer(({ onClose }: Props) => {
+const CreateDeviceViewForm = ({ onClose }: Props) => {
   const [error, setError] = useState<String>('');
-  const devicesStore = useContext(DevicesStoreContext);
   return (
     <Formik
       initialValues={{
@@ -58,6 +56,6 @@ const CreateDeviceViewForm = observer(({ onClose }: Props) => {
       )}
     </Formik>
   );
-});
+};
 
 export default CreateDeviceViewForm;
