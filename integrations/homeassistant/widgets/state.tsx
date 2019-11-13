@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useObserver } from 'mobx-react-lite';
-import { toJS } from 'mobx';
 import Panel from 'components/panel';
 import PanelMainText from 'components/panelMainText';
+import RequiresSettingIcon from 'components/requiresSettingsIcon';
 import { StoreContext } from '../store';
 import HomeAssistantWrapper from './_wrapper';
 
@@ -19,7 +19,7 @@ const Inner = ({ widgetConfig }: IntegrationWidgetProps) => {
   if (!widgetConfig.entityId) {
     return (
       <Panel {...widgetConfig} className="flex flex-col items-center justify-center">
-        Nope
+        <RequiresSettingIcon />
       </Panel>
     );
   }
@@ -27,14 +27,13 @@ const Inner = ({ widgetConfig }: IntegrationWidgetProps) => {
   if (!entity) {
     return (
       <Panel {...widgetConfig} className="flex flex-col items-center justify-center">
-        No info
+        <PanelMainText {...widgetConfig}>--</PanelMainText>
       </Panel>
     );
   }
 
   <PanelMainText {...widgetConfig}>{entity.state}</PanelMainText>;
   const label = widgetConfig.label && widgetConfig.label.length ? widgetConfig.label : entity.attributes.friendly_name;
-  console.log(toJS(entity));
   return (
     <Panel {...widgetConfig} className="flex flex-col" label={label}>
       <PanelMainText {...widgetConfig}>{entity.state}</PanelMainText>
