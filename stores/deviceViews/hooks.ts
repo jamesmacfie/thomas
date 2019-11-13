@@ -9,3 +9,11 @@ export const useDeviceView = (viewId: number) => {
     return store.deviceViews[viewId];
   });
 };
+
+export const useDeviceViews = () => {
+  const store = useContext(StoreContext);
+
+  return useObserver(() => {
+    return store.deviceViews;
+  });
+};

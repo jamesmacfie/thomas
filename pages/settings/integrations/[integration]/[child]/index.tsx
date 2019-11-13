@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { observer } from 'mobx-react-lite';
+import { useLoaded } from 'stores/integrations/hooks';
 import integrationSettings from 'thomas/integrationSettings';
 import PageWrapper from 'containers/wrappers/page';
-import IntegrationsStore, { StoreContext } from 'stores/integrations';
 
-const IntegrationSettingsChild = observer(() => {
-  const store = useContext(StoreContext) as IntegrationsStore;
-  if (!store.loaded) {
+const IntegrationSettingsChild = () => {
+  const loaded = useLoaded();
+  if (!loaded) {
     return null;
   }
   const { query } = useRouter();
@@ -17,7 +16,7 @@ const IntegrationSettingsChild = observer(() => {
 
   const Cmp = integrationSettings(slug);
   return <Cmp />;
-});
+};
 
 const DynamicPage = () => {
   return (

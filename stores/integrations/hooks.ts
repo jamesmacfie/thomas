@@ -2,6 +2,14 @@ import { useContext } from 'react';
 import { useObserver } from 'mobx-react-lite';
 import { StoreContext } from '.';
 
+export const useLoaded = () => {
+  const store = useContext(StoreContext);
+
+  return useObserver(() => {
+    return store.loaded;
+  });
+};
+
 export const useIntegration = (id: number | null) => {
   const store = useContext(StoreContext);
 

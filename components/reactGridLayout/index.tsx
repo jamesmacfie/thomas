@@ -1,7 +1,8 @@
-import React, { useContext, ReactNode } from 'react';
+// As this touches a store, should this be split into a container that passes props to
+// a component?
+import React, { ReactNode } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import { observer } from 'mobx-react-lite';
-import UIStore, { StoreContext } from 'stores/ui';
+import { useEditMode } from 'stores/ui/hooks';
 import './styles.css';
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -16,8 +17,8 @@ interface Props {
   onLayoutChange?: (e: ReactGridLayoutConfig[]) => void;
 }
 
-const Layout = observer(({ isResizable, layout, width, onLayoutChange, cols, rowHeight, children }: Props) => {
-  const { editMode } = useContext(StoreContext) as UIStore;
+const Layout = ({ isResizable, layout, width, onLayoutChange, cols, rowHeight, children }: Props) => {
+  const editMode = useEditMode();
 
   return (
     <ReactGridLayout
@@ -35,6 +36,6 @@ const Layout = observer(({ isResizable, layout, width, onLayoutChange, cols, row
       {children}
     </ReactGridLayout>
   );
-});
+};
 
 export default Layout;

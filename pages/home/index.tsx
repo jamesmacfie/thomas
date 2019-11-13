@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Router from 'next/router';
-import { observer } from 'mobx-react-lite';
 import PageWrapper from 'containers/wrappers/page';
 import AddFirstView from 'containers/addFirstView';
-import { StoreContext as DeviceViewsStoreContext } from 'stores/deviceViews';
+import { useDeviceViews } from 'stores/deviceViews/hooks';
 import logger from 'utils/logger';
 
-const Inner = observer(() => {
-  const deviceViewsStore = useContext(DeviceViewsStoreContext);
+const Inner = () => {
+  const deviceViews = useDeviceViews();
 
-  const deviceArray = Object.values(deviceViewsStore.deviceViews);
+  const deviceArray = Object.values(deviceViews);
   if (!deviceArray.length) {
     logger.info('No device views in store. Rendering <AddFirstView />');
     return <AddFirstView />;
@@ -20,7 +19,7 @@ const Inner = observer(() => {
   Router.push(`/p/${firstDeviceView.viewId}`);
 
   return null;
-});
+};
 
 const Home = () => {
   return (

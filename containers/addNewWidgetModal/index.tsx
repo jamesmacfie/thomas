@@ -1,3 +1,4 @@
+// This component needs a refactor
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import Link from 'next/link';
