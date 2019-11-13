@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as ViewStoreContext } from 'stores/views';
+import React from 'react';
+import { useViews } from 'stores/views/hooks';
 import Icon from 'components/icon';
 import { H4 } from 'components/text';
 import './styles.css';
@@ -9,12 +8,12 @@ interface Props {
   onSelect: (viewId: number) => void;
 }
 
-const ViewPillList = observer(({ onSelect }: Props) => {
-  const viewStore = useContext(ViewStoreContext);
+const ViewPillList = ({ onSelect }: Props) => {
+  const views = useViews();
   return (
     <ul className="flex flex-col border border-white rounded">
-      {Object.keys(viewStore.views).map(key => {
-        const view = viewStore.views[key];
+      {Object.keys(views).map(key => {
+        const view = views[key];
         return (
           <li
             className="viewPillListPill cursor-pointer flex p-4 items-center text-white hover:text-blue"
@@ -30,6 +29,6 @@ const ViewPillList = observer(({ onSelect }: Props) => {
       })}
     </ul>
   );
-});
+};
 
 export default ViewPillList;

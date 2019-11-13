@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
-import IntegrationsStore, { StoreContext } from 'stores/integrations';
+import { useSystemIntegration } from 'stores/integrations/hooks';
 import logger from 'utils/logger';
 
 interface Props {
@@ -11,23 +10,22 @@ interface Props {
   onChange: (integrationSlug: string) => void;
 }
 
-const SystemIntegrationWidgetSelect = observer(({ className, integrationSlug, onChange }: Props) => {
-  const store = useContext(StoreContext) as IntegrationsStore;
+const SystemIntegrationWidgetSelect = ({ className, integrationSlug, onChange }: Props) => {
+  const systemIntegration = useSystemIntegration(integrationSlug);
   const onChangeHandler = (option: any) => {
     logger.debug('<SystemIntegrationWidgetSelect /> change', { option });
     onChange(option.value);
   };
 
-  const integration = store.systemIntegrations![integrationSlug];
-  if (!integration) {
+  if (!systemIntegration) {
     return <p>No integration for {integrationSlug}</p>;
   }
 
-  if (!integration.widgets || !integration.widgets.length) {
+  if (!systemIntegration.widgets || !systemIntegration.widgets.length) {
     return <p className="mb-4">No widgets have been setup for {integrationSlug} 🤷‍♂️</p>;
   }
 
-  const options = integration.widgets.map((i: SystemIntegrationWidget) => ({
+  const options = systemIntegration.widgets.map((i: SystemIntegrationWidget) => ({
     value: i.slug,
     label: i.name
   }));
@@ -40,6 +38,6 @@ const SystemIntegrationWidgetSelect = observer(({ className, integrationSlug, on
       options={options}
     />
   );
-});
+};
 
 export default SystemIntegrationWidgetSelect;

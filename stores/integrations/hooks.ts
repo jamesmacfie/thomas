@@ -25,3 +25,11 @@ export const useSystemIntegration = (slug: string | null) => {
     return store.systemIntegrations[slug];
   });
 };
+
+export const useSystemIntegrations = () => {
+  const store = useContext(StoreContext);
+
+  return useObserver(() => {
+    return store.systemIntegrations;
+  });
+};

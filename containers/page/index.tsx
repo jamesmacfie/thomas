@@ -1,7 +1,6 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Header from 'containers/header';
-import { observer } from 'mobx-react-lite';
-import { StoreContext as DevicesStoreContext } from 'stores/devices';
+import { useDevice } from 'stores/devices/hooks';
 import Navigation from 'containers/navigation';
 import EditModeController from 'containers/editModeController';
 
@@ -75,8 +74,8 @@ const getNavCmp: (placement: string) => any = placement => {
   return LeftNav;
 };
 
-const Page = observer(({ children }: Props) => {
-  const devicesStore = useContext(DevicesStoreContext);
+const Page = ({ children }: Props) => {
+  const device = useDevice();
   // Define base font Size. If we have a device set, use their config
   const [fontSize, setFontSize] = useState<string>('15px');
   useEffect(() => {
@@ -84,14 +83,14 @@ const Page = observer(({ children }: Props) => {
   }, [fontSize]);
 
   let Cmp: any;
-  if (!devicesStore.device) {
+  if (!device) {
     Cmp = NoNav;
   } else {
-    const newFontSize = `${devicesStore.device.config.zoom + 15}px`;
+    const newFontSize = `${device.config.zoom + 15}px`;
     if (fontSize !== newFontSize) {
       setFontSize(newFontSize);
     }
-    Cmp = getNavCmp(devicesStore.device.config.sideNavPlacement);
+    Cmp = getNavCmp(device.config.sideNavPlacement);
   }
 
   return (
@@ -104,6 +103,6 @@ const Page = observer(({ children }: Props) => {
       </div>
     </div>
   );
-});
+};
 
 export default Page;

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import cn from 'classnames';
-import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
-import IntegrationsStore, { StoreContext } from 'stores/integrations';
+import { useSystemIntegrations } from 'stores/integrations/hooks';
 import logger from 'utils/logger';
 
 interface Props {
@@ -10,14 +9,14 @@ interface Props {
   onChange: (integrationSlug: string) => void;
 }
 
-const SystemIntegrationSelect = observer(({ className, onChange }: Props) => {
-  const store = useContext(StoreContext) as IntegrationsStore;
+const SystemIntegrationSelect = ({ className, onChange }: Props) => {
+  const systemIntegrations = useSystemIntegrations();
   const onChangeHandler = (option: any) => {
     logger.debug('<SystemIntegrationSelect /> change', { option });
     onChange(option.value);
   };
 
-  const options = Object.values(store.systemIntegrations).map((i: SystemIntegration) => ({
+  const options = Object.values(systemIntegrations).map((i: SystemIntegration) => ({
     value: i.slug,
     label: i.name
   }));
@@ -30,6 +29,6 @@ const SystemIntegrationSelect = observer(({ className, onChange }: Props) => {
       options={options}
     />
   );
-});
+};
 
 export default SystemIntegrationSelect;
