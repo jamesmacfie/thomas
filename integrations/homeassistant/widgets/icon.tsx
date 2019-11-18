@@ -1,9 +1,11 @@
 import React from 'react';
 import { useIntegrationEntity } from '../store/hooks';
+import Icon from 'components/icon';
 import Panel from 'components/panel';
 import PanelMainText from 'components/panelMainText';
 import RequiresSettingIcon from 'components/requiresSettingsIcon';
 import HomeAssistantWrapper from './_wrapper';
+import { toJS } from 'mobx';
 
 const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
   const entity = useIntegrationEntity(integrationId, widgetConfig.entityId);
@@ -23,15 +25,25 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
     );
   }
 
+  let icon = 'question-mark';
+  console.log(toJS(widgetConfig));
+  if (entity.state === 'on') {
+    icon = widgetConfig.onIcon;
+  } else if (entity.state === 'off') {
+    icon = widgetConfig.offIcon;
+  }
+
+  console.log('icon will be', icon);
+
   const label = widgetConfig.label && widgetConfig.label.length ? widgetConfig.label : entity.attributes.friendly_name;
   return (
     <Panel {...widgetConfig} className="flex flex-col" label={label}>
-      <PanelMainText {...widgetConfig}>{entity.state}</PanelMainText>
+      <Icon icon={icon as any} className="w5 h5" />
     </Panel>
   );
 };
 
-const State = (props: any) => {
+const HAIcon = (props: any) => {
   return (
     <HomeAssistantWrapper>
       <Inner {...props} />
@@ -39,4 +51,4 @@ const State = (props: any) => {
   );
 };
 
-export default State;
+export default HAIcon;

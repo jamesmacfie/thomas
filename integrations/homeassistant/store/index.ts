@@ -14,7 +14,11 @@ interface Config {
 export default class Store {
   id: number = 1;
   @observable integrations: Integration[] = [];
-  @observable entities: { [key: string]: HomeAssistantEntity } = {};
+  @observable integrationEntities: {
+    [key: string]: {
+      entities: { [key: string]: HomeAssistantEntity };
+    };
+  } = {};
   @observable websockets: { [key: string]: any } = {};
 
   @computed get loaded() {
@@ -104,16 +108,14 @@ export default class Store {
       return;
     }
 
-    const newEntities = keyBy(data, 'entity_id');
-    this.entities = {
-      ...this.entities,
-      ...newEntities
+    this.integrationEntities[integrationId] = {
+      entities: keyBy(data, 'entity_id')
     };
   };
 
   websocketEvent = (integrationId: number, event: any) => {
     logger.debug('Homeassistant event', { integrationId, event });
-    this.entities[event.data.entity_id] = event.data.new_state;
+    this.integrationEntities[integrationId].entities[event.data.entity_id] = event.data.new_state;
   };
 
   websocketSend = (socket: WebSocket, data: any, addId: boolean = true) => {
