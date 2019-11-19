@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'react-select';
+import InputSelect from 'components/select';
 
 interface Props {
   form: any;
@@ -14,15 +14,7 @@ const FormikInputSelect = ({ form, name, value, values }: Props) => {
   };
   const v = values.find((d: any) => d.value === value) || values[0];
 
-  return (
-    <Select
-      value={v}
-      options={values}
-      onChange={onChange}
-      className="mb-4 react-select-container"
-      classNamePrefix="react-select"
-    />
-  );
+  return <InputSelect value={v} values={values} onChange={onChange} />;
 };
 
 export default FormikInputSelect;

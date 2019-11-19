@@ -9,3 +9,11 @@ export const useDevice = () => {
     return store.device;
   });
 };
+
+export const useOtherDevices = () => {
+  const store = useContext(StoreContext);
+
+  return useObserver(() => {
+    return store.otherDevices;
+  });
+};

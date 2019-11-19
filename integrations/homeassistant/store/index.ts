@@ -19,7 +19,7 @@ export default class Store {
       entities: { [key: string]: HomeAssistantEntity };
     };
   } = {};
-  @observable websockets: { [key: string]: any } = {};
+  @observable integrationWebsockets: { [key: string]: any } = {};
 
   @computed get loaded() {
     return this.integrations.length;
@@ -45,6 +45,7 @@ export default class Store {
     logger.debug('Setting Homeassistant websocket', { integrationId: integration.id });
     const host = integration.config.url.replace('http', 'ws');
     const socket = new WebSocket(`${host}/api/websocket`);
+    this.integrationWebsockets[integration.id] = socket;
 
     socket.addEventListener('open', () => {
       logger.debug('Websocket open', { integrationId: integration.id });
@@ -119,6 +120,22 @@ export default class Store {
   };
 
   websocketSend = (socket: WebSocket, data: any, addId: boolean = true) => {
+    const dataToSend = { ...data };
+    if (addId) {
+      (dataToSend as any).id = this.id;
+      this.id++;
+    }
+
+    socket.send(JSON.stringify(dataToSend));
+  };
+
+  websocketSendByIntegrationId = (integrationId: number, data: any, addId: boolean = true) => {
+    logger.debug('Homeassistant websocketSendByIntegrationId', { integrationId, data });
+    const socket = this.integrationWebsockets[integrationId];
+    if (!socket) {
+      logger.error('No socket for integration', { integrationId });
+      return;
+    }
     const dataToSend = { ...data };
     if (addId) {
       (dataToSend as any).id = this.id;

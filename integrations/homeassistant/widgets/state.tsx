@@ -24,9 +24,15 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
   }
 
   const label = widgetConfig.label && widgetConfig.label.length ? widgetConfig.label : entity.attributes.friendly_name;
+  let state;
+  if (widgetConfig.state && widgetConfig.state.length) {
+    state = entity.attributes[widgetConfig.state];
+  } else {
+    state = entity.state;
+  }
   return (
     <Panel {...widgetConfig} className="flex flex-col" label={label}>
-      <PanelMainText {...widgetConfig}>{entity.state}</PanelMainText>
+      <PanelMainText {...widgetConfig}>{state}</PanelMainText>
     </Panel>
   );
 };

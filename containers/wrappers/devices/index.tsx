@@ -2,6 +2,7 @@ import React, { useContext, ReactNode } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext as DevicesStoreContext } from 'stores/devices';
 import AddFirstDevice from 'containers/addFirstDevice';
+import ExistingDeviceChooser from 'containers/existingDeviceChooser';
 
 interface Props {
   children: ReactNode;
@@ -20,14 +21,7 @@ const DevicesWrapper = observer(({ children }: Props) => {
   }
 
   if (!deviceStore.hasDeviceId && deviceStore.otherDevices.length) {
-    return (
-      <>
-        <p>You need to choose here</p>
-        {deviceStore.otherDevices.map(d => (
-          <button onClick={() => deviceStore.setDeviceId(d.id)}>{d.id}</button>
-        ))}
-      </>
-    );
+    return <ExistingDeviceChooser />;
   }
 
   if (deviceStore.hasDeviceId && deviceStore.device === null) {

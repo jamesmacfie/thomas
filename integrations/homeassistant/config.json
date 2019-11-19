@@ -34,6 +34,13 @@
           "label": "Label",
           "description": "What the label should read",
           "validationType": "string"
+        },
+        {
+          "key": "state",
+          "type": "text",
+          "label": "State attribute (optional)",
+          "description": "What the state attribute is",
+          "validationType": "string"
         }
       ]
     },
@@ -52,6 +59,69 @@
           "type": "text",
           "label": "Entity",
           "description": "The Entity you want to monitor",
+          "validationType": "string",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please enter the entity string"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "label",
+          "type": "text",
+          "label": "Label",
+          "description": "What the label should read"
+        },
+        {
+          "key": "onIcon",
+          "type": "icon",
+          "label": "On Icon",
+          "description": "What the `on` icon should show",
+          "validationType": "string",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please select the on icon"
+              ]
+            }
+          ]
+        },
+        {
+          "key": "offIcon",
+          "type": "icon",
+          "label": "Off Icon",
+          "description": "What the `off` icon should show",
+          "validationType": "string",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please select the off icon"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "switch",
+      "name": "Switch",
+      "layout": {
+        "initialW": 3,
+        "initialH": 3,
+        "minW": 3,
+        "minH": 3
+      },
+      "settings": [
+        {
+          "key": "entityId",
+          "type": "text",
+          "label": "Entity",
+          "description": "The Entity you want to toggle",
           "validationType": "string",
           "validations": [
             {
