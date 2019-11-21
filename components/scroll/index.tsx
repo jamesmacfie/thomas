@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode;
 }
 
-const Scroll = ({ children, className }: Props) => {
+const Scroll = ({ children }: Props) => {
   const [debouncedOnScroll] = useDebouncedCallback((target: any) => {
     target.scrollTo({
       top: 0,
@@ -17,9 +17,9 @@ const Scroll = ({ children, className }: Props) => {
     });
   }, 10000);
   return (
-    <div className={cn('relative', className)}>
+    <div className="relative h-full">
       <div className="absolute left-0 right-0 top-0 h-4 scroll-top" />
-      <div onScroll={e => debouncedOnScroll(e.target)} className="h-full overflow-y-scroll">
+      <div onScroll={e => debouncedOnScroll(e.target)} className={cn('overflow-y-scroll h-full')}>
         {children}
       </div>
       <div className="absolute left-0 right-0 bottom-0 h-4 scroll-bottom" />

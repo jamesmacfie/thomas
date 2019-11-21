@@ -69,7 +69,8 @@ const FiveDayForecast = observer(({ integrationId, widgetConfig, integrationConf
           </div>
         </div>
       </div>
-      <Scroll className="flex-grow overflow-hidden">
+
+      <Scroll>
         <NextWeek forecast={forecast} units={integrationConfig.units} />
       </Scroll>
     </Panel>

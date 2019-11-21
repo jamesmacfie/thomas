@@ -47,7 +47,7 @@ export default class Store {
       logger.warn('No deviceId set, cannot fetch');
       return;
     }
-    const device = await fetch(`http://localhost:3000/device/${deviceId}`).then(res => res.json());
+    const device = await fetch(`${process.env.API_URL}/device/${deviceId}`).then(res => res.json());
     logger.debug('Setting device', { device });
     this.device = device;
     await deviceViewStore.fetchAll({ deviceId });
@@ -71,7 +71,7 @@ export default class Store {
   @action
   fetchAll = async () => {
     logger.debug('Devices store fetchAll');
-    const devices = await fetch('http://localhost:3000/devices').then(res => res.json());
+    const devices = await fetch(`${process.env.API_URL}/devices`).then(res => res.json());
     logger.debug('Setting other devives', { devices });
     this.otherDevices = devices;
   };
@@ -88,7 +88,7 @@ export default class Store {
     (this.device.config as any)[key] = value;
 
     try {
-      await fetch(`http://localhost:3000/device/${this.device.id}`, {
+      await fetch(`${process.env.API_URL}/device/${this.device.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.device)
@@ -106,7 +106,7 @@ export default class Store {
       return;
     }
 
-    await fetch(`http://localhost:3000/device/${deviceId}`, {
+    await fetch(`${process.env.API_URL}/device/${deviceId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.device)

@@ -13,7 +13,7 @@ export default class Store {
   @action
   fetchSystem = async () => {
     logger.debug('Integrations store fetchOthers');
-    const systemIntegrations = await fetch('http://localhost:3000/system/integrations').then(res => res.json());
+    const systemIntegrations = await fetch(`${process.env.API_URL}/system/integrations`).then(res => res.json());
 
     logger.debug('Setting systemIntegrations', { systemIntegrations });
     this.systemIntegrations = keyBy(systemIntegrations, 'slug');
@@ -23,7 +23,7 @@ export default class Store {
   @action
   fetch = async () => {
     logger.debug('Integrations store fetch');
-    const integrations = await fetch('http://localhost:3000/integrations').then(res => res.json());
+    const integrations = await fetch(`${process.env.API_URL}/integrations`).then(res => res.json());
 
     logger.debug('Setting integrations', { integrations });
     this.integrations = keyBy(integrations, 'id');
@@ -38,7 +38,7 @@ export default class Store {
   @action
   insert = async (slug: string, config: any) => {
     logger.debug('Integrations store insert', { slug, config });
-    return fetch('http://localhost:3000/integration', {
+    return fetch(`${process.env.API_URL}/integration`, {
       method: 'POST',
       body: JSON.stringify({
         deviceId: deviceStore.getDeviceId(),
@@ -52,7 +52,7 @@ export default class Store {
   @action
   update = async (id: number, config: any) => {
     logger.debug('Integrations store update', { id, config });
-    await fetch(`http://localhost:3000/integration/${id}`, {
+    await fetch(`${process.env.API_URL}/integration/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({
         config

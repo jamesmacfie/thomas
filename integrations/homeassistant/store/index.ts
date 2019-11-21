@@ -34,7 +34,7 @@ export default class Store {
   @action
   fetchIntegrations = async () => {
     logger.debug('Homeassistant store fetchIntegrations');
-    const integrations = await fetch(`http://localhost:3000/integrations/homeassistant`).then(res => res.json());
+    const integrations = await fetch(`${process.env.API_URL}/integrations/homeassistant`).then(res => res.json());
 
     logger.debug('Setting Homeassistant integrations', { integrations });
     this.integrations = integrations;
@@ -201,46 +201,3 @@ export default class Store {
 
 export let store = new Store();
 export const StoreContext = createContext(store);
-
-// await fetch("http://localhost:8123/auth/token", {
-//     "credentials": "omit",
-//     "headers": {
-//         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0",
-//         "Accept": "*/*",
-//         "Accept-Language": "en-US,en;q=0.5",
-//         "Content-Type": "application/x-www-form-urlencoded"
-//     },
-//     "referrer": "http://localhost:3000/p/1",
-//     "body": "grant_type=authorization_code&code=fefe53c1bb984890a8b801da75f4ab8d&client_id=http%3A%2F%2Flocalhost%3A3000",
-//     "method": "POST",
-//     "mode": "cors"
-// });
-
-// await fetch('http://localhost:8123/auth/token', {
-//   credentials: 'omit',
-//   headers: {
-//     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0',
-//     Accept: '*/*',
-//     'Accept-Language': 'en-US,en;q=0.5',
-//     'Content-Type': 'application/x-www-form-urlencoded'
-//   },
-//   referrer:
-//     'http://localhost:8000/?oauth=1&code=0928216af2db48ba99b945fcd12132bf&oauth=1&code=2d90081879604fc9b4f38b9f92991be6',
-//   body: 'grant_type=authorization_code&code=2d90081879604fc9b4f38b9f92991be6&client_id=http%3A%2F%2Flocalhost%3A8000',
-//   method: 'POST',
-//   mode: 'cors'
-// });
-
-// await fetch('http://localhost:8123/auth/token', {
-//   credentials: 'omit',
-//   headers: {
-//     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0',
-//     Accept: '*/*',
-//     'Accept-Language': 'en-US,en;q=0.5',
-//     'Content-Type': 'application/x-www-form-urlencoded'
-//   },
-//   referrer: 'http://localhost:8000/p/1',
-//   body: 'grant_type=authorization_code&code=2d90081879604fc9b4f38b9f92991be6&client_id=http%3A%2F%2Flocalhost%3A8000',
-//   method: 'POST',
-//   mode: 'cors'
-// });
