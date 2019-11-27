@@ -1,0 +1,30 @@
+{
+  "name": "Web",
+  "requiresSettings": false,
+  "widgets": [
+    {
+      "slug": "iframe",
+      "name": "iframe",
+      "layout": {
+        "initialW": 5,
+        "initialH": 5
+      },
+      "settings": [
+        {
+          "key": "url",
+          "type": "text",
+          "label": "URL",
+          "validationType": "string",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please enter the web url"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
