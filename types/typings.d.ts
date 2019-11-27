@@ -65,6 +65,7 @@ declare interface SystemIntegrationWidget {
     minW?: number;
   };
   settings?: FormConfig[];
+  headless?: boolean;
 }
 
 declare interface SystemIntegration {
@@ -74,6 +75,7 @@ declare interface SystemIntegration {
   settings?: FormConfig[];
   singular?: boolean;
   requiresSettings?: boolean;
+  headless?: boolean;
 }
 
 interface ServerIntegration {

@@ -1,0 +1,13 @@
+{
+  "name": "Notifications",
+  "singular": false,
+  "requiresSettings": false,
+  "headless": true,
+  "widgets": [
+    {
+      "slug": "notificationWrapper",
+      "name": "Notification Wrapper",
+      "headless": true
+    }
+  ]
+}
