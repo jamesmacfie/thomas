@@ -163,3 +163,8 @@ body {
   color: theme('colors.grey') !important;
   opacity: 0.5;
 }
+
+/** Animations **/
+.animate-height {
+  transition: 0.15s height linear;
+}
