@@ -1,10 +1,47 @@
 import { createContext } from 'react';
 import { observable, action } from 'mobx';
 import uuid from 'uuid/v4';
+import { store as devicesStore } from 'stores/devices';
 import logger from 'utils/logger';
 
+const isServer = typeof window === 'undefined';
+
 export default class Store {
+  websocket: WebSocket | null = null;
   @observable notifications: ThomasNotification[] = [];
+
+  constructor() {
+    if (isServer) {
+      logger.debug('Notification store - not loading, server rendered');
+      return;
+    }
+    this.connectWebSocket();
+  }
+
+  connectWebSocket = () => {
+    const deviceId = devicesStore.getDeviceId();
+    if (!deviceId) {
+      return window.setTimeout(() => {
+        this.connectWebSocket();
+      }, 2000);
+    }
+
+    // TODO - this needs to come from an env var https://nicedoc.io/tusbar/next-runtime-dotenv maybe
+    const wsURL = `ws://localhost:3000/notifications/${deviceId}`;
+    console.log('Notification store subscribing to websocket', { wsURL });
+    try {
+      this.websocket = new WebSocket(wsURL);
+      this.websocket.onmessage = (e: MessageEvent) => {
+        const data: any = JSON.parse(e.data);
+        this.add({
+          color: data.type || 'info',
+          text: data.text
+        });
+      };
+    } catch (error) {
+      logger.error('Error setting up notification websocket', { error });
+    }
+  };
 
   @action
   clearAll = () => {
@@ -15,10 +52,12 @@ export default class Store {
   @action
   add = (notification: ThomasNotificationInput) => {
     logger.debug('Notification store add', { notification });
-    this.notifications = this.notifications.concat({
-      id: uuid(),
-      ...notification
-    });
+    this.notifications = [
+      {
+        id: uuid(),
+        ...notification
+      }
+    ].concat(this.notifications);
   };
 
   @action

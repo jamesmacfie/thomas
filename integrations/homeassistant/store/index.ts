@@ -11,6 +11,8 @@ interface Config {
   tokens?: any;
 }
 
+const isServer = typeof window === 'undefined';
+
 export default class Store {
   id: number = 1;
   @observable integrations: Integration[] = [];
@@ -42,6 +44,11 @@ export default class Store {
 
   @action
   setupWebsocket = async (integration: Integration) => {
+    if (isServer) {
+      logger.debug('HomeAssistant store - not loading, server rendered');
+      return;
+    }
+
     logger.debug('Setting Homeassistant websocket', { integrationId: integration.id });
     const host = integration.config.url.replace('http', 'ws');
     const socket = new WebSocket(`${host}/api/websocket`);

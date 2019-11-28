@@ -1,4 +1,5 @@
 import express from 'express';
+import expressWs from 'express-ws';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import next from 'next';
@@ -17,6 +18,7 @@ app.prepare().then(async () => {
 
   logger.info('👩‍🍳 Preparing app');
   const server = express();
+  expressWs(server);
   server.use(cors());
   server.use(bodyParser.json());
   try {
