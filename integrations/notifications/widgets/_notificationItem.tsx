@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import cn from 'classnames';
 import { store } from '../store';
 import Icon from 'components/icon';
+import { H3 } from 'components/text';
+import { toJS } from 'mobx';
 
 interface Props {
   item: ThomasNotification;
@@ -35,13 +37,27 @@ const NotificationItem = ({ item }: Props) => {
     'overflow-hidden': !!!height
   });
 
+  let image = null;
+  if (item.imageSrc) {
+    image = <img src={item.imageSrc} className="w-8 h-8 mr-4" />;
+  } else if (item.icon) {
+    console.log(item.icon);
+    image = <Icon icon={item.icon} className="w-8 h-8 mr-4" />;
+  }
+
   return (
     <div ref={el} onClick={onClose} style={{ height: `${height}px` }} className={classes}>
-      <div className="flex items-center p-4">
+      <div className="flex items-center p-4 relative">
+        {image}
         <div className="flex-grow">
-          <p className="m-0">{item.text}</p>
+          {item.title ? (
+            <H3 margin={false} className="mb-2 text-white">
+              {item.title}
+            </H3>
+          ) : null}
+          <p className="m-0 text-xs">{item.text}</p>
         </div>
-        <Icon icon="times-circle" className="text-white w-8 h-8" />
+        <Icon icon="times-circle" className="text-white w-8 h-8 absolute pin-close-half" />
       </div>
     </div>
   );

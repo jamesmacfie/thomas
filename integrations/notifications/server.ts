@@ -52,7 +52,6 @@ export function init(server: express.Express) {
       logger.info(`⛑ No matching device for id ${deviceId}`);
       return res.status(400).send(`No matching device for id ${deviceId}`);
     }
-    const { type, text } = req.body;
     const deviceSockets = sockets[deviceId];
     if (!deviceSockets || !deviceSockets.length) {
       logger.info(`⛑ Device has no sockets ${deviceId}`);
@@ -61,7 +60,7 @@ export function init(server: express.Express) {
 
     deviceSockets.forEach(s => {
       logger.info(`⛑ Sending socket notification ${s.id}`);
-      s.socket.send(JSON.stringify({ type, text }));
+      s.socket.send(JSON.stringify(req.body));
     });
 
     res.status(200).send('Ok');

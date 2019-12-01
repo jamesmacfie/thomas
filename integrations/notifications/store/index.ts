@@ -32,9 +32,12 @@ export default class Store {
     try {
       this.websocket = new WebSocket(wsURL);
       this.websocket.onmessage = (e: MessageEvent) => {
-        const data: any = JSON.parse(e.data);
+        const data: ThomasNotificationInput = JSON.parse(e.data);
         this.add({
-          color: data.type || 'info',
+          color: data.color || 'info',
+          icon: data.icon,
+          imageSrc: data.imageSrc,
+          title: data.title,
           text: data.text
         });
       };

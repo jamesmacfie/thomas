@@ -93,6 +93,11 @@ body {
   top: 1rem;
 }
 
+.pin-close-half {
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
 .pin-edit {
   right: -0.75rem;
   top: -0.75rem;
