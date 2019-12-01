@@ -85,7 +85,14 @@ export default class Store {
       return;
     }
 
-    (this.device.config as any)[key] = value;
+    // Would be nice not to have to recreate the object here just to have the nested config update
+    this.device = {
+      ...this.device,
+      config: {
+        ...this.device.config,
+        [key]: value
+      }
+    };
 
     try {
       await fetch(`${process.env.API_URL}/device/${this.device.id}`, {
