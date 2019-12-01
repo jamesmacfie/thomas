@@ -55,12 +55,15 @@ export default class Store {
   @action
   add = (notification: ThomasNotificationInput) => {
     logger.debug('Notification store add', { notification });
+    const id = uuid();
     this.notifications = [
       {
-        id: uuid(),
+        id,
         ...notification
       }
     ].concat(this.notifications);
+
+    return id;
   };
 
   @action
