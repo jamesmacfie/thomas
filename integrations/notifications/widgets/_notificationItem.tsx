@@ -3,7 +3,6 @@ import cn from 'classnames';
 import { store } from '../store';
 import Icon from 'components/icon';
 import { H3 } from 'components/text';
-import { toJS } from 'mobx';
 
 interface Props {
   item: ThomasNotification;
