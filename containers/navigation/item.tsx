@@ -48,7 +48,7 @@ const NavigationItem = ({ id, href, icon, hidePencil, addNewClick, onAddNewClick
         {showEditControls && (
           <div
             onClick={onPencilClick}
-            className="cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue pin-edit border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center"
+            className="cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue pin-edit border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center z-10"
           >
             <Icon icon="pen" containerClassName="flex" className="text-xs current-stroke" />
           </div>

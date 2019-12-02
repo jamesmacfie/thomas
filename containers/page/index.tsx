@@ -11,10 +11,7 @@ interface Props {
 const NoNav = ({ children }: Props) => {
   return (
     <div className="flex flex-grow w-screen">
-      <div className="flex-grow">
-        {children}
-        <EditModeController />
-      </div>
+      <div className="flex-grow">{children}</div>
     </div>
   );
 };
@@ -25,10 +22,7 @@ const LeftNav = ({ children }: Props) => {
       <div className="w-20 flex-shrink-0">
         <Navigation />
       </div>
-      <div className="flex-grow">
-        {children}
-        <EditModeController />
-      </div>
+      <div className="flex-grow">{children}</div>
     </div>
   );
 };
@@ -36,10 +30,7 @@ const LeftNav = ({ children }: Props) => {
 const RightNav = ({ children }: Props) => {
   return (
     <div className="flex flex-grow w-screen">
-      <div className="flex-grow pl-6">
-        {children}
-        <EditModeController />
-      </div>
+      <div className="flex-grow pl-6">{children}</div>
       <div className="w-20 flex-shrink-0">
         <Navigation />
       </div>
@@ -50,10 +41,7 @@ const RightNav = ({ children }: Props) => {
 const BottomNav = ({ children }: Props) => {
   return (
     <div className="flex flex-col flex-grow w-screen">
-      <div className="flex-grow px-6">
-        {children}
-        <EditModeController />
-      </div>
+      <div className="flex-grow px-6">{children}</div>
       <div className="h-20 flex-shrink-0 w-full">
         <Navigation />
       </div>
@@ -94,14 +82,17 @@ const Page = ({ children }: Props) => {
   }
 
   return (
-    <div className="flex">
-      <div className="flex-grow">
-        <div className="flex flex-col h-screen w-screen">
-          <Header />
-          <Cmp>{children}</Cmp>
+    <>
+      <EditModeController />
+      <div className="flex">
+        <div className="flex-grow">
+          <div className="flex flex-col h-screen w-screen">
+            <Header />
+            <Cmp>{children}</Cmp>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

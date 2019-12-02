@@ -46,7 +46,7 @@ const Widget = ({ widget }: Props) => {
   const Cmp = integrationWidget(widget);
 
   const editClasses =
-    'cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center';
+    'cursor-pointer p-1 h-6 w-6 absolute text-grey-darker hover:text-blue border border-grey-light bg-grey-lighter rounded-full flex items-center justify-center z-10';
 
   return (
     <>
