@@ -49,6 +49,7 @@ const CreateDeviceViewForm = ({ onClose }: Props) => {
           )}
           <FormikInput name="name" label="Name" placeholder="Name" />
           <FormikInput type="icon" name="icon" label="Icon" />
+          <FormikInput type="map" name="position" label="Where are you?" />
           <Button color="primary" type="submit" disabled={isSubmitting || !touched}>
             Create
           </Button>

@@ -58,7 +58,6 @@ export default class Store {
   };
 
   initDebugLogs = () => {
-    console.log(!!this.debugLogs ? 'debug' : 'warn');
     logger.level(!!this.debugLogs ? 'debug' : 'warn');
   };
 

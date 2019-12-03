@@ -16,6 +16,14 @@ declare module '*.svg' {
   export default content;
 }
 
+/** Config */
+declare interface Config {
+  id: int;
+  slug: string;
+  name?: string;
+  value: string;
+}
+
 /**
  * Devices
  */

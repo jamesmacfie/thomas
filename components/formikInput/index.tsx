@@ -4,6 +4,7 @@ import Input from 'components/input';
 import Label from 'components/label';
 import Icon from './icon';
 import Select from './select';
+import Map from './map';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -34,6 +35,8 @@ const FormikInput = ({ value, label, name, formik, type, className, ...props }: 
         let input;
         if (type === 'icon') {
           input = <Icon form={form} {...field} {...props} />;
+        } else if (type === 'map') {
+          input = <Map form={form} {...field} {...props} />;
         } else if (type === 'select') {
           input = <Select value={value} name={name} form={form} {...props} />;
         } else {

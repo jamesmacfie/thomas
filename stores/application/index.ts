@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { observable } from 'mobx';
+import { store as configStore } from 'stores/config';
 import { store as integrationsStore } from '../integrations';
 import { store as deviceStore } from 'stores/devices';
 import { store as viewsStore } from 'stores/views';
@@ -18,6 +19,7 @@ export default class Store {
     }
 
     Promise.all([
+      configStore.fetchAll(),
       integrationsStore.fetch(),
       integrationsStore.fetchSystem(),
       deviceStore.fetchAll(),

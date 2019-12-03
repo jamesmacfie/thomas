@@ -36,9 +36,6 @@ const config = (sequelize: Sequelize.Sequelize) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      icon: {
-        type: DataTypes.STRING
-      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

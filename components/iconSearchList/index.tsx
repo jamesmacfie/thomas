@@ -57,7 +57,6 @@ interface Props {
 }
 
 const IconList = ({ className, iconListClassName, showLabel = true, onSelect, value }: Props) => {
-  console.log('SETTING TO VALUE', value);
   const [selectedIcon, setSelectedIcon] = useState<null | IIcon>(value ? ({ iconName: value } as any) : null);
   const [searchString, setSearchString] = useState('');
   const [debouncedOnSearchChange] = useDebouncedCallback(value => {
@@ -80,7 +79,6 @@ const IconList = ({ className, iconListClassName, showLabel = true, onSelect, va
     iconNamesToShow = defaultIcons; //.map(i => i.icon);
   }
 
-  console.log(selectedIcon);
   return (
     <div className={className}>
       {showLabel && <Label>Search</Label>}
