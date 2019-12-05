@@ -50,8 +50,17 @@ export default class Store {
     }
 
     logger.debug('Setting Homeassistant websocket', { integrationId: integration.id });
+
+    const socket = this.createWebsocket(integration);
+    this.connectWebsocket(socket, integration);
+  };
+
+  createWebsocket = (integration: Integration) => {
     const host = integration.config.url.replace('http', 'ws');
-    const socket = new WebSocket(`${host}/api/websocket`);
+    return new WebSocket(`${host}/api/websocket`);
+  };
+
+  connectWebsocket = (socket: WebSocket, integration: Integration) => {
     this.integrationWebsockets[integration.id] = socket;
 
     socket.addEventListener('open', () => {
@@ -76,8 +85,8 @@ export default class Store {
         case 'auth_invalid':
           const hasRefreshed = await this.refreshToken(integration);
           if (hasRefreshed) {
-            this.websocketAuthenticate(socket, integration);
-            this.websocketSubscribe(socket);
+            const socket = this.createWebsocket(integration);
+            this.connectWebsocket(socket, integration);
           }
         case 'auth_ok':
           return this.websocketSubscribe(socket);
