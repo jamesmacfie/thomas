@@ -3,7 +3,7 @@ import { LeafletMouseEvent } from 'leaflet';
 import Map from 'components/map';
 
 // Te Papa, Wellington
-const defaultValue = [-41.2903355647969, 174.78192731738093];
+export const defaultValue = [-41.2903355647969, 174.78192731738093];
 
 interface Props {
   form: any;

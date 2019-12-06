@@ -20,7 +20,7 @@ export default class Store {
   };
 
   @action
-  insert = async (values: { slug: string; name?: string; value: string }) => {
+  insert = async (values: { slug: string; description?: string; value: any }) => {
     logger.debug('Config store insert', { values });
     const config: Config = await fetch(`/config`, {
       method: 'POST',

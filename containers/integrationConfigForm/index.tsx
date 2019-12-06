@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { object } from 'yup';
 import { store as integrationsStore } from 'stores/integrations';
+import { store as configStore } from 'stores/config';
 import Alert from 'components/alert';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
@@ -38,6 +39,8 @@ const IntegrationConfigForm = ({ systemIntegration, integration }: Props) => {
   Object.values(config).forEach(c => {
     if (c.defaultValue) {
       configInitialValues[c.key] = c.defaultValue;
+    } else if (c.defaultConfig) {
+      configInitialValues[c.key] = configStore.configs[c.defaultConfig].value;
     }
   });
 

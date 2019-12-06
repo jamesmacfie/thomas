@@ -55,6 +55,7 @@
       "key": "longitude",
       "type": "number",
       "label": "Longitude",
+      "defaultConfig": "longitude",
       "validationType": "number",
       "validations": [
         {
@@ -77,6 +78,7 @@
       "key": "latitude",
       "type": "number",
       "label": "Latitude",
+      "defaultConfig": "latitude",
       "validationType": "number",
       "validations": [
         {

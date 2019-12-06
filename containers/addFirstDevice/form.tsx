@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { store as devicesStore } from 'stores/devices';
+import { store as configStore } from 'stores/config';
 import Button from 'components/button';
 import FormikInput from 'components/formikInput';
+import { defaultValue } from 'components/formikInput/map';
 import Alert from 'components/alert';
 import { createDeviceView } from 'validations/deviceView';
 import logger from 'utils/logger';
@@ -14,6 +16,7 @@ interface Props {
 interface Formalues {
   name: string;
   icon: string;
+  position: number[];
 }
 
 const CreateDeviceViewForm = ({ onClose }: Props) => {
@@ -22,22 +25,27 @@ const CreateDeviceViewForm = ({ onClose }: Props) => {
     <Formik
       initialValues={{
         name: '',
-        icon: ''
+        icon: '',
+        position: defaultValue
       }}
       validationSchema={createDeviceView}
       validateOnChange={false}
       validateOnBlur={false}
-      onSubmit={async (values: Formalues, { setSubmitting }) => {
-        logger.debug('Submitting <AddFirstDevice />', { values });
+      onSubmit={async ({ icon, name, position }: Formalues, { setSubmitting }) => {
+        logger.debug('Submitting <AddFirstDevice />', { icon, name, position });
         setSubmitting(true);
         try {
-          await devicesStore.insert(values);
+          await configStore.insert({ description: 'Default latitude', slug: 'latitude', value: position[0] });
+          await configStore.insert({ description: 'Default longitude', slug: 'longitude', value: position[1] });
+          await devicesStore.insert({ icon, name });
           onClose();
         } catch (error) {
+          console.log(onClose);
           logger.error('Error submitting <AddFirstDevice />', { error });
           setError(`Error submitting first device: ${error.message}`);
           setSubmitting(false);
         }
+        setSubmitting(false);
       }}
     >
       {({ touched, isSubmitting, handleSubmit }) => (

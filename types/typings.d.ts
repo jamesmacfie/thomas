@@ -182,6 +182,7 @@ interface FormConfig {
     label: string;
   }[];
   defaultValue?: string;
+  defaultConfig?: string;
   // TODO - how can I make this type be better? Needs better optional details etc
   validationType?: 'mixed' | 'string' | 'number' | 'boolean';
   validations?: {
