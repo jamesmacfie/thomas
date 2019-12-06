@@ -1,7 +1,12 @@
 .react-select__menu {
   z-index: 10000 !important; /* Hack due to map appearing over select. Looks like i'm hacking over their shitty css here */
 }
-.react-select__menu-list {
+
+.react-select__input {
+  color: #fff;
+}
+
+.iconSearchHasOptions .react-select__menu-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, 70px);
 }
