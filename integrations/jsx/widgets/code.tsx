@@ -25,7 +25,7 @@ import Icon from 'icon';
 const Cmp = () => {
   const [count, setCount] = useState(0);
   return <div className="text-center">
-    <H2 className="text-white">👋</H2>
+    <H2 className="text-primary">👋</H2>
     <p className="mb-4">Clicked: {count}</p>
     <Button
       color="primary"

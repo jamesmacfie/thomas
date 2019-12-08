@@ -37,8 +37,8 @@ const NavigationItem = ({ id, href, icon, hidePencil, addNewClick, onAddNewClick
 
   const isActive = asPath === href;
   const anchorClasses = cn('cursor-pointer current-stroke flex items-center justify-center', {
-    'text-white': isActive || editMode,
-    'text-grey-darker hover:text-white': !isActive
+    'text-primary': isActive || editMode,
+    'text-grey-darker hover:text-primary': !isActive
   });
   const showEditControls = editMode && !hidePencil;
   const iconCmp = <Icon icon={icon as any} className="text-3xl" />;

@@ -64,7 +64,7 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
             <Icon
               onClick={close}
               icon="plus-circle"
-              className="cursor-pointer z-20 absolute pin-close text-2xl margin text-white current-stroke rotate-45deg"
+              className="cursor-pointer z-20 absolute pin-close text-2xl margin text-primary current-stroke rotate-45deg"
             />
           </div>
 

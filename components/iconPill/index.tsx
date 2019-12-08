@@ -23,7 +23,7 @@ const IconPill = ({ pills, onSelect }: Props) => {
               onClick={() => onSelect(key)}
               key={name}
               className={cn(
-                'cursor-pointer text-white hover:text-blue flex flex-col justify-center items-center border-list w-40 h-40',
+                'cursor-pointer text-primary hover:text-blue flex flex-col justify-center items-center border-list w-40 h-40',
                 className
               )}
             >

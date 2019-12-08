@@ -16,7 +16,7 @@ interface Props {
 
 const IconPill = ({ pills, name, alt, onSelect, value }: Props) => {
   const containerClasses = alt ? 'alt border-grey-darker' : 'bg-grey-lighter bg-grey-darkest';
-  const pillClasses = alt ? 'select-pill-alt text-grey-darker' : 'select-pill text-white';
+  const pillClasses = alt ? 'select-pill-alt text-grey-darker' : 'select-pill text-primary';
   return (
     <div
       className={`${containerClasses} text-center inline-flex rounded-sm border focus:border-grey-light mb-4 w-full`}
@@ -29,7 +29,7 @@ const IconPill = ({ pills, name, alt, onSelect, value }: Props) => {
             onClick={() => onSelect(name, v)}
             key={v}
             className={cn('cursor-pointer px-4 py-2', pillClasses, className, {
-              'bg-blue text-white': isSelected
+              'bg-blue text-primary': isSelected
             })}
           >
             <span

@@ -21,9 +21,9 @@ export const H2 = ({ className, margin = true, ...props }: Props) => (
 );
 
 export const H3 = ({ className, margin = true, ...props }: Props) => (
-  <h3 {...props} className={textCn('mb-3', 'uppercase text-xs text-grey font-normal ', className, margin)} />
+  <h3 {...props} className={textCn('mb-3', 'uppercase text-xs text-secondary font-normal ', className, margin)} />
 );
 
 export const H4 = ({ className, margin = true, ...props }: Props) => (
-  <h4 {...props} className={textCn('mb-3', 'uppercase text-s text-grey font-normal', className, margin)} />
+  <h4 {...props} className={textCn('mb-3', 'uppercase text-s text-secondary font-normal', className, margin)} />
 );

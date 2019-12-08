@@ -16,7 +16,7 @@ const ViewPillList = ({ onSelect }: Props) => {
         const view = views[key];
         return (
           <li
-            className="viewPillListPill cursor-pointer flex p-4 items-center text-white hover:text-blue"
+            className="viewPillListPill cursor-pointer flex p-4 items-center text-primary hover:text-blue"
             onClick={() => onSelect(parseInt(key))}
             key={key}
           >

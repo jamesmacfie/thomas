@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: theme('colors.background');
+  --bg-body: theme('colors.body');
   --bg-panel: theme('colors.panel');
   --ovelray-dark: theme('colors.overlay-dark');
   --ovelray-light: theme('colors.overlay-light');
-  --text-color: theme('colors.text');
+  --text-primary: theme('colors.text-primary');
   --font-family: theme('fontFamily.sans');
   --font-weight: theme('fontWeight.light');
 }
@@ -18,13 +18,27 @@ textarea::placeholder {
 }
 
 body {
-  background: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg-body);
+  color: var(--text-primary);
   font-family: var(--font-family);
   font-weight: var(--font-weight);
   margin: 0;
   padding: 0;
 }
+
+/** Custom tailwind helpers start **/
+.bg-body {
+  background-color: var(--bg-color);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+/** Custom tailwind helpers end **/
 
 .current-stroke path,
 .current-stroke circle,

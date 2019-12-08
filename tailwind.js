@@ -29,8 +29,9 @@ const tailwind = {
     |
     */
     colors: {
-      background: '#1d2632',
-      text: '#fff',
+      body: '#1d2632',
+      'text-primary': '#fff',
+      'text-secondary': '#d1d5da',
       panel: '#232d3b',
       'overlay-light': '#232E3C',
       'overlay-dark': '#151C27',
