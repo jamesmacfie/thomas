@@ -1,0 +1,32 @@
+{
+  "name": "JSX",
+  "requiresSettings": false,
+  "widgets": [
+    {
+      "slug": "code",
+      "name": "Custom Code Block",
+      "description": "Something in here. Optional?",
+      "layout": {
+        "initialW": 4,
+        "initialH": 4
+      },
+      "settings": [
+        {
+          "key": "code",
+          "type": "code",
+          "label": "Code",
+          "description": "The code to run",
+          "validationType": "string",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please enter the code to render"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

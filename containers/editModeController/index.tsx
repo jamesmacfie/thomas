@@ -65,61 +65,68 @@ const EditModeController = observer(() => {
     <Draggable bounds="parent">
       <div className="cursor-move w-64 z-40" style={{ position: 'absolute', bottom: '100px', right: '100px' }}>
         <div className="w-full m-6 bg-grey-lighter p-4 2-48 rounded">
-          <Button color="secondary-alt" className="w-full mb-4" onClick={toggleAddNewModalVisible}>
-            Add new widget
-          </Button>
-          {addNewModalVisible && <AddNewWidgetModal onClose={toggleAddNewModalVisible} />}
-          <div>
-            <SelectPill
-              value={config.sideNavPlacement}
-              alt
-              name="sideNavPlacement"
-              pills={navPlacementOptions}
-              onSelect={onPillValueChange}
-            />
-            <div className="flex w-full">
-              <Label className="flex-grow" color="alt">
-                Show header
-              </Label>
-              <input
-                name="showHeader"
-                className="self-align"
-                type="checkbox"
-                onChange={onCheckboxValueChange}
-                checked={config.showHeader}
-              />
-            </div>
-            <Label color="alt">Column count</Label>
-            <input
-              name="columns"
-              className="w-full"
-              type="range"
-              min="10"
-              max="30"
-              onChange={onNumericValueChange}
-              value={config.columns}
-            />
-            <Label color="alt">Row size</Label>
-            <input
-              name="rowHeight"
-              className="w-full"
-              type="range"
-              min="10"
-              max="100"
-              onChange={onNumericValueChange}
-              value={config.rowHeight}
-            />
-            <Label color="alt">Zoom level</Label>
-            <input
-              name="zoom"
-              className="w-full"
-              type="range"
-              min="1"
-              max="10"
-              onChange={onNumericValueChange}
-              value={config.zoom}
-            />
-          </div>
+          {!UIStore.minimalEditMode && (
+            <>
+              <Button color="secondary-alt" className="w-full mb-4" onClick={toggleAddNewModalVisible}>
+                Add new widget
+              </Button>
+              {addNewModalVisible && <AddNewWidgetModal onClose={toggleAddNewModalVisible} />}
+              <div>
+                <SelectPill
+                  value={config.sideNavPlacement}
+                  alt
+                  name="sideNavPlacement"
+                  pills={navPlacementOptions}
+                  onSelect={onPillValueChange}
+                />
+                <div className="flex w-full">
+                  <Label className="flex-grow" color="alt">
+                    Show header
+                  </Label>
+                  <input
+                    name="showHeader"
+                    className="self-align"
+                    type="checkbox"
+                    onChange={onCheckboxValueChange}
+                    checked={config.showHeader}
+                  />
+                </div>
+                <Label color="alt">Column count</Label>
+                <input
+                  name="columns"
+                  className="w-full"
+                  type="range"
+                  min="10"
+                  max="30"
+                  onChange={onNumericValueChange}
+                  value={config.columns}
+                />
+                <Label color="alt">Row size</Label>
+                <input
+                  name="rowHeight"
+                  className="w-full"
+                  type="range"
+                  min="10"
+                  max="100"
+                  onChange={onNumericValueChange}
+                  value={config.rowHeight}
+                />
+                <Label color="alt">Zoom level</Label>
+                <input
+                  name="zoom"
+                  className="w-full"
+                  type="range"
+                  min="1"
+                  max="10"
+                  onChange={onNumericValueChange}
+                  value={config.zoom}
+                />
+              </div>
+            </>
+          )}
+          <span className="text-blue cursor-pointer" onClick={UIStore.toggleMinimalEditMode}>
+            {UIStore.minimalEditMode ? 'Expand' : 'Minimize'}
+          </span>
           <Button className="w-full mt-4" color="secondary-alt" onClick={UIStore.stopEditMode}>
             Finish
           </Button>

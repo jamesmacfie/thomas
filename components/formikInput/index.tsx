@@ -5,6 +5,7 @@ import Label from 'components/label';
 import Icon from './icon';
 import Select from './select';
 import Map from './map';
+import Code from './code';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -14,7 +15,9 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   formik?: {
     errors: any;
     touched: boolean;
-  }; // Formik type here?
+  };
+  type?: string;
+  className?: string;
 }
 
 interface FieldErrorProps {
@@ -37,6 +40,8 @@ const FormikInput = ({ value, label, name, formik, type, className, ...props }: 
           input = <Icon form={form} {...field} {...props} />;
         } else if (type === 'map') {
           input = <Map form={form} {...field} {...props} />;
+        } else if (type === 'code') {
+          input = <Code form={form} {...field} {...props} />;
         } else if (type === 'select') {
           input = <Select value={value} name={name} form={form} {...props} />;
         } else {

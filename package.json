@@ -74,6 +74,7 @@
     "pm2": "^3.5.1",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3.0.0",
+    "prismjs": "^1.17.1",
     "raw-loader": "^3.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -81,6 +82,8 @@
     "react-grid-layout": "^0.16.6",
     "react-leaflet": "^2.6.0",
     "react-select": "^3.0.4",
+    "react-simple-code-editor": "^0.10.0",
+    "react-view": "^2.0.2",
     "sequelize": "^5.20.0",
     "sequelize-cli": "^5.5.1",
     "sqlite3": "^4.0.9",
@@ -92,5 +95,8 @@
     "uuid": "^3.3.3",
     "winston": "^3.2.1",
     "yup": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/prismjs": "^1.16.0"
   }
 }

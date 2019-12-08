@@ -2,6 +2,7 @@
  * Ignore
  */
 declare module '@browser-bunyan/console-formatted-stream';
+declare module 'prismjs/components/prism-core';
 
 /**
  * File types

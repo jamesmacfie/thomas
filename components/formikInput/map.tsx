@@ -12,7 +12,6 @@ interface Props {
 }
 
 const FormikInputMap = ({ form, name, value, ...props }: Props) => {
-  console.log('value', value);
   let valueToUse;
   if (!value || !value[0] || !value[1]) {
     valueToUse = defaultValue;

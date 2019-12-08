@@ -4,6 +4,7 @@ import { observable, action } from 'mobx';
 export default class Store {
   @observable drawerOpen: boolean = false;
   @observable editMode: boolean = false;
+  @observable minimalEditMode: boolean = false;
 
   @action
   openDrawer = () => (this.drawerOpen = true);
@@ -11,6 +12,9 @@ export default class Store {
   closeDrawer = () => (this.drawerOpen = false);
   @action
   toggleDrawer = () => (this.drawerOpen = !this.drawerOpen);
+
+  @action
+  toggleMinimalEditMode = () => (this.minimalEditMode = !this.minimalEditMode);
 
   @action
   startEditMode = () => (this.editMode = true);
