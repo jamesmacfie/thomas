@@ -4,6 +4,18 @@ import RequiresSettingIcon from 'components/requiresSettingsIcon';
 import Panel from 'components/panel';
 import Button from 'components/button';
 import { H1, H2, H3, H4 } from 'components/text';
+import Alert from 'components/alert';
+import Icon from 'components/icon';
+import IconPill from 'components/iconPill';
+import IconSearchList from 'components/iconSearchList';
+import Input from 'components/input';
+import Label from 'components/label';
+import Loader from 'components/Loader';
+import Map from 'components/map';
+import Modal from 'components/modal';
+import PanelIcon from 'components/panelIcon';
+import PanelMainText from 'components/panelMainText';
+import Select from 'components/select';
 
 const defaultCode = `import { useState } from 'react'
 import Button from 'button';
@@ -26,7 +38,6 @@ const Cmp = () => {
 export default Cmp;`;
 
 const Code = ({ widgetConfig }: IntegrationWidgetProps) => {
-  console.log('go', widgetConfig.code);
   const params = useView({
     initialCode: widgetConfig.code ? widgetConfig.code : defaultCode,
     scope: {
@@ -35,11 +46,59 @@ const Code = ({ widgetConfig }: IntegrationWidgetProps) => {
       H2,
       H3,
       H4,
-      useState
+      useState,
+      Alert,
+      Icon,
+      IconPill,
+      IconSearchList,
+      Input,
+      Label,
+      Loader,
+      Map,
+      Modal,
+      PanelIcon,
+      PanelMainText,
+      Select
     },
     imports: {
       button: {
         default: 'Button'
+      },
+      alert: {
+        default: 'Alert'
+      },
+      icon: {
+        default: 'Icon'
+      },
+      iconPill: {
+        default: 'IconPill'
+      },
+      iconSearchList: {
+        default: 'IconSearchList'
+      },
+      input: {
+        default: 'Input'
+      },
+      label: {
+        default: 'Label'
+      },
+      loader: {
+        default: 'Loader'
+      },
+      map: {
+        default: 'Map'
+      },
+      modal: {
+        default: 'Modal'
+      },
+      panelIcon: {
+        default: 'PanelIcon'
+      },
+      panelMainText: {
+        default: 'PanelMainText'
+      },
+      select: {
+        default: 'Select'
       },
       text: {
         named: ['H1', 'H2', 'H3', 'H4']

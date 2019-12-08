@@ -40,7 +40,6 @@ const CreateDeviceViewForm = ({ onClose }: Props) => {
           await devicesStore.insert({ icon, name });
           onClose();
         } catch (error) {
-          console.log(onClose);
           logger.error('Error submitting <AddFirstDevice />', { error });
           setError(`Error submitting first device: ${error.message}`);
           setSubmitting(false);
