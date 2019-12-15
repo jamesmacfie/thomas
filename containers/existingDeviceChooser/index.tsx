@@ -13,12 +13,23 @@ const DeviceChooser = () => {
     value: d.id,
     label: d.name
   }));
+  console.log('SV', selectValues);
+  const a = [
+    {
+      value: 1,
+      label: 'boo'
+    },
+    {
+      value: 2,
+      label: 'boo2'
+    }
+  ];
   return (
     <div className="w-128 h-128 relative absolute-center">
       <Panel>
         <p className="text-5xl text-center">📱</p>
         <p className="mb-4 text-center">Which device is this?</p>
-        <Select values={selectValues} onChange={onSelect} />
+        <Select values={a} onChange={onSelect} />
       </Panel>
     </div>
   );

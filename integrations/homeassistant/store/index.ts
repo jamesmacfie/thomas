@@ -36,7 +36,7 @@ export default class Store {
   @action
   fetchIntegrations = async () => {
     logger.debug('Homeassistant store fetchIntegrations');
-    const integrations = await fetch(`${process.env.API_URL}/integrations/homeassistant`).then(res => res.json());
+    const integrations = await fetch(`${window.location.origin}/integrations/homeassistant`).then(res => res.json());
 
     logger.debug('Setting Homeassistant integrations', { integrations });
     this.integrations = integrations;

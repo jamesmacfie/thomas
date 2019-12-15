@@ -4,6 +4,7 @@ import Select, { components as cmps } from 'react-select';
 import { Props } from 'react-select/src/Select';
 
 const InputSelect = ({ className, ...props }: Props) => {
+  console.log(props);
   return <Select classNamePrefix="react-select" className={cn(className, 'mb-4 react-select-container')} {...props} />;
 };
 
