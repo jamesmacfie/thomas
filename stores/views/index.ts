@@ -4,6 +4,7 @@ import { observable, action } from 'mobx';
 import fetch from 'isomorphic-unfetch';
 import { store as devicesStore } from 'stores/devices';
 import logger from 'utils/logger';
+import { origin } from 'utils/window';
 
 interface ViewWidgetCreate {
   integrationId: number | null;
@@ -24,7 +25,7 @@ export default class Store {
   @action
   fetchAll = async () => {
     logger.debug('Views store fetchAll');
-    const views = await fetch(`${window.location.origin}/views`).then(res => res.json());
+    const views = await fetch(`${origin()}/views`).then(res => res.json());
     logger.debug('Setting views', { views });
     this.views = keyBy(views, 'id');
   };
@@ -60,7 +61,7 @@ export default class Store {
       ...update.config
     };
 
-    await fetch(`${window.location.origin}/widget/${update.widgetId}`, {
+    await fetch(`${origin()}/widget/${update.widgetId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -92,7 +93,7 @@ export default class Store {
           return Promise.resolve(widget);
         }
 
-        await fetch(`${window.location.origin}/widget/${update.widgetId}`, {
+        await fetch(`${origin()}/widget/${update.widgetId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

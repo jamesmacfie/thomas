@@ -3,6 +3,7 @@ import { observable, action } from 'mobx';
 import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
 import logger from 'utils/logger';
+import { origin } from 'utils/window';
 
 export default class Store {
   @observable configs: { [key: string]: Config } = {};
@@ -14,7 +15,7 @@ export default class Store {
   @action
   fetchAll = async () => {
     logger.debug('Config store fetchAll');
-    const configs = await fetch(`${window.location.origin}/configs`).then(res => res.json());
+    const configs = await fetch(`${origin()}/configs`).then(res => res.json());
     logger.debug('Setting configs', { configs });
     this.configs = keyBy(configs, 'slug');
   };

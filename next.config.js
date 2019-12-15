@@ -1,6 +1,7 @@
 const { parsed: localEnv } = require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
+const ip = require('ip');
 const withCSS = require('@zeit/next-css');
 const withIntegrations = require('./.thomas/build/withIntegrations');
 
@@ -13,7 +14,12 @@ module.exports = withIntegrations(
 
       config.resolve.alias['thomas'] = path.join(__dirname, '.thomas');
 
-      config.plugins.push(new webpack.EnvironmentPlugin(localEnv));
+      config.plugins.push(
+        new webpack.EnvironmentPlugin({
+          ...localEnv,
+          server_ip: ip.address()
+        })
+      );
 
       return config;
     }

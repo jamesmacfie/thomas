@@ -3,6 +3,7 @@ import { observable, action } from 'mobx';
 import fetch from 'isomorphic-unfetch';
 import { store as deviceViewStore } from 'stores/deviceViews';
 import logger from 'utils/logger';
+import { origin } from 'utils/window';
 
 const isServer = typeof window === 'undefined';
 
@@ -47,7 +48,7 @@ export default class Store {
       logger.warn('No deviceId set, cannot fetch');
       return;
     }
-    const device = await fetch(`${window.location.origin}/device/${deviceId}`).then(res => res.json());
+    const device = await fetch(`${origin()}/device/${deviceId}`).then(res => res.json());
     logger.debug('Setting device', { device });
     this.device = device;
     await deviceViewStore.fetchAll({ deviceId });
@@ -71,7 +72,7 @@ export default class Store {
   @action
   fetchAll = async () => {
     logger.debug('Devices store fetchAll');
-    const devices = await fetch(`${window.location.origin}/devices`).then(res => res.json());
+    const devices = await fetch(`${origin()}/devices`).then(res => res.json());
     logger.debug('Setting other devives', { devices });
     this.otherDevices = devices;
   };
@@ -95,7 +96,7 @@ export default class Store {
     };
 
     try {
-      await fetch(`${window.location.origin}/device/${this.device.id}`, {
+      await fetch(`${origin()}/device/${this.device.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(this.device)
@@ -113,7 +114,7 @@ export default class Store {
       return;
     }
 
-    await fetch(`${window.location.origin}/device/${deviceId}`, {
+    await fetch(`${origin()}/device/${deviceId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.device)

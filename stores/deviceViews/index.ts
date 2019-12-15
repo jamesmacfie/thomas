@@ -4,6 +4,7 @@ import { keyBy } from 'lodash';
 import fetch from 'isomorphic-unfetch';
 import { store as devicesStore } from 'stores/devices';
 import logger from 'utils/logger';
+import { origin } from 'utils/window';
 
 interface DeviceViewWidgetUpdate {
   deviceViewId: number;
@@ -18,7 +19,7 @@ export default class Store {
   @action
   fetchAll = async ({ deviceId }: { deviceId: number | string }) => {
     logger.debug('DeviceViews store fetchAll', { deviceId });
-    const deviceViews = await fetch(`${window.location.origin}/device/${deviceId}/views`).then(res => res.json());
+    const deviceViews = await fetch(`${origin()}/device/${deviceId}/views`).then(res => res.json());
     logger.debug('Setting deviceViews', { deviceViews });
     this.deviceViews = keyBy(deviceViews, 'id');
     this.loaded = true;
@@ -83,7 +84,7 @@ export default class Store {
           }
 
           logger.debug('Updating', { update: u });
-          fetch(`${window.location.origin}/device/view/${u.deviceViewId}`, {
+          fetch(`${origin()}/device/view/${u.deviceViewId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ order: u.order })
