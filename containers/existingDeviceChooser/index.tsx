@@ -10,7 +10,7 @@ const DeviceChooser = () => {
     devicesStore.setDeviceId(option.value);
   };
   const selectValues = otherDevices!.map(d => ({
-    value: d.id,
+    value: d.id.toString(),
     label: d.name
   }));
   return (
