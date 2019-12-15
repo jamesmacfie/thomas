@@ -1,3 +1,6 @@
-console.log(process.env);
+import getConfig from 'next/config';
+
+const { publicRuntimeConfig } = getConfig();
+
 export const isServer = typeof window === 'undefined';
-export const origin = () => (isServer ? '' : window.location.origin);
+export const origin = publicRuntimeConfig.HOST;

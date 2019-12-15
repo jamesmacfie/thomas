@@ -5,7 +5,7 @@ const ip = require('ip');
 const withCSS = require('@zeit/next-css');
 const withIntegrations = require('./.thomas/build/withIntegrations');
 
-module.exports = withIntegrations(
+const nextConfig = withIntegrations(
   withCSS({
     webpack(config) {
       ['components', 'integrations', 'stores', 'svg', 'hooks', 'containers', 'utils', 'validations'].forEach(
@@ -25,3 +25,9 @@ module.exports = withIntegrations(
     }
   })
 );
+
+nextConfig.publicRuntimeConfig = {
+  HOST: localEnv.HOST
+};
+
+module.exports = nextConfig;

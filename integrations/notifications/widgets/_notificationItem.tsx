@@ -40,7 +40,6 @@ const NotificationItem = ({ item }: Props) => {
   if (item.imageSrc) {
     image = <img src={item.imageSrc} className="w-8 h-8 mr-4" />;
   } else if (item.icon) {
-    console.log(item.icon);
     image = <Icon icon={item.icon} className="w-8 h-8 mr-4" />;
   }
 

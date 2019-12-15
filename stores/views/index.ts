@@ -25,7 +25,7 @@ export default class Store {
   @action
   fetchAll = async () => {
     logger.debug('Views store fetchAll');
-    const views = await fetch(`${origin()}/views`).then(res => res.json());
+    const views = await fetch(`${origin}/views`).then(res => res.json());
     logger.debug('Setting views', { views });
     this.views = keyBy(views, 'id');
   };
@@ -61,7 +61,7 @@ export default class Store {
       ...update.config
     };
 
-    await fetch(`${origin()}/widget/${update.widgetId}`, {
+    await fetch(`${origin}/widget/${update.widgetId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -93,7 +93,7 @@ export default class Store {
           return Promise.resolve(widget);
         }
 
-        await fetch(`${origin()}/widget/${update.widgetId}`, {
+        await fetch(`${origin}/widget/${update.widgetId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

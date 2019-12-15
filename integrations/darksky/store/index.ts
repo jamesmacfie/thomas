@@ -10,7 +10,7 @@ export default class Store {
   @action
   fetchIntegrations = async () => {
     logger.debug('Dark sky store fetchIntegrations');
-    const integrations = await fetch(`${origin()}/integrations/darksky`).then(res => res.json());
+    const integrations = await fetch(`${origin}/integrations/darksky`).then(res => res.json());
 
     logger.debug('Setting Darksky integrations', { integrations });
     this.integrations = integrations;
@@ -29,7 +29,7 @@ export default class Store {
     }
     await Promise.all(
       this.integrations.map(async i => {
-        const forecast = await fetch(`${origin()}/darksky/forecast/${i.id}`).then(res => res.json());
+        const forecast = await fetch(`${origin}/darksky/forecast/${i.id}`).then(res => res.json());
         logger.debug('Setting Darksky forecast', { id: i.id, forecast });
         this.forecasts[i.id] = forecast;
       })

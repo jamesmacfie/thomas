@@ -6,7 +6,6 @@ const init = (server: express.Express) => {
   server.post('/widget', async (req: express.Request, res: express.Response) => {
     try {
       logger.info(`📦 Creating widget`);
-      console.log(req.body);
       const { integrationSlug, widgetSlug, integrationId, config, viewId, deviceId } = req.body;
       const widget = await db.Widget.create({
         config,

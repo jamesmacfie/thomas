@@ -15,7 +15,7 @@ export default class Store {
   @action
   fetchAll = async () => {
     logger.debug('Config store fetchAll');
-    const configs = await fetch(`${origin()}/configs`).then(res => res.json());
+    const configs = await fetch(`${origin}/configs`).then(res => res.json());
     logger.debug('Setting configs', { configs });
     this.configs = keyBy(configs, 'slug');
   };

@@ -37,7 +37,7 @@ export default class Store {
   @action
   fetchIntegrations = async () => {
     logger.debug('Homeassistant store fetchIntegrations');
-    const integrations = await fetch(`${origin()}/integrations/homeassistant`).then(res => res.json());
+    const integrations = await fetch(`${origin}/integrations/homeassistant`).then(res => res.json());
 
     logger.debug('Setting Homeassistant integrations', { integrations });
     this.integrations = integrations;
@@ -176,7 +176,7 @@ export default class Store {
   @action
   getTokens = async (config: Config) => {
     logger.debug('Homeassistant store getTokens', { code: config.code });
-    const clientId = encodeURIComponent(origin());
+    const clientId = encodeURIComponent(origin);
     return fetch(`${config.url}/auth/token`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -189,7 +189,7 @@ export default class Store {
   refreshToken = async (integration: Integration) => {
     const { url, tokens } = integration.config;
     logger.debug('Homeassistant store refreshTokens', { tokens });
-    const clientId = encodeURIComponent(origin());
+    const clientId = encodeURIComponent(origin);
     const newTokens = await fetch(`${url}/auth/token`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
