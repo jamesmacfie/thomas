@@ -14,7 +14,7 @@ const FormikInputSelect = ({ form, name, value, values }: Props) => {
   };
   const v = values.find((d: any) => d.value === value) || values[0];
 
-  return <InputSelect value={v} values={values} onChange={onChange} />;
+  return <InputSelect value={v} options={values} onChange={onChange} />;
 };
 
 export default FormikInputSelect;

@@ -27,7 +27,7 @@ export default class Store {
     }
 
     // TODO - this needs to come from an env var https://nicedoc.io/tusbar/next-runtime-dotenv maybe
-    const wsURL = `ws://localhost:3000/notifications/${deviceId}`;
+    const wsURL = `${window.location.origin.replace('http', 'ws')}/notifications/${deviceId}`;
     console.log('Notification store subscribing to websocket', { wsURL });
     try {
       this.websocket = new WebSocket(wsURL);
