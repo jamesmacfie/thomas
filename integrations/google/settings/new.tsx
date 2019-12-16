@@ -15,7 +15,7 @@ const NewGoogle = () => {
     }
   }, []);
 
-  // TODO - log this
+  // TODO - show this
   console.log(error);
 
   if (!url) {
