@@ -10,7 +10,7 @@ import IconPill from 'components/iconPill';
 import IconSearchList from 'components/iconSearchList';
 import Input from 'components/input';
 import Label from 'components/label';
-import Loader from 'components/Loader';
+import Loader from 'components/loader';
 import Map from 'components/map';
 import Modal from 'components/modal';
 import PanelIcon from 'components/panelIcon';
