@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { store as gcalStore } from '../store';
 import logger from 'utils/logger';
 
-const NewGoogleCalendar = () => {
+const NewGoogle = () => {
   const [url, setUrl] = useState<null | string>(null);
   const [error, setError] = useState<String>('');
   useEffect(() => {
@@ -27,4 +27,4 @@ const NewGoogleCalendar = () => {
   return <p>Redirecting...</p>;
 };
 
-export default NewGoogleCalendar;
+export default NewGoogle;

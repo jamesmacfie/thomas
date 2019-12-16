@@ -1,10 +1,10 @@
 {
-  "name": "Google Calendar",
+  "name": "Google Account",
   "singular": false,
   "requiresSettings": true,
   "widgets": [
     {
-      "slug": "full",
+      "slug": "full_calendar",
       "name": "Full calendar",
       "layout": {
         "initialW": 6,
