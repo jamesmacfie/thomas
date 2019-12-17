@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 import { observable, action, computed } from 'mobx';
 import logger from 'utils/logger';
+import { store as integrationsStore } from 'stores/integrations';
 import { origin } from 'utils/window';
 
 export default class Store {
@@ -19,12 +20,19 @@ export default class Store {
   @action
   insert = async (code: string) => {
     logger.debug('Google store insert', { code });
-    const tokens = await this.getTokens(code);
-    logger.debug('Google store insert - got tokens', { tokens });
+    const info = await this.getInfo(code);
+    logger.debug('Google store insert - got tokens', info);
+    const config = {
+      ...info,
+      name: info.user.email,
+      image: info.user.picture
+    };
+    const integration = await integrationsStore.insert('google', config);
+    this.integrations = this.integrations.concat(integration);
   };
 
-  getTokens = (code: string) => {
-    return fetch(`${origin}/google/token?code=${code}`).then((response: Response) => response.text());
+  getInfo = (code: string) => {
+    return fetch(`${origin}/google/info?code=${code}`).then((response: Response) => response.json());
   };
 }
 

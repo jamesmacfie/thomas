@@ -34,7 +34,7 @@ const CurrentIntegrations = ({ systemIntegration, integration }: CurrrentIntegra
       <PanelIcon
         title={integration.config.name}
         href={`/settings/integrations/${systemIntegration.slug}/existing/${integration.id}`}
-        imgSrc={`/static/${systemIntegration.slug}/logo.png`}
+        imgSrc={integration.config.image ? integration.config.image : `/static/${systemIntegration.slug}/logo.png`}
         imageClassName="rounded-full bg-white"
       />
     </div>

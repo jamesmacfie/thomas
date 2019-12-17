@@ -152,12 +152,12 @@ body {
 
 .react-select__menu {
   background-color: theme('colors.grey-darkest') !important;
-  color: theme('colors.text') !important;
+  color: var(--text-primary) !important;
   margin-top: 1px !important;
 }
 
 .react-select__single-value {
-  color: theme('colors.text') !important;
+  color: var(--text-primary) !important;
 }
 
 .react-select__option--is-focused {
@@ -167,15 +167,15 @@ body {
 
 .react-select__option--is-selected {
   background-color: theme('colors.blue') !important;
-  color: theme('colors.text') !important;
+  color: var(--text-primary) !important;
 }
 
 .react-select__indicator {
-  color: theme('colors.text') !important;
+  color: var(--text-primary) !important;
 }
 
 .react-select__indicator-separator {
-  background-color: theme('colors.text') !important;
+  background-color: var(--text-primary) !important;
 }
 
 .react-select__placeholder {

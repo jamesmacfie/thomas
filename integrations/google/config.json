@@ -4,7 +4,7 @@
   "requiresSettings": true,
   "widgets": [
     {
-      "slug": "full_calendar",
+      "slug": "fullCalendar",
       "name": "Full calendar",
       "layout": {
         "initialW": 6,
