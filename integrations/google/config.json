@@ -1,5 +1,5 @@
 {
-  "name": "Google Account",
+  "name": "Google",
   "singular": false,
   "requiresSettings": true,
   "widgets": [

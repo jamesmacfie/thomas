@@ -34,6 +34,12 @@ export default class Store {
   getInfo = (code: string) => {
     return fetch(`${origin}/google/info?code=${code}`).then((response: Response) => response.json());
   };
+
+  getEvents = (integrationId: number, timeMin: string, timeMax: string) => {
+    return fetch(
+      `${origin}/google/calendar/events/${integrationId}?timeMin=${timeMin}&timeMax=${timeMax}`
+    ).then((response: Response) => response.json());
+  };
 }
 
 export let store = new Store();
