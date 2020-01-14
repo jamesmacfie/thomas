@@ -19,7 +19,7 @@ declare module '*.svg' {
 
 /** Config */
 declare interface Config {
-  id: int;
+  id: number;
   slug: string;
   name?: string;
   value: string;

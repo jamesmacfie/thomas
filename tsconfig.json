@@ -2,15 +2,23 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "*": ["types/*", "*"],
-      "thomas/*": [".thomas/*"],
+      "*": ["types/*", "src/*"],
+      "thomas/*": ["src/ui/.thomas/*"],
+      "components/*": ["src/ui/components/*"],
+      "hooks/*": ["src/ui/hooks/*"],
+      "containers/*": ["src/ui/containers/*"],
+      "stores/*": ["src/ui/stores/*"],
+      "utils/*": ["src/ui/utils/*"],
+      "validations/*": ["src/ui/validations/*"],
+      "integrations/*": ["src/integrations/*"],
+      "server/*": ["src/server/*"],
       "@fortawesome/fontawesome-common-types": ["./node_modules/@fortawesome/fontawesome-common-types/index"]
     },
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
     "lib": ["dom", "es2017"],
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
     "noUnusedLocals": true,
@@ -28,19 +36,5 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": [
-    ".thomas",
-    "pages",
-    "containers",
-    "components",
-    "types",
-    "stores",
-    "integrations",
-    "server",
-    "svg",
-    "hooks",
-    "utils",
-    "validations"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["src", "types"]
 }
