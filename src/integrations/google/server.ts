@@ -54,7 +54,6 @@ export function init(server: express.Express) {
     const googleOauth2Client = generateGoogleOauthClient();
     const tokenResponse = await googleOauth2Client.getToken(code);
     const userInfo: any = await getUserInfo(tokenResponse.tokens);
-    console.log(tokenResponse.tokens);
     res.status(200).send({
       tokens: tokenResponse.tokens,
       user: userInfo.data
@@ -90,6 +89,32 @@ export function init(server: express.Express) {
         }
         logger.info(`☘️ Got ${events.data.items.length} Google calender event(s)`);
         return res.send({ events: events.data.items });
+      }
+    );
+  });
+
+  server.get('/api/google/calendar/nextevent/:integrationId', async (req: express.Request, res: express.Response) => {
+    const integrationId = parseInt(req.params.integrationId);
+    logger.info(`☘️ Getting next Google calendar event for integration ${integrationId}`);
+
+    const tokens = await getGoogleTokensViaIntegrationId(integrationId);
+    const googleOauth2Client = generateGoogleOauthClient();
+    googleOauth2Client.setCredentials(tokens);
+    const calendar = google.calendar({ version: 'v3', auth: googleOauth2Client });
+    calendar.events.list(
+      {
+        calendarId: 'primary',
+        timeMin: new Date().toISOString(),
+        maxResults: 1,
+        singleEvents: true,
+        orderBy: 'startTime'
+      },
+      (err: Error | null, events: any) => {
+        if (err) {
+          logger.error(`☘️ Error getting next Google calendar event ${err.message}`);
+          return res.sendStatus(500);
+        }
+        return res.send({ event: events.data.items.length ? events.data.items[0] : null });
       }
     );
   });

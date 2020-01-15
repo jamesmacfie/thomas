@@ -1,8 +1,16 @@
 {
-  "name": "Google",
+  "name": "Google Calendar",
   "singular": false,
   "requiresSettings": true,
   "widgets": [
+    {
+      "slug": "nextMeeting",
+      "name": "Next meeting",
+      "layout": {
+        "initialW": 6,
+        "initialH": 3
+      }
+    },
     {
       "slug": "fullCalendar",
       "name": "Full calendar",

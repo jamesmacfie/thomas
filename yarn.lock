@@ -1642,6 +1642,18 @@
   resolved "https://registry.yarnpkg.com/@types/fscreen/-/fscreen-1.0.1.tgz#d924e07d0468eb056abeca41bd54e742ddce2b6d"
   integrity sha512-hV2d0BreihMGtrg+EdAFOIl/O2EL5vhAheHJUztGE/lPFZIN8ZCpGFL8hCbtyi1CfhKjDRCf47sHjP+FwJ4q0Q==
 
+"@types/gapi.client.calendar@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/gapi.client.calendar/-/gapi.client.calendar-3.0.1.tgz#5941f40378e0171e1eb316815d984f2a766f599b"
+  integrity sha512-MJEreoALfe7VnynOL29NuERAfrTyySrV+1Ar4JObLezQR1G0V3lCjJ5wRrodNd5vmlyjQZzhTKZR1hWcdW67iw==
+  dependencies:
+    "@types/gapi.client" "*"
+
+"@types/gapi.client@*":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/gapi.client/-/gapi.client-1.0.1.tgz#620860ae183d849e513d44b4f0422c89b8a1fc91"
+  integrity sha512-/SjoU65jvBZlDQtw12OB9YCrqKQrrAdG4YpVTH4AJaJDCOkFdGXcDA2IFTm3d2UCeQwmqM/o6tNlyjKINO6MNg==
+
 "@types/geojson@*":
   version "7946.0.7"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.7.tgz#c8fa532b60a0042219cdf173ca21a975ef0666ad"

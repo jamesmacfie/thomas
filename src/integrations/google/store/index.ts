@@ -42,6 +42,14 @@ export default class Store {
       `${api_url}/api/google/calendar/events/${integrationId}?timeMin=${timeMin}&timeMax=${timeMax}`
     ).then((response: Response) => response.json());
   };
+
+  getNextEvent = async (integrationId: number) => {
+    const json = await fetch(`${api_url}/api/google/calendar/nextevent/${integrationId}`).then((response: Response) =>
+      response.json()
+    );
+
+    return json.event;
+  };
 }
 
 export let store = new Store();
