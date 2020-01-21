@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import useQuery from 'hooks/useQuery';
 import { StoreContext } from '../store';
@@ -12,9 +12,9 @@ const HomeAssistantCallback = observer(() => {
   const [error, setError] = useState<string>('');
   const [redirect, setRedirect] = useState<string | null>(null);
   const store = useContext(StoreContext);
-  const { code } = useParams();
   const query = useQuery();
   const state = query.get('state');
+  const code = query.get('code');
   useEffect(() => {
     try {
       const stateArr = state!.split('__');

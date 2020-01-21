@@ -50,8 +50,9 @@ export default class Store {
     this.connectWebsocket(socket, integration);
   };
 
-  createWebsocket = (_integration: Integration) => {
-    return new WebSocket(`${api_url.replace('http', 'ws')}/api/websocket`);
+  createWebsocket = (integration: Integration) => {
+    const host = integration.config.url.replace('http', 'ws');
+    return new WebSocket(`${host}/api/websocket`);
   };
 
   connectWebsocket = (socket: WebSocket, integration: Integration) => {
@@ -171,7 +172,7 @@ export default class Store {
   @action
   getTokens = async (config: Config) => {
     logger.debug('Homeassistant store getTokens', { code: config.code });
-    const clientId = encodeURIComponent(api_url);
+    const clientId = encodeURIComponent(window.location.origin);
     return fetch(`${config.url}/auth/token`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -184,7 +185,7 @@ export default class Store {
   refreshToken = async (integration: Integration) => {
     const { url, tokens } = integration.config;
     logger.debug('Homeassistant store refreshTokens', { tokens });
-    const clientId = encodeURIComponent(api_url);
+    const clientId = encodeURIComponent(window.location.origin);
     const newTokens = await fetch(`${url}/auth/token`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
