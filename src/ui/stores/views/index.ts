@@ -121,7 +121,7 @@ export default class Store {
 
   deleteWidget = async (viewId: number, widgetId: number) => {
     logger.debug('Views store archiveWidget', { widgetId });
-    await fetch(`${api_url}/api/view/${viewId}/api/widget/${widgetId}`, {
+    await fetch(`${api_url}/api/view/${viewId}/widget/${widgetId}`, {
       method: 'DELETE'
     });
 
