@@ -62,7 +62,7 @@ export default class Store {
       ...update.config
     };
 
-    await fetch(`${api_url}/widget/${update.widgetId}`, {
+    await fetch(`${api_url}/api/widget/${update.widgetId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -121,7 +121,7 @@ export default class Store {
 
   deleteWidget = async (viewId: number, widgetId: number) => {
     logger.debug('Views store archiveWidget', { widgetId });
-    await fetch(`${api_url}/api/view/${viewId}/widget/${widgetId}`, {
+    await fetch(`${api_url}/api/view/${viewId}/api/widget/${widgetId}`, {
       method: 'DELETE'
     });
 
