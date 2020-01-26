@@ -1,44 +1,111 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Thomas
 
-## Available Scripts
+## Status
 
-In the project directory, you can run:
+### Pre-alpha. Expect a lot of things to break. Much code still to write :D
 
-### `yarn start`
+## Running
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Assuming `yarn`. Replace with `npm` where necessary:
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```
+git clone git@github.com:jamesmacfie/thomas.git
+```
 
-### `yarn test`
+```
+cd thomas && yarn install
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+yarn start
+```
 
-### `yarn build`
+## What is this?
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Thomas is a home dashboard system for wall mounted tablets for displaying almost whatever you want. It’s designed to be useful, extendable, and look like something you’d be proud to have on your wall.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Why build it?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+There are other projects like this that exist that you could get to do the same thing as Thomas. However none of these worked in a way that I could be certain would be useful for both myself (the geek in the family), but also for other members of the household. Some of these systems were too complex to set up and modify, some were overly verbose in what they displayed by default, some couldn’t be extended easily, and many were tied to a single source of data. If I want a dashboard system to work for my family then it couldn’t do any of these things.
 
-### `yarn eject`
+Many systems create the one dashboard with many views. I was after a system that could sustain many dashboards (for many tablets) with many views. These would live in different parts of the house and all display information most useful for the activities in that particular location. A single dashboard with multiple pages/views is not the same thing.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Plus most of them looked like garbage. If it’s going to be on your wall then at the very least it has to be look nice.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## First principles
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 1. It has to be useful for everyone in the house
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+If dashboards are to live on the walls of your house, they have to be immediately useful to _everyone_. A home dashboard is only as good as the amount of use it gets. So it makes sense to make it useful to as many household members as possible.
 
-## Learn More
+### 2. Overview by a glance, detail by intent
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+A single glance at a dashboard should give you an overview of what’s going on. Only if you want detail should you need to intentionally stop and look closer.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 3 .Sensible defaults
+
+If a system is deliberately extendable, where does the core stop and the extensions start? A home dashboard system should include as many extensions as possible by default to provide the greatest potential use. It has to do this while keeping in line with principle number 1.
+
+### 4. Extensible at it’s core
+
+The core of a the dashboard system should be small with the bulk of the functionality coming from extensions or integrations with other systems.
+
+## Here’s some mockups
+
+Note: these are mockups (the [Sketch file](https://github.com/jamesmacfie/thomas/blob/master/Mockup.sketch) is in the repo). Not all of the functionality below has been build yet.
+
+### Kitchen
+
+![Thomas - Kitchen](https://raw.githubusercontent.com/jamesmacfie/thomas/master/public/github/kitchen.png)
+
+### Office
+
+![Thomas - Office](https://raw.githubusercontent.com/jamesmacfie/thomas/master/public/github/office.png)
+
+### Lounge
+
+![Thomas - Lounge](https://raw.githubusercontent.com/jamesmacfie/thomas/master/public/github/lounge.png)
+
+### Lounge - weather view
+
+![Thomas - Lounge weather](https://raw.githubusercontent.com/jamesmacfie/thomas/master/public/github/lounge-w.png)
+
+### Lounge - traffic view
+
+![Thomas - Lounge traffic](https://raw.githubusercontent.com/jamesmacfie/thomas/master/public/github/lounge-t.png)
+
+## Current integrations
+
+### Dark Sky
+
+Integration status: works
+Widget status: Limited
+
+### Home Assistant
+
+Integration status: works
+Widget status: Limited
+
+### Iframe
+
+Integration status: works
+Widget status: Moderate
+
+### Custom JSX
+
+Integration status: kinda works
+Widget status: Moderate, yet buggy
+
+### Spotify
+
+Integration status: poc
+Widget status: nil
+
+### Google Calendar
+
+Integration status: works until refresh. Needs further documentation
+Widget status: Limited
+
+## Future integrations
+
+Oh there’s too many, I can’t list them.
