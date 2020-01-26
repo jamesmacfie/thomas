@@ -4,6 +4,8 @@
 
 ### Pre-alpha. Expect a lot of things to break. Much code still to write :D
 
+Think of it as like 40% complete.
+
 ## Running
 
 Assuming `yarn`. Replace with `npm` where necessary:
