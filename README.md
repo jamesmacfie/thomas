@@ -4,7 +4,7 @@
 
 ### Pre-alpha. Expect a lot of things to break. Much code still to write :D
 
-Think of it as like 40% complete.
+Think of it as like 40% complete. There's also no security or tests yet.
 
 ## Running
 
