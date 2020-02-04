@@ -42,7 +42,7 @@ export default class Store {
     }).then(res => res.json());
     logger.debug('Saved deviceView', { deviceView });
     this.deviceViews[deviceView.id] = deviceView;
-    viewsStore.views[deviceView.view.id] = deviceView.view;
+    viewsStore.addView(deviceView.view);
     return deviceView;
   };
 

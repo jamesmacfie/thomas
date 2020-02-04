@@ -50,6 +50,15 @@ export default class Store {
   };
 
   @action
+  addView = (view: View) => {
+    if (!view.widgets) {
+      view.widgets = [];
+    }
+
+    this.views[view.id] = view;
+  };
+
+  @action
   updateWidget = async (viewId: number, update: ViewWidgetUpdate) => {
     logger.debug('Views store insertWidget', { viewId, update });
     const currentWidget = this.views[viewId].widgets.find(w => w.id === update.widgetId);
