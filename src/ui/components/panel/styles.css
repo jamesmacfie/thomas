@@ -1,0 +1,4 @@
+.panel {
+  background-image: linear-gradient(135deg, var(--bg-panel-light), var(--bg-panel-dark));
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 4px;
+}

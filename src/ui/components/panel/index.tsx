@@ -2,6 +2,7 @@ import React, { ReactNode, MouseEvent } from 'react';
 import cn from 'classnames';
 import { pick } from 'lodash';
 import { H3 } from 'components/text';
+import './styles.css';
 
 export interface Props {
   className?: string;
@@ -27,7 +28,7 @@ const Panel = ({
   label,
   ...props
 }: Props) => {
-  const classes = cn(className, 'bg-panel rounded', {
+  const classes = cn(className, 'panel rounded', {
     'w-full': fit,
     'h-full': fit,
     'p-4': padding,

@@ -18,7 +18,7 @@ const Scroll = ({ children }: Props) => {
   }, 10000);
   return (
     <div className="relative h-full">
-      <div className="absolute left-0 right-0 top-0 h-4 scroll-top" />
+      <div className="absolute left-0 right-0 top-0 h-2 scroll-top" />
       <div onScroll={e => debouncedOnScroll(e.target)} className={cn('overflow-y-scroll h-full')}>
         {children}
       </div>

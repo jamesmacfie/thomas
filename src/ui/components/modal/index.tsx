@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import cn from 'classnames';
 import Panel from 'components/panel';
 import Icon from 'components/icon';
@@ -23,6 +23,13 @@ const classes: { [key: string]: string } = {
 
 const Modal = ({ title, children, className, size, onClose, padding = true }: Props) => {
   const [willClose, setWillClose] = useState<boolean>(false);
+  useEffect(() => {
+    document.getElementById('root')!.classList.add('bg-blur');
+    return () => {
+      document.getElementById('root')!.classList.remove('bg-blur');
+    };
+  }, []);
+
   const panelClasses = cn(
     classes[size],
     'z-50 absolute pin-center cursor-default',
@@ -33,8 +40,8 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
     },
     className
   );
-  const overlayClasses = cn(
-    'cursor-pointer fixed left-0 top-0 h-screen w-screen bg-overlay-dark z-40',
+  const containerClasses = cn(
+    'cursor-pointer fixed left-0 top-0 h-screen w-screen z-40',
     {
       'modal-open': !willClose,
       'modal-close': willClose
@@ -57,7 +64,7 @@ const Modal = ({ title, children, className, size, onClose, padding = true }: Pr
 
   return (
     <ClientOnlyPortal selector="#modal">
-      <div onClick={onOverlayClick} className={overlayClasses}>
+      <div onClick={onOverlayClick} className={containerClasses}>
         <Panel fit={false} className={panelClasses} padding={padding}>
           <div>
             <H4 className="text-2">{title}</H4>

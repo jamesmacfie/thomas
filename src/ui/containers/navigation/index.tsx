@@ -57,7 +57,7 @@ const NavigationItems = observer(({ items, onAddNewClick }: Props) => {
   });
 
   return (
-    <nav className="w-20 flex-shrink-0 double-border-right relative">
+    <nav className="w-20 flex-shrink-0 double-border-right relative h-full">
       <ul className="list-reset flex flex-col">
         <ReactGridLayout
           onLayoutChange={onLayoutChange}

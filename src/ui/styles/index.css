@@ -4,9 +4,13 @@
 
 :root {
   --bg-body: theme('colors.body');
+  --bg-body-light: theme('colors.body-light');
+  --bg-body-dark: theme('colors.body-dark');
   --bg-panel: theme('colors.panel');
-  --ovelray-dark: theme('colors.overlay-dark');
-  --ovelray-light: theme('colors.overlay-light');
+  --bg-panel-light: theme('colors.panel-light');
+  --bg-panel-dark: theme('colors.panel-dark');
+  --overlay-dark: theme('colors.overlay-dark');
+  --overlay-light: theme('colors.overlay-light');
   --text-primary: theme('colors.text-primary');
   --font-family: theme('fontFamily.sans');
   --font-weight: theme('fontWeight.light');
@@ -18,7 +22,7 @@ textarea::placeholder {
 }
 
 body {
-  background-color: var(--bg-body);
+  background-image: linear-gradient(135deg, var(--bg-body-light), var(--bg-body-dark));
   color: var(--text-primary);
   font-family: var(--font-family);
   font-weight: var(--font-weight);
@@ -27,6 +31,11 @@ body {
 }
 
 /** Custom tailwind helpers start **/
+.bg-blur {
+  filter: blur(35px);
+  opacity: 0.25;
+}
+
 .bg-body {
   background-color: var(--bg-color);
 }
