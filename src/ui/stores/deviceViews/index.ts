@@ -99,6 +99,7 @@ export default class Store {
           };
           logger.debug('Pending local commit', { valuesToUpdate });
           this.pendingDeviceViewUpdates[u.deviceViewId] = valuesToUpdate;
+          return Promise.resolve();
         })
       );
     } catch (error) {
