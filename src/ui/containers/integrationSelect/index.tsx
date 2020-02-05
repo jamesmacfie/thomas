@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import cn from 'classnames';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import Select from 'react-select';
 import IntegrationsStore, { StoreContext } from 'stores/integrations';
@@ -92,14 +92,16 @@ const IntegrationSelect = observer(({ className, onChange }: Props) => {
       logger.error('Cannot find integration for slug', { systemIntegrationSlug });
     } else {
       if (!options.length && systemIntegration.requiresSettings) {
-        integrationSelectCmp = (
-          <p className="my-4">
-            You need to add some settings.{' '}
-            <Link className="text-blue mb-4" to={`/settings/integrations/${systemIntegrationSlug}/new`}>
-              You can do this here.
-            </Link>
-          </p>
-        );
+        // TODO - check if I need this below
+        // integrationSelectCmp = (
+        //   <p className="my-4">
+        //     You need to add some settings.{' '}
+        //     <Link className="text-blue mb-4" to={`/settings/integrations/${systemIntegrationSlug}/new`}>
+        //       You can do this here.
+        //     </Link>
+        //   </p>
+        // );
+        integrationSelectCmp = null;
       } else if (systemIntegration.requiresSettings && !systemIntegration.singular) {
         // Only show integrationSelect if we are required to enter settings for it and it's not singular
         integrationSelectCmp = (
