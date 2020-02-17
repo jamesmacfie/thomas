@@ -169,6 +169,11 @@ interface ReactGridLayoutConfig extends WidgetConfig {
   i: any;
 }
 
+interface Theme {
+  green: string;
+  [key: string]: string;
+}
+
 /**
  * Forms
  */
