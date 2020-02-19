@@ -1,5 +1,5 @@
-const { getWidgets } = require('./withIntegrations/widgets');
-const { getSettings } = require('./withIntegrations/settings');
+const { getWidgets } = require('./widgets');
+const { getSettings } = require('./settings');
 
 console.log('📦 Build integration UI - buidling widgets');
 getWidgets();

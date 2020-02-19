@@ -136,13 +136,29 @@
     "workbox-webpack-plugin": "4.3.1",
     "yup": "^0.28.0"
   },
+  "watch": {
+    "build-integration-ui": {
+      "patterns": [
+        "src/integrations/**/*"
+      ],
+      "ignore": [
+        "src/integrations/store/*",
+        "src/integrations/store.ts",
+        "src/integrations/server/*",
+        "src/integrations/server.ts"
+      ],
+      "extensions": "tsx,ts"
+    }
+  },
   "scripts": {
-    "start": "npm run db:migrate && npm run build-css && concurrently \"npm run watch-css\" \"npm run start-ui\" \"npm run start-server\"",
+    "start": "npm run db:migrate && npm run build-css && concurrently \"npm run watch-css\" \"npm run watch-integration-ui\" \"npm run start-ui\" \"npm run start-server\"",
     "start-ui": "node scripts/start.js",
     "build-ui": "node scripts/build.js",
     "test-ui": "node scripts/test.js",
     "build-css": "postcss src/ui/styles/index.css -o src/ui/styles/dist.css",
     "watch-css": "postcss src/ui/styles/index.css -o src/ui/styles/dist.css -w",
+    "watch-integration-ui": "npm-watch build-integration-ui",
+    "build-integration-ui": "node .thomas/build/buildIntegrationUi.js",
     "start-server": "ts-node-dev --respawn --transpileOnly ./src/server/index.ts",
     "db:migrate": "sequelize-cli db:migrate",
     "db:rollback": "sequelize-cli db:migrate:undo"
