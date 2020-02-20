@@ -45,6 +45,25 @@
       ]
     },
     {
+      "slug": "climate",
+      "name": "Climate",
+      "layout": {
+        "initialW": 3,
+        "initialH": 3,
+        "minW": 3,
+        "minH": 3
+      },
+      "settings": [
+        {
+          "key": "label",
+          "type": "text",
+          "label": "Label",
+          "description": "What the label should read",
+          "validationType": "string"
+        }
+      ]
+    },
+    {
       "slug": "icon",
       "name": "Icon",
       "layout": {

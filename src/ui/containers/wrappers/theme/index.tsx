@@ -9,10 +9,14 @@ interface Props {
 
 const themes: { [key: string]: Theme } = {
   dark: {
-    green: 'red'
+    green: 'red',
+    'text-primary': '#fff',
+    'text-secondary': '#d1d5da'
   },
   light: {
-    green: 'blue'
+    green: 'blue',
+    'text-primary': '#000',
+    'text-secondary': '#d1d5da'
   }
 };
 
@@ -21,14 +25,12 @@ const PageWrapper = observer(({ children }: Props) => {
   const style = (
     <style type="text/css">{`
     :root {
-      ${Object.keys(themes[UIStore.theme]).map((key: string) => `--${key}: ${themes[UIStore.theme][key]}`)}
+      ${Object.keys(themes[UIStore.theme])
+        .map((key: string) => `--${key}: ${themes[UIStore.theme][key]};`)
+        .join(' ')}
     }
   `}</style>
   );
-
-  setTimeout(() => {
-    UIStore.setTheme('light');
-  }, 5000);
 
   return (
     <>

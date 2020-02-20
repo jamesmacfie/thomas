@@ -11,7 +11,6 @@
   --bg-panel-dark: theme('colors.panel-dark');
   --overlay-dark: theme('colors.overlay-dark');
   --overlay-light: theme('colors.overlay-light');
-  --text-primary: theme('colors.text-primary');
   --font-family: theme('fontFamily.sans');
   --font-weight: theme('fontWeight.light');
   --green: #38c172;
@@ -63,6 +62,12 @@ body {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.absolute-center-h {
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%);
 }
 
 .double-border-bottom::before,

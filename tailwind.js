@@ -37,8 +37,8 @@ const tailwind = {
       'panel-light': '#303958',
       'panel-dark': '#252C47',
 
-      'text-primary': '#fff',
-      'text-secondary': '#d1d5da',
+      'text-primary': 'var(--text-primary)',
+      'text-secondary': 'var(--text-secondary)',
       'overlay-light': '#232E3C',
       'overlay-dark': '#151C27',
 
@@ -497,6 +497,9 @@ const tailwind = {
       '40': '10rem',
       '48': '12rem',
       '64': '16rem',
+      '1/2': '50%',
+      '1/3': '33.33333%',
+      '2/3': '66.66667%',
       full: '100%',
       screen: '100vh'
     },
