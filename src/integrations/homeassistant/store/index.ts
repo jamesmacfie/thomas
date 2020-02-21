@@ -153,7 +153,7 @@ export default class Store {
       (dataToSend as any).id = this.id;
       this.id++;
     }
-
+    console.log(JSON.stringify(dataToSend));
     socket.send(JSON.stringify(dataToSend));
   };
 

@@ -60,6 +60,21 @@
           "label": "Label",
           "description": "What the label should read",
           "validationType": "string"
+        },
+        {
+          "key": "entityId",
+          "type": "text",
+          "label": "Entity",
+          "description": "The Entity you want to monitor",
+          "validationType": "string",
+          "validations": [
+            {
+              "type": "required",
+              "params": [
+                "Please enter the entity string"
+              ]
+            }
+          ]
         }
       ]
     },

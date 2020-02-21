@@ -37,10 +37,10 @@ const Panel = ({
 
   const inner = !!label ? (
     <div className="flex flex-col h-full w-full">
-      <div className="max-h-full max-w-full flex-grow flex justify-center items-center">{children}</div>
       <H3 className="mb-0" margin={false}>
         {label}
       </H3>
+      <div className="max-h-full max-w-full flex-grow flex justify-center items-center">{children}</div>
     </div>
   ) : (
     children
