@@ -32,7 +32,6 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
       }
     };
 
-    console.log(dataToSend);
     store.websocketSendByIntegrationId(integrationId, dataToSend);
     setActive(newActive);
   };
@@ -68,12 +67,6 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
           </div>
         </div>
         <div className="h-24 flex-shrink-0 flex pt-3">
-          <div className="flex-grow flex flex-col items-center">
-            <Switch active={active} onChange={onSwitch} />
-            <H3 className="mb-0 mt-2" margin={false}>
-              {active ? 'ON' : 'OFF'}
-            </H3>
-          </div>
           <div className="flex-grow flex flex-col items-center">
             <Switch active={active} onChange={onSwitch} />
             <H3 className="mb-0 mt-2" margin={false}>
