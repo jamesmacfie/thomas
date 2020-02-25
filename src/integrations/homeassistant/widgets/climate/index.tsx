@@ -54,7 +54,7 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
 
   return (
     <Panel {...widgetConfig} className="pb-8" label={widgetConfig.label}>
-      <div className="flex flex-col w-full max-h-full">
+      <div className="flex flex-col w-full max-h-full absolute-full">
         <div className="flex-grow flex justify-center overflow-hidden relative">
           <div className="w-32 max-h-full overflow-scroll ">
             <div className="pointer-events-none absolute-center-h w-32 top-0 h-1/2 climate-scroll-top" />
