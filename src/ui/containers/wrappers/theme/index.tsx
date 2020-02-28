@@ -7,6 +7,11 @@ interface Props {
   children: ReactNode;
 }
 
+interface InnerProps {
+  theme: string;
+  children: ReactNode;
+}
+
 const themes: { [key: string]: Theme } = {
   dark: {
     green: 'red',
@@ -20,13 +25,12 @@ const themes: { [key: string]: Theme } = {
   }
 };
 
-const PageWrapper = observer(({ children }: Props) => {
-  const UIStore = useContext(UIStoreContext);
+export const Inner = ({ theme, children }: InnerProps) => {
   const style = (
     <style type="text/css">{`
     :root {
-      ${Object.keys(themes[UIStore.theme])
-        .map((key: string) => `--${key}: ${themes[UIStore.theme][key]};`)
+      ${Object.keys(themes[theme])
+        .map((key: string) => `--${key}: ${themes[theme][key]};`)
         .join(' ')}
     }
   `}</style>
@@ -38,6 +42,11 @@ const PageWrapper = observer(({ children }: Props) => {
       {children}
     </>
   );
+};
+
+const PageWrapper = observer(({ children }: Props) => {
+  const UIStore = useContext(UIStoreContext);
+  return <Inner theme={UIStore.theme}>{children}</Inner>;
 });
 
 export default PageWrapper;
