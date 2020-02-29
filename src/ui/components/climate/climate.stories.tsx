@@ -15,6 +15,7 @@ export const Default = () => {
     maxTemp: text('Max temp', '30'),
     targetTemp: text('Target temp', '16'),
     onToggle: action('toggle'),
+    setTarget: action('target'),
     label: text('Label', 'a/c')
   };
   return (

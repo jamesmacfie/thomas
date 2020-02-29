@@ -5,7 +5,7 @@ declare interface HomeAssistantEntity {
     battery_level?: number;
     icon?: string;
     unit_of_measurement: string;
-    [key: string]: string;
+    [key: string]: string | number;
   };
   context: {
     id: string;

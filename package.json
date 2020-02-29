@@ -94,6 +94,7 @@
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "0.8.0",
     "mobx": "^5.15.1",
+    "mobx-devtools-mst": "^0.9.21",
     "mobx-react-lite": "^1.5.2",
     "npm-watch": "^0.6.0",
     "numeral": "^2.0.6",

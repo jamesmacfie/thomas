@@ -12,15 +12,25 @@ interface Props {
   minTemp: string;
   maxTemp: string;
   targetTemp: string;
-  onToggle: () => void;
+  onToggle: (state: boolean) => void;
+  setTarget: (target: string) => void;
   label?: string;
   unit?: string;
   panelProps?: PanelProps;
 }
-const Climate = ({ isActive, minTemp, maxTemp, targetTemp, onToggle, panelProps, label, unit = '°C' }: Props) => {
+const Climate = ({
+  isActive,
+  minTemp,
+  maxTemp,
+  targetTemp,
+  setTarget,
+  onToggle,
+  panelProps,
+  label,
+  unit = '°C'
+}: Props) => {
   const scrollEl = useRef(null);
   const [doScroll, setDoScroll] = useState(false);
-  const [tempTarget, setTempTarget] = useState(targetTemp);
   useEffect(() => {
     const el: any = scrollEl.current;
     if (!el) {
@@ -29,26 +39,26 @@ const Climate = ({ isActive, minTemp, maxTemp, targetTemp, onToggle, panelProps,
     }
     // Initial render. Scroll to temp in use
     const temperatureElements = el.querySelectorAll('li');
-    const scrollOffset = el.scrollTop;
     const childHeight = temperatureElements[0].clientHeight;
     let currentIndex = 0;
     for (var i = 0; i < temperatureElements.length; i++) {
-      if (temperatureElements[i].innerText.replace(unit, '') === tempTarget) {
+      if (temperatureElements[i].innerText.replace(unit, '') === targetTemp) {
         currentIndex = i;
         break;
       }
     }
 
+    setDoScroll(false);
     el.scrollTo({
-      top: scrollOffset + childHeight * currentIndex
+      top: childHeight * currentIndex,
+      behavior: 'auto'
     });
-  }, []);
+  }, [targetTemp, unit]);
   const [debouncedOnScroll] = useDebouncedCallback((target: HTMLDivElement) => {
     if (!doScroll) {
       setDoScroll(true);
       return;
     }
-    setDoScroll(false);
     // Calculate padding details
     const paddingTopPx = window.getComputedStyle(target.querySelector('ul')!, null).getPropertyValue('padding-top');
     const paddingTop = parseInt(paddingTopPx.replace('px', ''));
@@ -60,15 +70,19 @@ const Climate = ({ isActive, minTemp, maxTemp, targetTemp, onToggle, panelProps,
     // Based off scroll offset, which temperature value is in the center?
     const scrollOffset = target.scrollTop;
     const centerIdx = Math.round(scrollOffset / childHeight);
-    const centerTempElement = temperatureElements[centerIdx];
+    const centerTempElement = temperatureElements[centerIdx] || temperatureElements[temperatureElements.length - 1];
 
-    setTempTarget(centerTempElement.innerText);
+    setTarget(centerTempElement.innerText.replace(unit, ''));
 
     // Scroll temperature to actual center (not sure about the 9 at the end. This was just a guess. Odd)
     target.scrollTo({
       top: centerTempElement.offsetTop - childHeight / 2 - paddingTop / 2 - 9
     });
   }, 200);
+
+  const toggle = () => {
+    onToggle(!isActive);
+  };
 
   return (
     <Panel {...panelProps} className="pb-8 relative" label={label}>
@@ -80,13 +94,13 @@ const Climate = ({ isActive, minTemp, maxTemp, targetTemp, onToggle, panelProps,
             onScroll={(e: any) => debouncedOnScroll(e.target as HTMLDivElement)}
           >
             <div className="pointer-events-none absolute-center-h w-32 top-0 h-1/2 climate-scroll-top" />
-            <Temps unit={unit} min={minTemp} max={maxTemp} target={tempTarget} />
+            <Temps unit={unit} min={minTemp} max={maxTemp} target={targetTemp} />
             <div className="pointer-events-none absolute-center-h w-32 bottom-0 h-1/2 climate-scroll-bottom" />
           </div>
         </div>
         <div className="h-24 flex-shrink-0 flex pt-3">
           <div className="flex-grow flex flex-col items-center">
-            <Switch active={isActive} onChange={onToggle} />
+            <Switch active={isActive} onChange={toggle} />
             <H3 className="mb-0 mt-2" margin={false}>
               {isActive ? 'ON' : 'OFF'}
             </H3>

@@ -121,8 +121,18 @@ export default class Store {
       return;
     }
 
-    this.integrationEntities[integrationId] = {
+    const result = {
       entities: keyBy(data, 'entity_id')
+    };
+
+    const entities = this.integrationEntities[integrationId]
+      ? this.integrationEntities[integrationId].entities || {}
+      : {};
+    this.integrationEntities[integrationId] = {
+      entities: {
+        ...entities,
+        ...result.entities
+      }
     };
   };
 
@@ -213,4 +223,5 @@ export default class Store {
 }
 
 export let store = new Store();
+
 export const StoreContext = createContext(store);

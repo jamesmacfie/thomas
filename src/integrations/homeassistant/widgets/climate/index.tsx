@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import Panel from 'components/panel';
-import Switch from 'components/switch';
-import { H3 } from 'components/text';
 import PanelMainText from 'components/panelMainText';
 import RequiresSettingIcon from 'components/requiresSettingsIcon';
 import { useEditMode } from 'stores/ui/hooks';
 import { useIntegrationEntity } from '../../store/hooks';
 import { store } from '../../store';
 import HomeAssistantWrapper from '../_wrapper';
-import ClimateTemps from './_temps';
-import './styles.css';
+import Climate from 'components/climate';
 
 const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
   const entity = useIntegrationEntity(integrationId, widgetConfig.entityId);
-  const [active, setActive] = useState(entity ? entity.state === 'on' : false);
+  const [active, setActive] = useState(entity ? entity.state !== 'off' : false);
+  const [targetTemp, setTargetTemp] = useState<string | null>(null);
   const editMode = useEditMode();
 
-  const onSwitch = (newActive: boolean) => {
+  const onToggle = (newActive: boolean) => {
     if (editMode || !entity) {
       return;
     }
@@ -43,6 +41,7 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
   }
 
   if (!entity) {
+    console.log('No entity');
     return (
       <Panel {...widgetConfig} className="flex flex-col items-center justify-center">
         <PanelMainText {...widgetConfig}>--</PanelMainText>
@@ -50,30 +49,42 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
     );
   }
 
+  const onTempChange = (newTarget: string) => {
+    if (editMode || !entity) {
+      return;
+    }
+
+    const dataToSend = {
+      type: 'call_service',
+      domain: 'climate',
+      service: `set_temperature`,
+      service_data: {
+        entity_id: entity.entity_id,
+        temperature: newTarget
+      }
+    };
+
+    store.websocketSendByIntegrationId(integrationId, dataToSend);
+
+    setTargetTemp(newTarget);
+  };
+
+  const panelProps = {
+    ...widgetConfig,
+    className: 'pb-8',
+    label: widgetConfig.label
+  };
+
   return (
-    <Panel {...widgetConfig} className="pb-8" label={widgetConfig.label}>
-      <div className="flex flex-col w-full max-h-full absolute-full">
-        <div className="flex-grow flex justify-center overflow-hidden">
-          <div className="w-32 max-h-full overflow-scroll ">
-            <div className="pointer-events-none absolute-center-h w-32 top-0 h-1/2 climate-scroll-top" />
-            <ClimateTemps
-              min={entity.attributes.min_temp}
-              max={entity.attributes.max_temp}
-              target={entity.attributes.temperature}
-            />
-            <div className="pointer-events-none absolute-center-h w-32 bottom-0 h-1/2 climate-scroll-bottom" />
-          </div>
-        </div>
-        <div className="h-24 flex-shrink-0 flex pt-3">
-          <div className="flex-grow flex flex-col items-center">
-            <Switch active={active} onChange={onSwitch} />
-            <H3 className="mb-0 mt-2" margin={false}>
-              {active ? 'ON' : 'OFF'}
-            </H3>
-          </div>
-        </div>
-      </div>
-    </Panel>
+    <Climate
+      panelProps={panelProps}
+      setTarget={onTempChange}
+      isActive={active}
+      onToggle={onToggle}
+      minTemp={entity.attributes.min_temp.toString()}
+      maxTemp={entity.attributes.max_temp.toString()}
+      targetTemp={targetTemp ? targetTemp : entity.attributes.temperature.toString()}
+    />
   );
 };
 
