@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Formik } from 'formik';
+import { Formik, Field } from 'formik';
 import { observer } from 'mobx-react-lite';
 import { object } from 'yup';
 import { StoreContext as IntegrationStoreContext } from 'stores/integrations';
@@ -7,6 +7,7 @@ import { StoreContext as ViewsStoreContext } from 'stores/views';
 import Button from 'components/button';
 import Modal from 'components/modal';
 import Alert from 'components/alert';
+import Label from 'components/label';
 import FormikInput from 'components/formikInput';
 import { createSchema } from 'utils/yupSchemaFromJson';
 import logger from 'utils/logger';
@@ -78,22 +79,29 @@ const WidgetConfigForm = observer(({ widget, onClose, config }: Props) => {
           }
         }}
       >
-        {({ values, isSubmitting, handleSubmit }) => (
-          <form onSubmit={handleSubmit} className="pr-4">
-            {config.map(c => (
-              <FormikInput
-                key={c.key}
-                name={c.key}
-                values={c.values}
-                defaultValue={c.defaultValue}
-                value={values[c.key]}
-                label={c.label}
-                type={c.type}
-              />
-            ))}
-            <Save submitting={isSubmitting} onClick={() => {}} />
-          </form>
-        )}
+        {({ values, isSubmitting, handleSubmit }) => {
+          console.log('VALUES', values);
+          return (
+            <form onSubmit={handleSubmit} className="pr-4">
+              {config.map(c => (
+                <FormikInput
+                  key={c.key}
+                  name={c.key}
+                  values={c.values}
+                  defaultValue={c.defaultValue}
+                  value={values[c.key]}
+                  label={c.label}
+                  type={c.type}
+                />
+              ))}
+              <Label className="flex">
+                <span className="flex-grow">Transparent background</span>
+                <Field name="transparentBackground" type="checkbox" />
+              </Label>
+              <Save submitting={isSubmitting} onClick={() => {}} />
+            </form>
+          );
+        }}
       </Formik>
     </Modal>
   );

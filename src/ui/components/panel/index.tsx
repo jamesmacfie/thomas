@@ -11,6 +11,7 @@ export interface Props {
   padding?: Boolean;
   overflow?: Boolean;
   label?: string;
+  transparentBackground?: boolean;
   onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
@@ -26,13 +27,15 @@ const Panel = ({
   overflow = true,
   onClick,
   label,
+  transparentBackground = false,
   ...props
 }: Props) => {
-  const classes = cn(className, 'panel rounded', {
+  const classes = cn(className, 'rounded', {
     'w-full': fit,
     'h-full': fit,
     'p-4': padding,
-    'overflow-hidden': !overflow
+    'overflow-hidden': !overflow,
+    panel: !transparentBackground
   });
 
   const inner = !!label ? (
