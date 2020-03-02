@@ -47,10 +47,10 @@ const Climate = ({
       <div className="flex flex-col w-full h-full">
         <div className="flex-grow flex flex-col h-full items-center alig">
           <Button
-            disabled={!canReduce}
-            onClick={reduceTarget}
+            disabled={!canIncrease}
+            onClick={increaseTarget}
             color="transparent"
-            className="pt-0 flex-grow flex justify-center"
+            className="pt-4 flex-grow flex justify-center"
           >
             <Icon containerClassName=" text-3xl" icon="chevron-up" />
           </Button>
@@ -58,8 +58,8 @@ const Climate = ({
             {targetTemp} {unit}
           </span>
           <Button
-            disabled={!canIncrease}
-            onClick={increaseTarget}
+            disabled={!canReduce}
+            onClick={reduceTarget}
             color="transparent"
             className="pb-4 flex-grow flex justify-center"
           >
