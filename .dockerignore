@@ -1,2 +1,8 @@
 node_modules
 npm-debug.log
+
+*.db
+
+src/ui/styles/dist.css
+src/ui/.thomas/integrationSettings.tsx
+src/ui/.thomas/integrationWidgets.tsx
