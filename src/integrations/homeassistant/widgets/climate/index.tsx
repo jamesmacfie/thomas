@@ -11,7 +11,7 @@ import Climate from 'components/climate';
 const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
   const entity = useIntegrationEntity(integrationId, widgetConfig.entityId);
   const [active, setActive] = useState(entity ? entity.state !== 'off' : false);
-  const [targetTemp, setTargetTemp] = useState<string | null>(null);
+  const [targetTemp, setTargetTemp] = useState<number | null>(null);
   const editMode = useEditMode();
 
   const onToggle = (newActive: boolean) => {
@@ -49,7 +49,7 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
     );
   }
 
-  const onTempChange = (newTarget: string) => {
+  const onTempChange = (newTarget: number) => {
     if (editMode || !entity) {
       return;
     }
@@ -81,9 +81,9 @@ const Inner = ({ widgetConfig, integrationId }: IntegrationWidgetProps) => {
       setTarget={onTempChange}
       isActive={active}
       onToggle={onToggle}
-      minTemp={entity.attributes.min_temp.toString()}
-      maxTemp={entity.attributes.max_temp.toString()}
-      targetTemp={targetTemp ? targetTemp : entity.attributes.temperature.toString()}
+      minTemp={entity.attributes.min_temp as number}
+      maxTemp={entity.attributes.max_temp as number}
+      targetTemp={targetTemp ? targetTemp : (entity.attributes.temperature as number)}
     />
   );
 };

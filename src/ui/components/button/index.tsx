@@ -8,7 +8,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?(event: React.MouseEvent<HTMLElement>): void;
   className?: string;
   padding?: Boolean;
-  color: 'primary' | 'secondary' | 'secondary-alt' | 'danger';
+  color: 'primary' | 'secondary' | 'secondary-alt' | 'danger' | 'transparent';
   href?: string;
 }
 
@@ -16,13 +16,16 @@ const colorClasses = {
   primary: 'bg-blue border-blue-dark hover:bg-blue-dark hover:border-blue text-white',
   secondary: 'bg-transparent border-white hover:text-blue hover:border-blue text-white',
   'secondary-alt': 'bg-transparent border-grey-darker text-grey-darker hover:text-blue hover:border-blue',
-  danger: 'bg-red text-white border-red-light'
+  danger: 'bg-red text-white border-red-light',
+  transparent: 'bg-transparent text-white border-transparent'
 };
 
 const Button = ({ children, color, className, padding = true, disabled = false, onClick, href, ...props }: Props) => {
+  const showColor = !disabled || (disabled && color === 'transparent');
+  const showDisabledBG = disabled && color !== 'transparent';
   const classes = cn(
     'text-xs uppercase font-bold rounded leading-normal border',
-    { 'px-12 py-3': padding && !href, [colorClasses[color]]: !disabled, 'bg-grey': disabled },
+    { 'px-12 py-3': padding && !href, [colorClasses[color]]: showColor, 'bg-grey': showDisabledBG },
     className
   );
   const cmp = href ? (

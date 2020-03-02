@@ -1,5 +1,5 @@
 import React from 'react';
-import { boolean, text } from '@storybook/addon-knobs';
+import { boolean, text, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import Climate from '.';
 
@@ -11,9 +11,9 @@ export default {
 export const Default = () => {
   const props = {
     isActive: boolean('Is active', false),
-    minTemp: text('Min temp', '10'),
-    maxTemp: text('Max temp', '30'),
-    targetTemp: text('Target temp', '16'),
+    minTemp: number('Min temp', 10),
+    maxTemp: number('Max temp', 30),
+    targetTemp: number('Target temp', 16),
     onToggle: action('toggle'),
     setTarget: action('target'),
     label: text('Label', 'a/c')
