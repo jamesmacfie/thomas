@@ -18,7 +18,17 @@ interface Props {
   unit?: string;
   panelProps?: PanelProps;
 }
-const Climate = ({ isActive, minTemp, maxTemp, targetTemp, setTarget, onToggle, panelProps, unit = '°C' }: Props) => {
+const Climate = ({
+  isActive,
+  minTemp,
+  maxTemp,
+  targetTemp,
+  setTarget,
+  onToggle,
+  label,
+  panelProps,
+  unit = '°C'
+}: Props) => {
   const toggle = () => {
     onToggle(!isActive);
   };
@@ -33,7 +43,7 @@ const Climate = ({ isActive, minTemp, maxTemp, targetTemp, setTarget, onToggle, 
   const canIncrease = targetTemp !== maxTemp;
 
   return (
-    <Panel {...panelProps} className="pb-8 relative">
+    <Panel label={label} {...panelProps} className="pb-8 relative">
       <div className="flex flex-col w-full h-full">
         <div className="flex-grow flex flex-col h-full items-center alig">
           <Button

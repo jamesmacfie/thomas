@@ -19,7 +19,7 @@ export const Default = () => {
   };
   return (
     <div className="h-96 w-96">
-      <Climate {...props} />
+      <Climate {...props} panelProps={{ label: 'here' }} />
     </div>
   );
 };
