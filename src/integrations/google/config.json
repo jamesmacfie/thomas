@@ -12,49 +12,12 @@
       }
     },
     {
-      "slug": "fullCalendar",
-      "name": "Full calendar",
+      "slug": "weeklyCalendar",
+      "name": "Weekly calendar",
       "layout": {
         "initialW": 6,
-        "initialH": 6,
-        "minW": 6,
-        "minH": 6
-      },
-      "settings": [
-        {
-          "key": "view",
-          "type": "select",
-          "label": "Default view",
-          "validationType": "string",
-          "values": [
-            {
-              "value": "agenda",
-              "label": "Agenda"
-            },
-            {
-              "value": "daily",
-              "label": "Daily"
-            },
-            {
-              "value": "weekly",
-              "label": "Weekly"
-            },
-            {
-              "value": "monthly",
-              "label": "Monthly"
-            }
-          ],
-          "defaultValue": "monthly",
-          "validations": [
-            {
-              "type": "required",
-              "params": [
-                "Please enter the default calendar view"
-              ]
-            }
-          ]
-        }
-      ]
+        "initialH": 6
+      }
     }
   ]
 }
