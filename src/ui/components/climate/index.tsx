@@ -1,10 +1,9 @@
 import React from 'react';
-import Panel from 'components/panel';
+import Panel, { Props as PanelProps } from 'components/panel';
 import Switch from 'components/switch';
 import Icon from 'components/icon';
 import Button from 'components/button';
 import { H3 } from 'components/text';
-import { Props as PanelProps } from 'components/panel';
 import './styles.css';
 
 interface Props {

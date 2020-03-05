@@ -1,33 +1,21 @@
 import React from 'react';
-import moment from 'moment';
-import Loader from 'components/loader';
-import Panel from 'components/panel';
-import { H3, H4 } from 'components/text';
+import NextMeeting from 'components/nextMeeting';
 import { useNextCalendarEvent } from '../store/hooks';
 
-const Next = ({ integrationId, widgetConfig }: IntegrationWidgetProps) => {
+const Next = ({ integrationId }: IntegrationWidgetProps) => {
   const [event, loading] = useNextCalendarEvent(integrationId);
 
   if (loading) {
-    return <Loader />;
+    return <NextMeeting />;
   }
 
-  if (event === null) {
-    return (
-      <Panel {...widgetConfig} label="Next meeting">
-        <H3>Nothing!</H3>
-      </Panel>
-    );
+  if (!event) {
+    return <NextMeeting title="No upcoming meetings" />;
   }
 
-  return (
-    <Panel {...widgetConfig} label="Next meeting">
-      <div>
-        <H3>{event.summary}</H3>
-        <H4>{moment(event.start?.dateTime).fromNow()}</H4>
-      </div>
-    </Panel>
-  );
+  console.log(event);
+
+  return <NextMeeting title={event?.summary} start={event.start?.date || event.start?.dateTime} />;
 };
 
 export default Next;
