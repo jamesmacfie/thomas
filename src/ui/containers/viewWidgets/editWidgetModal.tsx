@@ -80,7 +80,6 @@ const WidgetConfigForm = observer(({ widget, onClose, config }: Props) => {
         }}
       >
         {({ values, isSubmitting, handleSubmit }) => {
-          console.log('VALUES', values);
           return (
             <form onSubmit={handleSubmit} className="pr-4">
               {config.map(c => (

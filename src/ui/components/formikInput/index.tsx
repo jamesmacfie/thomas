@@ -10,7 +10,7 @@ import Code from './code';
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   name: string;
-  value?: string | number;
+  value?: any;
   values?: any;
   formik?: {
     errors: any;
@@ -44,6 +44,21 @@ const FormikInput = ({ value, label, name, formik, type, className, ...props }: 
           input = <Code form={form} {...field} {...props} />;
         } else if (type === 'select') {
           input = <Select value={value} name={name} form={form} {...props} />;
+        } else if (type === 'checkbox') {
+          // Slight difference for checkboxes
+          input = <Input checked={value} type="checkbox" className="block mb-4" {...field} {...props} />;
+          return (
+            <>
+              {label && (
+                <Label className="mb-2 flex">
+                  <span className="flex-grow">{label}</span>
+                  {input}
+                </Label>
+              )}
+              {!label && input}
+              {errors && errors[name] && <FieldError>{errors[name]}</FieldError>}
+            </>
+          );
         } else {
           input = <Input className="block mb-4 w-full" {...field} {...props} />;
         }

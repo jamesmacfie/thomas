@@ -16,7 +16,7 @@ interface Props {
 }
 
 const classes: { [key: string]: string } = {
-  sm: 'w-128 h-96',
+  sm: 'w-128',
   md: 'w-192 h-128',
   lg: 'w-256 h-192'
 };

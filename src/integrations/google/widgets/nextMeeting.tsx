@@ -1,8 +1,9 @@
 import React from 'react';
+import moment from 'moment';
 import NextMeeting from 'components/nextMeeting';
 import { useNextCalendarEvent } from '../store/hooks';
 
-const Next = ({ integrationId }: IntegrationWidgetProps) => {
+const Next = ({ integrationId, widgetConfig }: IntegrationWidgetProps) => {
   const [event, loading] = useNextCalendarEvent(integrationId);
 
   if (loading) {
@@ -10,10 +11,15 @@ const Next = ({ integrationId }: IntegrationWidgetProps) => {
   }
 
   if (!event) {
-    return <NextMeeting title="No upcoming meetings" />;
+    return <NextMeeting title="No upcoming events" />;
   }
 
-  console.log(event);
+  const isToday = moment()
+    .endOf('day')
+    .isAfter(event.start?.date || event.start?.dateTime);
+  if (!isToday && widgetConfig.todayOnly) {
+    return <NextMeeting title="No events today" />;
+  }
 
   return <NextMeeting title={event?.summary} start={event.start?.date || event.start?.dateTime} />;
 };

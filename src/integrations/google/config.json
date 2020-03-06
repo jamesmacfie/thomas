@@ -9,7 +9,17 @@
       "layout": {
         "initialW": 6,
         "initialH": 3
-      }
+      },
+      "settings": [
+        {
+          "key": "todayOnly",
+          "type": "checkbox",
+          "label": "Today only",
+          "description": "Show next meetings for today only",
+          "validationType": "string",
+          "defaultConfig": true
+        }
+      ]
     },
     {
       "slug": "weeklyCalendar",

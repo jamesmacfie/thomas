@@ -10,7 +10,6 @@ interface Props {
 }
 
 const NextMeeting = ({ title, start, panelProps = {} }: Props) => {
-  console.log(start);
   if (!moment(start).isValid()) {
     return (
       <Panel {...panelProps} label="Up next">
