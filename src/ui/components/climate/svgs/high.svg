@@ -1,0 +1,14 @@
+<svg width="24px" height="22px" viewBox="0 0 24 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Artboard" transform="translate(-191.000000, -139.000000)" stroke="#fff">
+            <g id="Group" transform="translate(191.000000, 139.000000)">
+                <g id="Light">
+                    <circle id="Oval" cx="12.39" cy="13.659" r="2"></circle>
+                    <path d="M11.71,11.778 L9.209,9.4 L12.1,1.433 C12.2944078,0.89992275 12.8523523,0.592048177 13.4069921,0.711799941 C13.9616318,0.831551706 14.3428498,1.3422 14.3,1.908 L13.519,12.008" id="Shape" fill="#ffffff"></path>
+                    <path d="M11.1,15.189 L10.293,18.543 L1.946,20.023 C1.3857555,20.1238593 0.837362365,19.7944878 0.663199115,19.2525342 C0.489035866,18.7105806 0.74288378,18.1233993 1.257,17.879 L10.4,13.505" id="Shape" fill="#ffffff"></path>
+                    <path d="M14.359,14.011 L17.668,13.034 L23.123,19.523 C23.4902395,19.9579234 23.4788894,20.597499 23.0964493,21.0191183 C22.7140092,21.4407376 22.0785671,21.5142153 21.61,21.191 L13.253,15.463" id="Shape" fill="#ffffff"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

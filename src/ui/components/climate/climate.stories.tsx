@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { boolean, number } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import Climate from '.';
@@ -9,6 +9,7 @@ export default {
 };
 
 export const Default = () => {
+  const [mode, setMode] = useState('auto');
   const props = {
     isActive: boolean('Is active', false),
     minTemp: number('Min temp', 10),
@@ -19,7 +20,7 @@ export const Default = () => {
   };
   return (
     <div className="h-96 w-96">
-      <Climate {...props} panelProps={{ label: 'here' }} />
+      <Climate {...props} fanMode={mode} setFanMode={setMode} panelProps={{ label: 'here' }} />
     </div>
   );
 };

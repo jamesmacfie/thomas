@@ -212,3 +212,7 @@ body {
 .animate-height {
   transition: 0.15s height linear;
 }
+
+.flex-basis-0 {
+  flex-basis: 0;
+}

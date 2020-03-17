@@ -4,7 +4,7 @@ import Switch from 'components/switch';
 import Icon from 'components/icon';
 import Button from 'components/button';
 import { H3 } from 'components/text';
-import './styles.css';
+import Fan from './fan';
 
 interface Props {
   isActive: boolean;
@@ -16,6 +16,8 @@ interface Props {
   label?: string;
   unit?: string;
   panelProps?: PanelProps;
+  fanMode: string;
+  setFanMode: (nextMode: string) => void;
 }
 const Climate = ({
   isActive,
@@ -26,7 +28,9 @@ const Climate = ({
   onToggle,
   label,
   panelProps,
-  unit = '°C'
+  unit = '°C',
+  fanMode = 'auto',
+  setFanMode
 }: Props) => {
   const toggle = () => {
     onToggle(!isActive);
@@ -66,8 +70,13 @@ const Climate = ({
           </Button>
         </div>
         <div className="h-24 flex-shrink-0 flex pt-3">
-          <div className="flex-grow flex flex-col items-center">
-            <Switch active={isActive} onChange={toggle} />
+          <div className="flex-grow flex flex-col items-center flex-basis-0">
+            <Fan onClick={setFanMode} mode={fanMode} />
+          </div>
+          <div className="flex-grow flex flex-col items-center flex-basis-0">
+            <div className="flex-grow">
+              <Switch active={isActive} onChange={toggle} />
+            </div>
             <H3 className="mb-0 mt-2" margin={false}>
               {isActive ? 'ON' : 'OFF'}
             </H3>
