@@ -94,7 +94,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "leaflet": "^1.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mini-css-extract-plugin": "0.8.0",
     "mobx": "^5.15.1",
     "mobx-devtools-mst": "^0.9.21",
