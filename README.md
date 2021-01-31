@@ -2,9 +2,12 @@
 
 ## Status
 
-### Pre-alpha. Expect a lot of things to break. Much code still to write :D
+## Deprecated
 
-Think of it as like 40% complete. There's also no security or tests yet.
+The Home Assistant dashboard and integrations have evolved so much in the last year that I no long feel it worth my while keeping this going when I can just
+use that.
+
+It was fun, I learnt alot, but I'm not using it anymore.
 
 ## Running
 
